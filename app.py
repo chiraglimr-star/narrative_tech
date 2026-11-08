@@ -196,8 +196,16 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         "<p style='color: #8b949e; font-size: 13px;'>If you are reviewing this artifact for academic or laboratory evaluation, use the following BibTeX citation:</p>",
         unsafe_allow_html=True,
     )
-    bibtex_code = """@software{Chiragli2026OntologicalSilence,
-  author = {Chiragli, Agil},
-  title = {The Ontological Silence & Paranoia Engine: Computational Dramaturgy Prototype},
-  year = {2026},
-  url = {
+    bibtex_code = (
+        "@software{Chiragli2026OntologicalSilence,\n"
+        "  author = {Chiragli, Agil},\n"
+        "  title = {The Ontological Silence & Paranoia Engine: Computational Dramaturgy Prototype},\n"
+        "  year = {2026},\n"
+        "  url = {https://github.com/agilchiragli/ontological-silence-engine},\n"
+        "  note = {MIT Media Lab Research Portfolio Artifact}\n"
+        "}"
+    )
+    st.code(bibtex_code, language="bibtex")
+
+# --- MODULE 2: SMART AI SCENE ANALYZER (ADVANCED HEURISTICS + CHART) ---
+elif selected_
