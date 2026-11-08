@@ -1,8 +1,8 @@
 import datetime
+import json
 import time
 import streamlit as st
 
-# Səhifə konfiqurasiyası
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
     page_icon="👁️",
@@ -10,7 +10,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- ADVANCED CYBER-NOIR & AMBER/CYAN CSS PALETTE ---
 st.markdown(
     """
     <style>
@@ -107,11 +106,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# --- SIDEBAR ---
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v7.5</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v9.0</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -265,6 +263,22 @@ elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
         )
         st.write(
             "- **Subtext:** Unspoken truths acting as psychological barriers."
+        )
+
+        # --- EXPORT DOSSIER FEATURE ---
+        st.markdown("---")
+        dossier_data = {
+            "timestamp": str(datetime.datetime.now()),
+            "corpus": user_input_scene,
+            "word_count": word_count,
+            "silence_index": computed_silence,
+            "paranoia_coefficient": computed_paranoia,
+        }
+        st.download_button(
+            label="📥 Export Research Dossier (JSON)",
+            data=json.dumps(dossier_data, indent=4),
+            file_name="ontological_silence_dossier.json",
+            mime="application/json",
         )
 
 # --- MODULE 3: INTERACTIVE BRANCHING SIMULATION ---
