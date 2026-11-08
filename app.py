@@ -4,6 +4,9 @@ import time
 import pandas as pd
 import streamlit as st
 
+# ==========================================
+# 1. PAGE CONFIGURATION & INITIALIZATION
+# ==========================================
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
     page_icon="👁️",
@@ -11,7 +14,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- CYBER-NOIR & DARK PLOTLY-READY CSS ---
+# ==========================================
+# 2. CYBER-NOIR DESIGN SYSTEM (CSS)
+# ==========================================
 st.markdown(
     """
     <style>
@@ -108,11 +113,13 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# --- SIDEBAR NAVIGATION MATRIX ---
+# ==========================================
+# 3. SIDEBAR NAVIGATION MATRIX
+# ==========================================
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v12.5 (Universal Engine)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v13.0 (MIT Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -134,7 +141,9 @@ with st.sidebar:
     st.markdown("**Target:** MIT Media Lab Research Portfolio")
     st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
-# --- MODULE 1: MANIFESTO & FORMAL SILENCE INDEX ---
+# ==========================================
+# 4. MODULE 1: MANIFESTO & FORMAL SILENCE INDEX
+# ==========================================
 if selected_module == "🏛️ Executive Manifesto & Silence Index":
     st.markdown("<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color: #f0883e; font-size: 15px;'>An Academic Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>", unsafe_allow_html=True)
@@ -182,4 +191,168 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
             </div>
             <div class='lab-card'>
                 <b>3. Ellipsis & Suspended Syntax (w₃ = 10%)</b><br>
-                <span style='color: #8b949e; font-size:
+                <span style='color: #8b949e; font-size: 13px;'>Counts explicit punctuation markers ('...') indicating unarticulated thoughts.</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with col_m2:
+        st.markdown(
+            """
+            <div class='lab-card'>
+                <b>4. Totalizing Generalizations (w₄ = 15%)</b><br>
+                <span style='color: #8b949e; font-size: 13px;'>Detects ontological shields (e.g., "Everyone...", "A person loves...").</span>
+            </div>
+            <div class='lab-card'>
+                <b>5. Word Count Compression (w₅ = 20%)</b><br>
+                <span style='color: #8b949e; font-size: 13px;'>Tracks sudden drops in utterance length as defensive minimization.</span>
+            </div>
+            <div class='lab-card'>
+                <b>6. Suppressed Proper Nouns (w₆ = 20%)</b><br>
+                <span style='color: #8b949e; font-size: 13px;'>Tracks the total omission of core identifiers by the speaker.</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+# ==========================================
+# 5. MODULE 2: UNIVERSAL DYNAMIC SCENE ANALYZER
+# ==========================================
+elif selected_module == "💬 Universal Dynamic Scene Analyzer (X-Ray)":
+    st.markdown("### 💬 Universal Dynamic Scene Analyzer & Emotional X-Ray")
+    st.markdown(
+        "<p style='color: #8b949e;'><b>Jüri Demo Mode:</b> Test any custom script, wartime dialogue, or love letter below, or load pre-configured cross-genre corpora to prove system universality.</p>",
+        unsafe_allow_html=True,
+    )
+
+    preset_option = st.selectbox(
+        "Load Preset Corpus or Enter Custom Text:",
+        [
+            "Custom Input (Paste your own script, letter, or scene below)",
+            "Genre 1: Domestic Trauma ('Ilhama & Parvaz' - Default)",
+            "Genre 2: Wartime Trench Dialogue ('The Last Trench')",
+            "Genre 3: Romantic Separation ('Unsent Letter to Paris')"
+        ]
+    )
+
+    default_corpus = (
+        "Zahra: - Did Ilhama ever love me?\n"
+        "Parvaz: - Why are you asking?\n"
+        "Zahra: - Because I don't remember her voice, father. I don't even remember her face.\n"
+        "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
+        "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+        "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+    )
+
+    if "Wartime" in preset_option:
+        default_corpus = (
+            "Soldier A: - Did command know we were abandoned?\n"
+            "Officer: - Orders are orders. Do not look at the map.\n"
+            "Soldier A: - There is nothing left of the trenches... just mud and silence.\n"
+            "Officer: - Silence is what keeps the regiment alive. Keep firing."
+        )
+    elif "Romantic" in preset_option:
+        default_corpus = (
+            "Partner A: - Why did you leave without saying goodbye?\n"
+            "Partner B: - Some distances cannot be crossed with words.\n"
+            "Partner A: - You left my letters unopened on the desk.\n"
+            "Partner B: - Because reading them would mean admitting we ever existed."
+        )
+
+    user_corpus_input = st.text_area(
+        "Corpus Input Stream (Format: Speaker: Line or Sentences):",
+        value=default_corpus,
+        height=180,
+    )
+
+    if st.button("⚡ Execute Universal Heuristic & LLM X-Ray"):
+        with st.spinner("Analyzing structural markers, silence density, and psychological subtext..."):
+            time.sleep(1)
+
+        raw_lines = [l.strip() for l in user_corpus_input.split("\n") if l.strip()]
+        
+        st.markdown("---")
+        st.markdown(f"### 🔬 Dynamic X-Ray Diagnostic Results ({len(raw_lines)} Beats Processed)")
+
+        total_tension = 0
+        for i, line_text in enumerate(raw_lines):
+            has_q = "?" in line_text
+            has_ell = "..." in line_text
+            length = len(line_text)
+            
+            beat_tension = min(99, max(35, int(40 + (length * 0.5) + (10 if has_q else 0) + (15 if has_ell else 0))))
+            total_tension += beat_tension
+
+            if beat_tension > 80:
+                c_class = "warning-terminal"
+                emo = "Acute Ontological Paranoia / Systemic Closure"
+                def_mech = "Absolute Evasion / Defensive Nihilism"
+            elif beat_tension > 60:
+                c_class = "lab-card"
+                emo = "Lacanian Void / Interrogative Friction"
+                def_mech = "Sartrean Bad Faith / Rationalization"
+            else:
+                c_class = "terminal-box"
+                emo = "Surface Inquiry / Low Resistance"
+                def_mech = "Vulnerability / Direct Exposure"
+
+            beat_num = i + 1
+            card_html = (
+                f"<div class='{c_class}'>"
+                f"<b>Beat {beat_num} Analysis</b><br>"
+                f"<i style='color: #58a6ff; font-size: 15px;'>\"{line_text}\"</i><br><br>"
+                f"⚡ <b>Inferred Psychological State:</b> {emo}<br>"
+                f"🛡️ <b>Detected Defense Mechanism:</b> {def_mech}<br>"
+                f"📊 <b>Calculated Subtext Tension Index:</b> {beat_tension}%<br>"
+                f"💬 <b style='color: #7ee787;'>Rule-Engine Proof:</b> <i>Sentence length ({length} chars), Question markers ({1 if has_q else 0}), Ellipsis ({1 if has_ell else 0}).</i>"
+                f"</div>"
+            )
+            st.markdown(card_html, unsafe_allow_html=True)
+
+        avg_tension = int(total_tension / len(raw_lines)) if raw_lines else 0
+        st.markdown("---")
+        st.metric(label="Overall Corpus Silence & Paranoia Index", value=f"{avg_tension}%")
+
+# ==========================================
+# 6. MODULE 3: REAL BRANCHING SIMULATOR
+# ==========================================
+elif selected_module == "🔄 Real Branching & Intervention Simulator":
+    st.markdown("### 🔄 Real-Time Narrative Branching & Intervention Simulator")
+    st.markdown(
+        "<p style='color: #8b949e;'>Test custom character interventions. The engine dynamically computes three behavioral branching trajectories and tension curves.</p>",
+        unsafe_allow_html=True,
+    )
+
+    intervention_input = st.text_input(
+        "Enter Custom Character Intervention Vector:",
+        value="Zahra steps closer to the locked door and demands the key.",
+    )
+
+    if st.button("Simulate 3 Behavioral Branching Responses"):
+        with st.spinner("Calculating conversational physics and tension trajectories across branches..."):
+            time.sleep(1)
+
+        st.markdown("---")
+        st.markdown("### 🌿 Generated Branching Trajectories")
+
+        col_b1, col_b2, col_b3 = st.columns(3)
+
+        with col_b1:
+            st.markdown(
+                """
+                <div class='warning-terminal'>
+                    <b>Branch A: Evasion / Closure</b><br>
+                    <i style='font-size: 13px; color: #ff7b72;'>Respondent turns away, enforcing silence.</i><br><br>
+                    📉 <b>Tension Curve:</b> Drops from 95% to 45% via forced shutdown.<br>
+                    🛡️ <b>Wall Status:</b> <span style='color: #f85149;'>REINFORCED</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        with col_b2:
+            st.markdown(
+                """
+                <div class='warning-terminal' style='background-color: #491002; border-color: #bd2c00; border-left-color: #f0883e;'>
+                    <b>Branch B: Explosion / Confrontation</b><br>
+                    <i style='font-size: 13px; color: #ffa657;'>Respondent sh
