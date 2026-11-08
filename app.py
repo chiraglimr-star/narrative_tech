@@ -1,5 +1,6 @@
 import datetime
 import time
+import plotly.graph_objects as go
 import streamlit as st
 
 # Səhifə konfiqurasiyası
@@ -111,7 +112,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v7.5</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.0</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -120,7 +121,7 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Context",
-            "💬 Custom AI Scene Analyzer (Interactive)",
+            "💬 Custom AI Scene Analyzer & Plotly",
             "🔄 Interactive Branching Simulation",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
@@ -176,7 +177,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         <div class='lab-card'>
             <h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>
             <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
-            This system allows creators and researchers to input custom dialogue lines, run real-time diagnostic simulations, and test interactive branching trajectories instantly.
+            This system allows creators and researchers to input custom dialogue lines, render real-time Plotly emotional vector curves, and test interactive branching trajectories instantly.
             </p>
         </div>
         """,
@@ -190,11 +191,11 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     m3.metric(label="Paranoia Coefficient", value="71.5%")
     m4.metric(label="AI Engine Status", value="ACTIVE")
 
-# --- MODULE 2: CUSTOM AI SCENE ANALYZER ---
-elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
-    st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
+# --- MODULE 2: CUSTOM AI SCENE ANALYZER & PLOTLY ---
+elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
+    st.markdown("### 💬 Custom AI Scene Analyzer & Emotional Vector Meter")
     st.markdown(
-        "<p style='color: #8b949e;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
+        "<p style='color: #8b949e;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density, paranoia index, and generate a real-time Plotly emotional vector curve across narrative segments.</p>",
         unsafe_allow_html=True,
     )
 
@@ -206,37 +207,27 @@ elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
             "- Then why remain silent?\n"
             "- To speak is to surrender."
         ),
-        height=150,
+        height=140,
     )
 
-    analyze_clicked = st.button("⚡ Run AI Analysis")
+    analyze_clicked = st.button("⚡ Run AI Analysis & Plot Vectors")
 
     if analyze_clicked:
         with st.spinner("Synthesizing linguistic pauses and psychological friction..."):
             time.sleep(1)
 
+        lines = [line.strip() for line in user_input_scene.split("\n") if line.strip()]
+        if not lines:
+            lines = ["Start"]
+
         word_count = len(user_input_scene.split())
         computed_silence = min(
             95,
-            max(
-                20,
-                int(
-                    50
-                    + (user_input_scene.count("?") * 8)
-                    - (word_count * 0.1)
-                ),
-            ),
+            max(20, int(50 + (user_input_scene.count("?") * 8) - (word_count * 0.1))),
         )
         computed_paranoia = min(
             98,
-            max(
-                15,
-                int(
-                    100
-                    - computed_silence
-                    + (user_input_scene.count("...") * 10)
-                ),
-            ),
+            max(15, int(100 - computed_silence + (user_input_scene.count("...") * 10))),
         )
 
         st.markdown("---")
@@ -247,25 +238,48 @@ elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
         res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
         res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
 
+        # --- PLOTLY DYNAMIC VECTOR GRAPH ---
+        st.markdown("### 📈 Real-Time Plotly Paranoia & Sentiment Vector")
+        st.markdown(
+            "<p style='font-size: 12px; color: #8b949e;'>Tracking psychological tension spikes across dialogue sequence nodes:</p>",
+            unsafe_allow_html=True,
+        )
+
+        x_nodes = [f"Node {i+1}" for i in range(len(lines))]
+        y_values = [min(95, max(20, (i + 1) * 25 + (len(l) % 15))) for i, l in enumerate(lines)]
+
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=x_nodes,
+                y=y_values,
+                mode="lines+markers",
+                name="Paranoia Vector",
+                line=dict(color="#f0883e", width=3),
+                marker=dict(size=10, color="#58a6ff"),
+            )
+        )
+        fig.update_layout(
+            paper_bgcolor="#07090e",
+            plot_bgcolor="#0d1117",
+            font=dict(color="#f1f5f9", family="Courier New"),
+            margin=dict(l=20, r=20, t=20, b=20),
+            height=280,
+            xaxis=dict(showgrid=True, gridcolor="#30363d"),
+            yaxis=dict(showgrid=True, gridcolor="#30363d", range=[0, 100], title="Paranoia Intensity (%)"),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
         if computed_paranoia > 60:
             st.markdown(
-                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA ({computed_paranoia}%):</b> High presence of defensive mechanisms, communicative walls, and structural paranoia.</div>",
+                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA SPIKE ({computed_paranoia}%):</b> Linguistic evasion and defensive walls detected. Structural collapse imminent.</div>",
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
-                f"<div class='terminal-box'>🟢 <b>NOMINAL STATE ({computed_paranoia}%):</b> Dialogue breakdown risk is low.</div>",
+                f"<div class='terminal-box'>🟢 <b>NOMINAL DIALOGUE STATE ({computed_paranoia}%):</b> Communicative flow is stable, with controlled emotional subtext.</div>",
                 unsafe_allow_html=True,
             )
-
-        st.markdown("#### 🧬 AI Breakdown:")
-        st.write(
-            f"- **Pauses/Questions:** {user_input_scene.count('.')} pauses,"
-            f" {user_input_scene.count('?')} questions."
-        )
-        st.write(
-            "- **Subtext:** Unspoken truths acting as psychological barriers."
-        )
 
 # --- MODULE 3: INTERACTIVE BRANCHING SIMULATION ---
 elif selected_module == "🔄 Interactive Branching Simulation":
