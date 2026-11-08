@@ -36,7 +36,7 @@ st.markdown(
         font-family: 'Courier New', Courier, monospace !important;
     }
     
-    /* TEXTAREA */
+    /* TEXTAREA (Mətn daxiletmə qutusu) */
     .stTextArea textarea {
         background-color: #1e293b !important;
         color: #38bdf8 !important;
@@ -125,7 +125,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v6.0</p>",
+        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.0</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -158,6 +158,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     )
     st.markdown("---")
 
+    # Evaluators & Commission Context Brief
     st.markdown(
         """
     <div class='context-box'>
@@ -288,4 +289,49 @@ elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
         e_dread = st.slider("Existential Dread", 0, 100, 65)
         l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
     with col2:
-        l_supp = st.slider("Linguistic Suppression",
+        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
+        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
+
+    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
+    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
+
+# --- MODULE 4: SUBTEXT MATRIX ---
+elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
+    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(
+        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p></div>",
+        unsafe_allow_html=True,
+    )
+    c2.markdown(
+        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p></div>",
+        unsafe_allow_html=True,
+    )
+    c3.markdown(
+        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p></div>",
+        unsafe_allow_html=True,
+    )
+
+# --- MODULE 5: ARTIFACT ---
+elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
+    st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
+    st.text_area(
+        "Corpus Data Stream (Read-Only)",
+        (
+            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
+            "Zahra: - Did Ilhama ever love me?\n"
+            "Parvaz: - Why are you asking?\n"
+            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
+            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+        ),
+        height=220,
+    )
+
+# FOOTER
+st.markdown("---")
+st.markdown(
+    "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
+    unsafe_allow_html=True,
+)
