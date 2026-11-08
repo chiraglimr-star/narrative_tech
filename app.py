@@ -406,15 +406,17 @@ elif selected_module == "🎭 Dynamic Replica Emotional X-Ray":
                 emotion = "Surface Clarity / Low Resistance"
                 defense = "Direct Vulnerability / Open Flow"
 
-            st.markdown(f"""
-                <div class='{card_class}'>
-                    <b>Beat {i+1}</b><br>
-                    <i style='color: #58a6ff; font-size: 15px;'>"{line}"</i><br><br>
-                    ⚡ <b>Inferred Emotional State:</b> {emotion}<br>
-                    🛡️ <b>Detected Defense Mechanism:</b> {defense}<br>
-                    📊 <b>Subtext Tension Index:</b> {tension}%
-                </div>
-            """, unsafe_allow_html=True)
+            beat_num = i + 1
+            card_html = (
+                f"<div class='{card_class}'>"
+                f"<b>Beat {beat_num}</b><br>"
+                f"<i style='color: #58a6ff; font-size: 15px;'>\"{line}\"</i><br><br>"
+                f"⚡ <b>Inferred Emotional State:</b> {emotion}<br>"
+                f"🛡️ <b>Detected Defense Mechanism:</b> {defense}<br>"
+                f"📊 <b>Subtext Tension Index:</b> {tension}%"
+                f"</div>"
+            )
+            st.markdown(card_html, unsafe_allow_html=True)
 
 # --- MODULE 4: DYNAMIC BRANCHING SIMULATION ---
 elif selected_module == "🔄 Dynamic Branching & Intervention Simulator":
@@ -520,4 +522,5 @@ elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
 st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
-    unsafe_allow_
+    unsafe_allow_html=True,
+)
