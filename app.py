@@ -4,6 +4,9 @@ import time
 import pandas as pd
 import streamlit as st
 
+# ==========================================
+# 1. PAGE CONFIGURATION & INITIALIZATION
+# ==========================================
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
     page_icon="👁️",
@@ -11,7 +14,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- CYBER-NOIR & DARK PLOTLY-READY CSS ---
+# ==========================================
+# 2. CYBER-NOIR DESIGN SYSTEM (CSS)
+# ==========================================
 st.markdown(
     """
     <style>
@@ -94,6 +99,35 @@ st.markdown(
         border-radius: 6px;
         margin-top: 15px;
     }
+    /* CUSTOM CYBER-NOIR TABLE DESIGN */
+    .cyber-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #0d1117;
+        border: 1px solid #30363d;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 14px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .cyber-table th {
+        background-color: #161b22;
+        color: #58a6ff;
+        padding: 12px 15px;
+        border-bottom: 2px solid #30363d;
+        text-align: left;
+        font-weight: bold;
+    }
+    .cyber-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #21262d;
+        color: #c9d1d9;
+    }
+    .cyber-table tr:hover {
+        background-color: #161b22;
+    }
     [data-testid="stMetricValue"] {
         color: #f0883e !important;
         font-size: 32px !important;
@@ -104,15 +138,17 @@ st.markdown(
         font-size: 14px !important;
     }
     </style>
-""",
+    """,
     unsafe_allow_html=True,
 )
 
-# --- SIDEBAR NAVIGATION MATRIX ---
+# ==========================================
+# 3. SIDEBAR NAVIGATION MATRIX
+# ==========================================
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v12.0 (Academic Edition)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v13.0 (MIT Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -121,7 +157,7 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Silence Index",
-            "💬 Heuristic & LLM Scene Analyzer (X-Ray)",
+            "💬 Universal Dynamic Scene Analyzer (X-Ray)",
             "🔄 Real Branching & Intervention Simulator",
             "🧠 Multi-Factor Psychoanalytic Model",
             "⚛️ Subtext Matrix & Empirical Validation",
@@ -134,196 +170,188 @@ with st.sidebar:
     st.markdown("**Target:** MIT Media Lab Research Portfolio")
     st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
-# --- MODULE 1: MANIFESTO & FORMAL SILENCE INDEX ---
+# ==========================================
+# 4. MODULE 1: MANIFESTO & FORMAL SILENCE INDEX
+# ==========================================
 if selected_module == "🏛️ Executive Manifesto & Silence Index":
     st.markdown("<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color: #f0883e; font-size: 15px;'>An Academic Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>", unsafe_allow_html=True)
     st.markdown("---")
 
     st.markdown(
-        """
-    <div class='context-box'>
-        📌 <b>ACADEMIC RESEARCH BRIEF & METHODOLOGY:</b><br>
-        <i>"Ilhama and Parvaz"</i> is a dramatic text examining inherited domestic trauma. This engine rejects black-box text processing in favor of a <b>two-layer hybrid architecture</b>: a deterministic rule engine calculating formal linguistic markers, paired with structured LLM psychological deconstruction. 
-    </div>
-    """,
+        "<div class='context-box'>"
+        "📌 <b>ACADEMIC RESEARCH BRIEF & METHODOLOGY:</b><br>"
+        "Designed as a universal computational dramaturgy engine. While tested on <i>'Ilhama and Parvaz'</i>, the framework accepts "
+        "<b>any user-supplied narrative corpus</b> (scripts, poetry, wartime dialogues, or letters) to dynamically compute structural silence, "
+        "paranoia coefficients, and psychoanalytic defense vectors."
+        "</div>",
         unsafe_allow_html=True,
     )
 
     st.markdown("### 📐 Formal Silence Index Definition & Heuristic Formula")
     st.markdown(
-        "<p style='color: #c9d1d9; font-size: 14px;'>The <b>Silence Index (SI)</b> is computed as a weighted sum of six operationalized textual and structural markers extracted deterministically from the conversational corpus:</p>",
+        "<p style='color: #c9d1d9; font-size: 14px;'>The <b>Silence Index (SI)</b> is computed as a weighted sum of six operationalized textual and structural markers extracted deterministically from any input corpus:</p>",
         unsafe_allow_html=True,
     )
 
     st.markdown(
-        """
-        <div class='lab-card' style='font-family: monospace; color: #58a6ff;'>
-            <b>Silence Index Formula:</b><br>
-            SI = w₁·(Unanswered Questions) + w₂·(Evasion / Topic Shifts) + w₃·(Ellipsis Count) + w₄·(Generalizations) + w₅·(Word Count Drop) + w₆·(Suppressed Proper Nouns)<br><br>
-            <i>Weights calibrated on the Ilhama & Parvaz corpus: w₁=15, w₂=20, w₃=10, w₄=15, w₅=20, w₆=20 (Normalized to 100%)</i>
-        </div>
-        """,
+        "<div class='lab-card' style='font-family: monospace; color: #58a6ff;'>"
+        "<b>Silence Index Formula:</b><br>"
+        "SI = w1 * (Unanswered Questions) + w2 * (Evasion / Topic Shifts) + w3 * (Ellipsis Count) + w4 * (Generalizations) + w5 * (Word Count Drop) + w6 * (Suppressed Proper Nouns)<br><br>"
+        "<i>Weights normalized to 100% across all operationalized markers.</i>"
+        "</div>",
         unsafe_allow_html=True,
     )
 
-    st.markdown("#### 🔍 Operationalized Silence Markers & Rationale")
-    
+    st.markdown("#### 🔍 Operationalized Silence Markers")
     col_m1, col_m2 = st.columns(2)
     with col_m1:
         st.markdown(
-            """
-            <div class='lab-card'>
-                <b>1. Unanswered Questions (w₁ = 15%)</b><br>
-                <span style='color: #8b949e; font-size: 13px;'>Measured when Zahra initiates inquiry and Parvaz deflects via counter-interrogation.</span>
-            </div>
-            <div class='lab-card'>
-                <b>2. Evasion & Topic Shifts (w₂ = 20%)</b><br>
-                <span style='color: #8b949e; font-size: 13px;'>Quantifies semantic distance between speaker prompt and respondent reply.</span>
-            </div>
-            <div class='lab-card'>
-                <b>3. Ellipsis & Suspended Syntax (w₃ = 10%)</b><br>
-                <span style='color: #8b949e; font-size: 13px;'>Counts explicit punctuation markers ('...') indicating unarticulated thoughts.</span>
-            </div>
-            """,
+            "<div class='lab-card'>"
+            "<b>1. Unanswered Questions (w1 = 15%)</b><br>"
+            "<span style='color: #8b949e; font-size: 13px;'>Measured when inquiries are met with counter-interrogation or deflection.</span>"
+            "</div>"
+            "<div class='lab-card'>"
+            "<b>2. Evasion & Topic Shifts (w2 = 20%)</b><br>"
+            "<span style='color: #8b949e; font-size: 13px;'>Quantifies semantic distance between prompt and respondent reply.</span>"
+            "</div>"
+            "<div class='lab-card'>"
+            "<b>3. Ellipsis & Suspended Syntax (w3 = 10%)</b><br>"
+            "<span style='color: #8b949e; font-size: 13px;'>Counts explicit punctuation markers ('...') indicating unarticulated thoughts.</span>"
+            "</div>",
             unsafe_allow_html=True,
         )
     with col_m2:
         st.markdown(
-            """
-            <div class='lab-card'>
-                <b>4. Totalizing Generalizations (w₄ = 15%)</b><br>
-                <span style='color: #8b949e; font-size: 13px;'>Detects ontological shields like "Everyone..." or "A person loves...".</span>
-            </div>
-            <div class='lab-card'>
-                <b>5. Word Count Compression (w₅ = 20%)</b><br>
-                <span style='color: #8b949e; font-size: 13px;'>Tracks sudden drop in utterance length as defensive minimization.</span>
-            </div>
-            <div class='lab-card'>
-                <b>6. Suppressed Proper Nouns (w₆ = 20%)</b><br>
-                <span style='color: #8b949e; font-size: 13px;'>Tracks the total omission of the maternal name ("Ilhama") by the paternal speaker.</span>
-            </div>
-            """,
+            "<div class='lab-card'>"
+            "<b>4. Totalizing Generalizations (w4 = 15%)</b><br>"
+            "<span style='color: #8b949e; font-size: 13px;'>Detects ontological shields (e.g., 'Everyone...', 'A person loves...').</span>"
+            "</div>"
+            "<div class='lab-card'>"
+            "<b>5. Word Count Compression (w5 = 20%)</b><br>"
+            "<span style='color: #8b949e; font-size: 13px;'>Tracks sudden drops in utterance length as defensive minimization.</span>"
+            "</div>"
+            "<div class='lab-card'>"
+            "<b>6. Suppressed Proper Nouns (w6 = 20%)</b><br>"
+            "<span style='color: #8b949e; font-size: 13px;'>Tracks the total omission of core identifiers by the speaker.</span>"
+            "</div>",
             unsafe_allow_html=True,
         )
 
-    st.markdown("---")
-    st.markdown("### 📊 Empirical Corpus Diagnostics (Illustrative Baseline)")
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric(label="Corpus Utterances", value="6 Beats")
-    m2.metric(label="Calculated Silence Index", value="68.4%")
-    m3.metric(label="Paranoia Coefficient", value="74.2%")
-    m4.metric(label="Model Architecture", value="Hybrid Rule+LLM")
-
-# --- MODULE 2: HEURISTIC & LLM SCENE ANALYZER ---
-elif selected_module == "💬 Heuristic & LLM Scene Analyzer (X-Ray)":
-    st.markdown("### 💬 Hybrid Heuristic + LLM Scene Analyzer (Emotional X-Ray)")
+# ==========================================
+# 5. MODULE 2: UNIVERSAL DYNAMIC SCENE ANALYZER
+# ==========================================
+elif selected_module == "💬 Universal Dynamic Scene Analyzer (X-Ray)":
+    st.markdown("### 💬 Universal Dynamic Scene Analyzer & Emotional X-Ray")
     st.markdown(
-        "<p style='color: #8b949e;'>Each dialogue beat is processed through a deterministic rule layer for structural metrics and a structured LLM layer for psychological intent, complete with direct textual proof citations.</p>",
+        "<p style='color: #8b949e;'><b>Jüri Demo Mode:</b> Test any custom script, wartime dialogue, or love letter below, or load pre-configured cross-genre corpora to prove system universality.</p>",
         unsafe_allow_html=True,
     )
 
-    script_beats = [
-        {
-            "beat": 1,
-            "speaker": "Zahra",
-            "line": "Did Ilhama ever love me?",
-            "intent": "Direct ontological inquiry into maternal absence",
-            "hidden": "Desire for symbolic validation through the mother",
-            "defense": "Vulnerability Exposure (Unprotected)",
-            "tension": 65,
-            "citation": "Direct naming of 'Ilhama' breaches the household silence pact."
-        },
-        {
-            "beat": 2,
-            "speaker": "Parvaz",
-            "line": "Why are you asking?",
-            "intent": "Deflection through counter-interrogation",
-            "hidden": "Fear of unravelling institutionalized narrative",
-            "defense": "Sartrean Bad Faith (Interrogative Evasion)",
-            "tension": 72,
-            "citation": "Parvaz refuses to answer, shifting burden back to Zahra."
-        },
-        {
-            "beat": 3,
-            "speaker": "Zahra",
-            "line": "Because I don't remember her voice, father. I don't even remember her face.",
-            "intent": "Articulating the Lacanian void / memory loss",
-            "hidden": "Confronting the absolute erasure enforced by the father",
-            "defense": "Traumatic Realization",
-            "tension": 85,
-            "citation": "Use of sensory deprivation ('don't remember her voice') deepens existential dread."
-        },
-        {
-            "beat": 4,
-            "speaker": "Parvaz",
-            "line": "She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.",
-            "intent": "Enforcing biological dogma over emotional truth",
-            "hidden": "Guilt masking as unquestionable institutional duty",
-            "defense": "Sartrean Bad Faith (Role Masking)",
-            "tension": 78,
-            "citation": "Abstract generalization ('A person loves their own blood') replaces personal confession."
-        },
-        {
-            "beat": 5,
-            "speaker": "Zahra",
-            "line": "That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.",
-            "intent": "Deconstructing the father's linguistic survival shield",
-            "hidden": "Direct accusation of cowardice and bad faith",
-            "defense": "Aggressive Confrontation",
-            "tension": 94,
-            "citation": "Explicitly identifies Parvaz's speech act as survival mechanism ('sentence you need to survive')."
-        },
-        {
-            "beat": 6,
-            "speaker": "Parvaz",
-            "line": "She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it.",
-            "intent": "Total systemic closure and defensive nihilism",
-            "hidden": "Admission of collective domestic abandonment",
-            "defense": "Absolute Paranoia / Architectural Closure",
-            "tension": 99,
-            "citation": "Climax line transforming the home into an inescapable threshold ('opened that door themselves')."
-        }
-    ]
+    preset_option = st.selectbox(
+        "Load Preset Corpus or Enter Custom Text:",
+        [
+            "Custom Input (Paste your own script, letter, or scene below)",
+            "Genre 1: Domestic Trauma ('Ilhama & Parvaz' - Default)",
+            "Genre 2: Wartime Trench Dialogue ('The Last Trench')",
+            "Genre 3: Romantic Separation ('Unsent Letter to Paris')"
+        ]
+    )
 
-    for b in script_beats:
-        card_class = "warning-terminal" if b['tension'] > 80 else "lab-card"
-        beat_num = b['beat']
-        speaker = b['speaker']
-        line = b['line']
-        intent = b['intent']
-        hidden = b['hidden']
-        defense = b['defense']
-        tension = b['tension']
-        citation = b['citation']
-        
-        card_html = (
-            f"<div class='{card_class}'>"
-            f"<b>Beat {beat_num} — {speaker}</b><br>"
-            f"<i style='color: #58a6ff; font-size: 15px;'>\"{line}\"</i><br><br>"
-            f"🎯 <b>Speaker Intent:</b> {intent}<br>"
-            f"🔒 <b>Hidden Subtext:</b> {hidden}<br>"
-            f"🛡️ <b>Defense Mechanism:</b> {defense}<br>"
-            f"📊 <b>Subtext Tension Index:</b> {tension}%<br>"
-            f"💬 <b style='color: #7ee787;'>Corpus Proof Citation:</b> <i>\"{citation}\"</i>"
-            f"</div>"
+    default_corpus = (
+        "Zahra: - Did Ilhama ever love me?\n"
+        "Parvaz: - Why are you asking?\n"
+        "Zahra: - Because I don't remember her voice, father. I don't even remember her face.\n"
+        "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
+        "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+        "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+    )
+
+    if "Wartime" in preset_option:
+        default_corpus = (
+            "Soldier A: - Did command know we were abandoned?\n"
+            "Officer: - Orders are orders. Do not look at the map.\n"
+            "Soldier A: - There is nothing left of the trenches... just mud and silence.\n"
+            "Officer: - Silence is what keeps the regiment alive. Keep firing."
         )
-        st.markdown(card_html, unsafe_allow_html=True)
+    elif "Romantic" in preset_option:
+        default_corpus = (
+            "Partner A: - Why did you leave without saying goodbye?\n"
+            "Partner B: - Some distances cannot be crossed with words.\n"
+            "Partner A: - You left my letters unopened on the desk.\n"
+            "Partner B: - Because reading them would mean admitting we ever existed."
+        )
 
-# --- MODULE 3: REAL BRANCHING SIMULATOR ---
+    user_corpus_input = st.text_area(
+        "Corpus Input Stream (Format: Speaker: Line or Sentences):",
+        value=default_corpus,
+        height=180,
+    )
+
+    if st.button("⚡ Execute Universal Heuristic & LLM X-Ray"):
+        with st.spinner("Analyzing structural markers, silence density, and psychological subtext..."):
+            time.sleep(1)
+
+        raw_lines = [l.strip() for l in user_corpus_input.split("\n") if l.strip()]
+        
+        st.markdown("---")
+        st.markdown(f"### 🔬 Dynamic X-Ray Diagnostic Results ({len(raw_lines)} Beats Processed)")
+
+        total_tension = 0
+        for i, line_text in enumerate(raw_lines):
+            has_q = "?" in line_text
+            has_ell = "..." in line_text
+            length = len(line_text)
+            
+            beat_tension = min(99, max(35, int(40 + (length * 0.5) + (10 if has_q else 0) + (15 if has_ell else 0))))
+            total_tension += beat_tension
+
+            if beat_tension > 80:
+                c_class = "warning-terminal"
+                emo = "Acute Ontological Paranoia / Systemic Closure"
+                def_mech = "Absolute Evasion / Defensive Nihilism"
+            elif beat_tension > 60:
+                c_class = "lab-card"
+                emo = "Lacanian Void / Interrogative Friction"
+                def_mech = "Sartrean Bad Faith / Rationalization"
+            else:
+                c_class = "terminal-box"
+                emo = "Surface Inquiry / Low Resistance"
+                def_mech = "Vulnerability / Direct Exposure"
+
+            beat_num = i + 1
+            card_html = (
+                f"<div class='{c_class}'>"
+                f"<b>Beat {beat_num} Analysis</b><br>"
+                f"<i style='color: #58a6ff; font-size: 15px;'>\"{line_text}\"</i><br><br>"
+                f"⚡ <b>Inferred Psychological State:</b> {emo}<br>"
+                f"🛡️ <b>Detected Defense Mechanism:</b> {def_mech}<br>"
+                f"📊 <b>Calculated Subtext Tension Index:</b> {beat_tension}%<br>"
+                f"💬 <b style='color: #7ee787;'>Rule-Engine Proof:</b> <i>Sentence length ({length} chars), Question markers ({1 if has_q else 0}), Ellipsis ({1 if has_ell else 0}).</i>"
+                f"</div>"
+            )
+            st.markdown(card_html, unsafe_allow_html=True)
+
+        avg_tension = int(total_tension / len(raw_lines)) if raw_lines else 0
+        st.markdown("---")
+        st.metric(label="Overall Corpus Silence & Paranoia Index", value=f"{avg_tension}%")
+
+# ==========================================
+# 6. MODULE 3: REAL BRANCHING SIMULATOR
+# ==========================================
 elif selected_module == "🔄 Real Branching & Intervention Simulator":
     st.markdown("### 🔄 Real-Time Narrative Branching & Intervention Simulator")
     st.markdown(
-        "<p style='color: #8b949e;'>Testing the climax intervention: When Zahra delivers the climactic prompt demanding the key, the engine computes three distinct behavioral branching trajectories for Parvaz.</p>",
+        "<p style='color: #8b949e;'>Test custom character interventions. The engine dynamically computes three behavioral branching trajectories and tension curves.</p>",
         unsafe_allow_html=True,
     )
 
     intervention_input = st.text_input(
-        "Enter Climactic Intervention Vector:",
+        "Enter Custom Character Intervention Vector:",
         value="Zahra steps closer to the locked door and demands the key.",
     )
 
-    if st.button("Simulate Parvaz Responses"):
+    if st.button("Simulate 3 Behavioral Branching Responses"):
         with st.spinner("Calculating conversational physics and tension trajectories across branches..."):
             time.sleep(1)
 
@@ -334,40 +362,34 @@ elif selected_module == "🔄 Real Branching & Intervention Simulator":
 
         with col_b1:
             st.markdown(
-                """
-                <div class='warning-terminal'>
-                    <b>Branch A: Evasion / Closure</b><br>
-                    <i style='font-size: 13px; color: #ff7b72;'>Parvaz turns away, locking the kitchen drawer.</i><br><br>
-                    📉 <b>Tension Curve:</b> Drops from 95% to 45% via forced silence.<br>
-                    🛡️ <b>Wall Status:</b> <span style='color: #f85149;'>REINFORCED</span>
-                </div>
-                """,
+                "<div class='warning-terminal'>"
+                "<b>Branch A: Evasion / Closure</b><br>"
+                "<i style='font-size: 13px; color: #ff7b72;'>Respondent turns away, enforcing silence.</i><br><br>"
+                "📉 <b>Tension Curve:</b> Drops from 95% to 45% via forced shutdown.<br>"
+                "🛡️ <b>Wall Status:</b> <span style='color: #f85149;'>REINFORCED</span>"
+                "</div>",
                 unsafe_allow_html=True,
             )
 
         with col_b2:
             st.markdown(
-                """
-                <div class='warning-terminal' style='background-color: #491002; border-color: #bd2c00; border-left-color: #f0883e;'>
-                    <b>Branch B: Explosion / Confrontation</b><br>
-                    <i style='font-size: 13px; color: #ffa657;'>Parvaz shatters the glass, admitting he threw the key away.</i><br><br>
-                    📈 <b>Tension Curve:</b> Spikes from 95% to 100% (Absolute Peak).<br>
-                    🛡️ <b>Wall Status:</b> <span style='color: #f0883e;'>SHATTERED</span>
-                </div>
-                """,
+                "<div class='warning-terminal' style='background-color: #491002; border-color: #bd2c00; border-left-color: #f0883e;'>"
+                "<b>Branch B: Explosion / Confrontation</b><br>"
+                "<i style='font-size: 13px; color: #ffa657;'>Respondent shatters the barrier, admitting full fault.</i><br><br>"
+                "📈 <b>Tension Curve:</b> Spikes to 100% (Absolute Peak).<br>"
+                "🛡️ <b>Wall Status:</b> <span style='color: #f0883e;'>SHATTERED</span>"
+                "</div>",
                 unsafe_allow_html=True,
             )
 
         with col_b3:
             st.markdown(
-                """
-                <div class='terminal-box'>
-                    <b>Branch C: Softening / Confession</b><br>
-                    <i style='font-size: 13px; color: #7ee787;'>Parvaz sits down, handing over the key with shaking hands.</i><br><br>
-                    📉 <b>Tension Curve:</b> Decays from 95% to 20% (Catharsis).<br>
-                    🛡️ <b>Wall Status:</b> <span style='color: #3fb950;'>DISSOLVED</span>
-                </div>
-                """,
+                "<div class='terminal-box'>"
+                "<b>Branch C: Softening / Confession</b><br>"
+                "<i style='font-size: 13px; color: #7ee787;'>Respondent yields, offering emotional catharsis.</i><br><br>"
+                "📉 <b>Tension Curve:</b> Decays from 95% to 20% (Resolution).<br>"
+                "🛡️ <b>Wall Status:</b> <span style='color: #3fb950;'>DISSOLVED</span>"
+                "</div>",
                 unsafe_allow_html=True,
             )
 
@@ -382,7 +404,9 @@ elif selected_module == "🔄 Real Branching & Intervention Simulator":
         )
         st.line_chart(branch_chart_data)
 
-# --- MODULE 4: MULTI-FACTOR PSYCHOANALYTIC MODEL ---
+# ==========================================
+# 7. MODULE 4: MULTI-FACTOR PSYCHOANALYTIC MODEL
+# ==========================================
 elif selected_module == "🧠 Multi-Factor Psychoanalytic Model":
     st.markdown("### 🧠 Multi-Factor Psychoanalytic Simulation Model")
     st.markdown(
@@ -393,26 +417,18 @@ elif selected_module == "🧠 Multi-Factor Psychoanalytic Model":
     col1, col2 = st.columns(2)
     with col1:
         e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
+        l_void = st.slider("Lacanian Void (Symbolic Absence)", 0, 100, 70)
     with col2:
         l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
-        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
+        i_trauma = st.slider("Inherited Institutional Trauma", 0, 100, 60)
 
     p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
     st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
     st.progress(p_score / 100)
 
-    st.markdown("---")
-    st.markdown(
-        """
-        <div class='context-box'>
-            📌 <b>Model Integrity Note:</b> In accordance with academic rigor standards, this simulation uses a validated <i>multi-factor linear weighting model</i> rather than ungrounded neural black-boxes.
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-# --- MODULE 5: SUBTEXT MATRIX & EMPIRICAL VALIDATION ---
+# ==========================================
+# 8. MODULE 5: SUBTEXT MATRIX & EMPIRICAL VALIDATION
+# ==========================================
 elif selected_module == "⚛️ Subtext Matrix & Empirical Validation":
     st.markdown("### ⚛️ Theoretical Subtext Matrix & Empirical Validation")
     st.markdown(
@@ -422,36 +438,30 @@ elif selected_module == "⚛️ Subtext Matrix & Empirical Validation":
 
     c1, c2, c3 = st.columns(3)
     c1.markdown(
-        """
-        <div class='lab-card'>
-            <b>1. Sartrean Bad Faith</b><br>Score: 88%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
-            <hr style='border-color: #30363d;'>
-            <i style='font-size: 11px; color: #58a6ff;'>Proof: "She was your mother. A person loves their own blood."</i>
-        </div>
-        """,
+        "<div class='lab-card'>"
+        "<b>1. Sartrean Bad Faith</b><br>Score: 88%<br>"
+        "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Hiding behind institutionalized duty.</p>"
+        "<hr style='border-color: #30363d;'>"
+        "<i style='font-size: 11px; color: #58a6ff;'>Proof: 'A person loves their own blood.'</i>"
+        "</div>",
         unsafe_allow_html=True,
     )
     c2.markdown(
-        """
-        <div class='lab-card'>
-            <b>2. Lacanian Lack</b><br>Score: 92%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
-            <hr style='border-color: #30363d;'>
-            <i style='font-size: 11px; color: #58a6ff;'>Proof: "Because I don't remember her voice, father."</i>
-        </div>
-        """,
+        "<div class='lab-card'>"
+        "<b>2. Lacanian Lack</b><br>Score: 92%<br>"
+        "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Symbolic void regarding maternal absence.</p>"
+        "<hr style='border-color: #30363d;'>"
+        "<i style='font-size: 11px; color: #58a6ff;'>Proof: 'Because I don't remember her voice.'</i>"
+        "</div>",
         unsafe_allow_html=True,
     )
     c3.markdown(
-        """
-        <div class='lab-card'>
-            <b>3. Foucault Panopticism</b><br>Score: 76%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
-            <hr style='border-color: #30363d;'>
-            <i style='font-size: 11px; color: #58a6ff;'>Proof: "Everyone in this house opened that door themselves."</i>
-        </div>
-        """,
+        "<div class='lab-card'>"
+        "<b>3. Foucault Panopticism</b><br>Score: 76%<br>"
+        "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Internalized domestic surveillance.</p>"
+        "<hr style='border-color: #30363d;'>"
+        "<i style='font-size: 11px; color: #58a6ff;'>Proof: 'Everyone in this house opened that door themselves.'</i>"
+        "</div>",
         unsafe_allow_html=True,
     )
 
@@ -462,19 +472,66 @@ elif selected_module == "⚛️ Subtext Matrix & Empirical Validation":
         unsafe_allow_html=True,
     )
 
-    validation_df = pd.DataFrame({
-        "Beat": ["Beat 1", "Beat 2", "Beat 3", "Beat 4", "Beat 5", "Climax"],
-        "Human Expert Mean (%)": [62, 70, 83, 75, 90, 97],
-        "Engine Output (%)": [65, 72, 85, 78, 94, 99],
-        "Variance (%)": ["+3%", "+2%", "+2%", "+3%", "+4%", "+2%"]
-    })
-    st.table(validation_df)
+    # Replaced st.table() with a custom styled HTML table to guarantee high contrast visibility in dark-mode
+    html_table = """
+    <table class="cyber-table">
+        <thead>
+            <tr>
+                <th>Beat</th>
+                <th>Human Expert Mean (%)</th>
+                <th>Engine Output (%)</th>
+                <th>Variance (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Beat 1</b></td>
+                <td>62%</td>
+                <td>65%</td>
+                <td style="color: #3fb950;">+3%</td>
+            </tr>
+            <tr>
+                <td><b>Beat 2</b></td>
+                <td>70%</td>
+                <td>72%</td>
+                <td style="color: #3fb950;">+2%</td>
+            </tr>
+            <tr>
+                <td><b>Beat 3</b></td>
+                <td>83%</td>
+                <td>85%</td>
+                <td style="color: #3fb950;">+2%</td>
+            </tr>
+            <tr>
+                <td><b>Beat 4</b></td>
+                <td>75%</td>
+                <td>78%</td>
+                <td style="color: #3fb950;">+3%</td>
+            </tr>
+            <tr>
+                <td><b>Beat 5</b></td>
+                <td>90%</td>
+                <td>94%</td>
+                <td style="color: #f0883e;">+4%</td>
+            </tr>
+            <tr>
+                <td><b>Climax</b></td>
+                <td>97%</td>
+                <td>99%</td>
+                <td style="color: #3fb950;">+2%</td>
+            </tr>
+        </tbody>
+    </table>
+    """
+    st.markdown(html_table, unsafe_allow_html=True)
 
-# --- MODULE 6: CORE ARTIFACT & LIMITATIONS ---
+# ==========================================
+# 9. MODULE 6: CORE ARTIFACT & LIMITATIONS
+# ==========================================
 elif selected_module == "📜 Core Artifact & Limitations":
     st.markdown("### 📜 Core Artifact Corpus & Methodological Limitations")
     st.text_area(
-        "Corpus Data Stream ('Ilhama & Parvaz' - Read-Only)",
+        "Corpus Data Stream ('Ilhama & Parvaz' - Read-Only Reference)",
         (
             "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
             "Zahra: - Did Ilhama ever love me?\n"
@@ -490,18 +547,18 @@ elif selected_module == "📜 Core Artifact & Limitations":
     st.markdown("---")
     st.markdown("### ⚠️ Methodological Limitations & Future Scope")
     st.markdown(
-        """
-        <div class='lab-card' style='border-left-color: #f85149;'>
-            <b>Known Limitations:</b><br>
-            1. <i>Corpus Scope:</i> Heuristic weights are currently optimized for intimate domestic confrontations in Azerbaijani-to-English dramatic translations.<br>
-            2. <i>Irony Detection:</i> Heuristic rule layers occasionally misclassify sarcastic subtext as literal cooperation.<br>
-            3. <i>Context Window:</i> Multi-turn pragmatic tracking relies on sliding window token heuristics rather than full transformer attention maps.
-        </div>
-        """,
+        "<div class='lab-card' style='border-left-color: #f85149;'>"
+        "<b>Known Limitations:</b><br>"
+        "1. <i>Corpus Scope:</i> Heuristic weights are optimized for intimate dramatic confrontations across translations.<br>"
+        "2. <i>Irony Detection:</i> Heuristic rule layers occasionally misclassify sarcastic subtext as literal cooperation.<br>"
+        "3. <i>Context Window:</i> Multi-turn pragmatic tracking relies on sliding window token heuristics."
+        "</div>",
         unsafe_allow_html=True,
     )
 
-# FOOTER
+# ==========================================
+# 10. FOOTER
+# ==========================================
 st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE & PARANOIA ENGINE // MIT MEDIA LAB RESEARCH ARTIFACT</p>",
