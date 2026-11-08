@@ -156,7 +156,6 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
         unsafe_allow_html=True,
     )
 
-    # Formula Display Card
     st.markdown(
         """
         <div class='lab-card' style='font-family: monospace; color: #58a6ff;'>
@@ -216,7 +215,7 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
     m3.metric(label="Paranoia Coefficient", value="74.2%")
     m4.metric(label="Model Architecture", value="Hybrid Rule+LLM")
 
-# --- MODULE 2: HEURISTIC & LLM SCENE ANALYZER (X-RAY WITH PROOF CITATIONS) ---
+# --- MODULE 2: HEURISTIC & LLM SCENE ANALYZER ---
 elif selected_module == "💬 Heuristic & LLM Scene Analyzer (X-Ray)":
     st.markdown("### 💬 Hybrid Heuristic + LLM Scene Analyzer (Emotional X-Ray)")
     st.markdown(
@@ -297,21 +296,4 @@ elif selected_module == "💬 Heuristic & LLM Scene Analyzer (X-Ray)":
                 🔒 <b>Hidden Subtext:</b> {b['hidden']}<br>
                 🛡️ <b>Defense Mechanism:</b> {b['defense']}<br>
                 📊 <b>Subtext Tension Index:</b> {b['tension']}%<br>
-                💬 <b style='color: #7ee787;'>Corpus Proof Citation:</b> <i>"{b['citation']}"</i>
-            </div>
-        """, unsafe_allow_html=True)
-
-# --- MODULE 3: REAL BRANCHING SIMULATOR ---
-elif selected_module == "🔄 Real Branching & Intervention Simulator":
-    st.markdown("### 🔄 Real-Time Narrative Branching & Intervention Simulator")
-    st.markdown(
-        "<p style='color: #8b949e;'>Testing the climax intervention: When Zahra delivers the climactic prompt demanding the key, the engine computes three distinct behavioral branching trajectories for Parvaz.</p>",
-        unsafe_allow_html=True,
-    )
-
-    intervention_input = st.text_input(
-        "Enter Climactic Intervention Vector:",
-        value="Zahra steps closer to the locked door and demands the key.",
-    )
-
-    if st.button("⚡ Simulate Parvaz's 3 Branch
+                💬 <b style='color: #7ee787;'>Corpus Proof Citation:</b>
