@@ -10,41 +10,41 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- OVERRIDE STREAMLIT DEFAULT STYLES WITH HIGH-CONTRAST DARK CSS ---
+# --- ADVANCED CYBER-NOIR & AMBER/CYAN CSS PALETTE ---
 st.markdown(
     """
     <style>
     .stApp {
-        background-color: #0b0f19 !important;
+        background-color: #07090e !important;
         color: #f1f5f9 !important;
         font-family: 'Courier New', Courier, monospace !important;
     }
     [data-testid="stSidebar"] {
-        background-color: #111827 !important;
-        border-right: 1px solid #1f2937 !important;
+        background-color: #0d1117 !important;
+        border-right: 1px solid #21262d !important;
     }
     [data-testid="stSidebar"] * {
-        color: #e2e8f0 !important;
+        color: #c9d1d9 !important;
     }
     h1, h2, h3, h4, h5, h6, label {
         color: #ffffff !important;
         font-family: 'Courier New', Courier, monospace !important;
     }
     .stTextArea textarea {
-        background-color: #1e293b !important;
-        color: #38bdf8 !important;
+        background-color: #0d1117 !important;
+        color: #58a6ff !important;
         font-size: 15px !important;
         font-weight: bold !important;
-        border: 1px solid #334155 !important;
+        border: 1px solid #30363d !important;
         border-radius: 6px !important;
     }
     .stTextArea textarea:focus {
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
+        border-color: #58a6ff !important;
+        box-shadow: 0 0 12px rgba(88, 166, 255, 0.3) !important;
     }
     .stButton button {
-        background-color: #f59e0b !important;
-        color: #0b0f19 !important;
+        background-color: #f0883e !important;
+        color: #07090e !important;
         font-weight: bold !important;
         border: none !important;
         border-radius: 6px !important;
@@ -52,54 +52,54 @@ st.markdown(
         transition: 0.3s !important;
     }
     .stButton button:hover {
-        background-color: #fbbf24 !important;
+        background-color: #ffa657 !important;
     }
     .lab-card {
-        background-color: #1e293b;
-        border: 1px solid #334155;
-        border-left: 4px solid #f59e0b;
+        background-color: #0d1117;
+        border: 1px solid #30363d;
+        border-left: 4px solid #f0883e;
         padding: 20px;
         border-radius: 6px;
         margin-bottom: 15px;
     }
     .context-box {
-        background-color: #172554;
-        border: 1px solid #1e3a8a;
-        border-left: 4px solid #38bdf8;
+        background-color: #0f1c2e;
+        border: 1px solid #1f3864;
+        border-left: 4px solid #58a6ff;
         padding: 18px;
-        color: #e0f2fe;
+        color: #c6e2ff;
         font-size: 13px;
         border-radius: 6px;
         margin-bottom: 20px;
         line-height: 1.5;
     }
     .terminal-box {
-        background-color: #022c22;
-        border: 1px solid #065f46;
-        border-left: 4px solid #34d399;
+        background-color: #032f20;
+        border: 1px solid #116329;
+        border-left: 4px solid #3fb950;
         padding: 18px;
-        color: #6ee7b7;
+        color: #7ee787;
         font-size: 14px;
         border-radius: 6px;
         margin-top: 15px;
     }
     .warning-terminal {
-        background-color: #450a0a;
-        border: 1px solid #991b1b;
-        border-left: 4px solid #f87171;
+        background-color: #490202;
+        border: 1px solid #86181d;
+        border-left: 4px solid #f85149;
         padding: 18px;
-        color: #fca5a5;
+        color: #ff7b72;
         font-size: 14px;
         border-radius: 6px;
         margin-top: 15px;
     }
     [data-testid="stMetricValue"] {
-        color: #f59e0b !important;
+        color: #f0883e !important;
         font-size: 32px !important;
         font-weight: bold !important;
     }
     [data-testid="stMetricLabel"] {
-        color: #94a3b8 !important;
+        color: #8b949e !important;
         font-size: 14px !important;
     }
     </style>
@@ -111,7 +111,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v7.0</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v7.5</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -140,7 +140,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         unsafe_allow_html=True,
     )
     st.markdown(
-        "<p style='color: #f59e0b; font-size: 15px;'>An Experimental Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>",
+        "<p style='color: #f0883e; font-size: 15px;'>An Experimental Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -161,8 +161,8 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         st.markdown(
             """
         <div class='lab-card'>
-            <h3 style='color: #f59e0b; margin-top:0;'>🌌 The Core Thesis</h3>
-            <p style='color: #e2e8f0; font-size: 14px; line-height: 1.6;'>
+            <h3 style='color: #f0883e; margin-top:0;'>🌌 The Core Thesis</h3>
+            <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
             Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault where generational trauma, institutional surveillance, and suppressed memory are stored.
             </p>
         </div>
@@ -174,8 +174,8 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         st.markdown(
             """
         <div class='lab-card'>
-            <h3 style='color: #f59e0b; margin-top:0;'>⚙️ Interactive Capabilities</h3>
-            <p style='color: #e2e8f0; font-size: 14px; line-height: 1.6;'>
+            <h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>
+            <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
             This system allows creators and researchers to input custom dialogue lines, run real-time diagnostic simulations, and test interactive branching trajectories instantly.
             </p>
         </div>
@@ -194,7 +194,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
 elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
     st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
     st.markdown(
-        "<p style='color: #94a3b8;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
+        "<p style='color: #8b949e;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
         unsafe_allow_html=True,
     )
 
@@ -267,11 +267,11 @@ elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
             "- **Subtext:** Unspoken truths acting as psychological barriers."
         )
 
-# --- MODULE 3: INTERACTIVE BRANCHING SIMULATION (YENİ) ---
+# --- MODULE 3: INTERACTIVE BRANCHING SIMULATION ---
 elif selected_module == "🔄 Interactive Branching Simulation":
     st.markdown("### 🔄 Narrative Branching & Intervention Simulator")
     st.markdown(
-        "<p style='color: #94a3b8;'>Simulate how alternative intervention vectors alter the psychological trajectory of the kitchen confrontation scene.</p>",
+        "<p style='color: #8b949e;'>Simulate how alternative intervention vectors alter the psychological trajectory of the kitchen confrontation scene.</p>",
         unsafe_allow_html=True,
     )
 
@@ -326,7 +326,7 @@ elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
         """
         <div class='lab-card'>
             <b>1. Sartrean Bad Faith</b><br>88%<br>
-            <p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -335,7 +335,7 @@ elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
         """
         <div class='lab-card'>
             <b>2. Lacanian Lack</b><br>92%<br>
-            <p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -344,7 +344,7 @@ elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
         """
         <div class='lab-card'>
             <b>3. Foucault Panopticism</b><br>76%<br>
-            <p style='font-size:12px; color:#94a3b8; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -370,6 +370,6 @@ elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
 # FOOTER
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
+    "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
     unsafe_allow_html=True,
 )
