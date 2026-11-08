@@ -14,14 +14,11 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Ümumi Arxa Fon */
     .stApp {
         background-color: #0b0f19 !important;
         color: #f1f5f9 !important;
         font-family: 'Courier New', Courier, monospace !important;
     }
-    
-    /* Sol Panel (Sidebar) */
     [data-testid="stSidebar"] {
         background-color: #111827 !important;
         border-right: 1px solid #1f2937 !important;
@@ -29,14 +26,10 @@ st.markdown(
     [data-testid="stSidebar"] * {
         color: #e2e8f0 !important;
     }
-    
-    /* Başlıqlar */
     h1, h2, h3, h4, h5, h6, label {
         color: #ffffff !important;
         font-family: 'Courier New', Courier, monospace !important;
     }
-    
-    /* TEXTAREA (Mətn daxiletmə qutusu) */
     .stTextArea textarea {
         background-color: #1e293b !important;
         color: #38bdf8 !important;
@@ -49,11 +42,9 @@ st.markdown(
         border-color: #38bdf8 !important;
         box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
     }
-    
-    /* Düymələr */
     .stButton button {
-        background-color: #0284c7 !important;
-        color: #ffffff !important;
+        background-color: #f59e0b !important;
+        color: #0b0f19 !important;
         font-weight: bold !important;
         border: none !important;
         border-radius: 6px !important;
@@ -61,15 +52,12 @@ st.markdown(
         transition: 0.3s !important;
     }
     .stButton button:hover {
-        background-color: #38bdf8 !important;
-        color: #0f172a !important;
+        background-color: #fbbf24 !important;
     }
-    
-    /* Kartlar, Kontekst və Panellər */
     .lab-card {
         background-color: #1e293b;
         border: 1px solid #334155;
-        border-left: 4px solid #38bdf8;
+        border-left: 4px solid #f59e0b;
         padding: 20px;
         border-radius: 6px;
         margin-bottom: 15px;
@@ -105,10 +93,8 @@ st.markdown(
         border-radius: 6px;
         margin-top: 15px;
     }
-    
-    /* Metrik Rəqəmləri */
     [data-testid="stMetricValue"] {
-        color: #38bdf8 !important;
+        color: #f59e0b !important;
         font-size: 32px !important;
         font-weight: bold !important;
     }
@@ -125,7 +111,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.0</p>",
+        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v7.0</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -135,6 +121,7 @@ with st.sidebar:
         [
             "🏛️ Executive Manifesto & Context",
             "💬 Custom AI Scene Analyzer (Interactive)",
+            "🔄 Interactive Branching Simulation",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
             "📜 Core Artifact: 'Ilhama & Parvaz'",
@@ -153,12 +140,11 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         unsafe_allow_html=True,
     )
     st.markdown(
-        "<p style='color: #38bdf8; font-size: 15px;'>An Experimental Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>",
+        "<p style='color: #f59e0b; font-size: 15px;'>An Experimental Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
 
-    # Evaluators & Commission Context Brief
     st.markdown(
         """
     <div class='context-box'>
@@ -175,7 +161,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         st.markdown(
             """
         <div class='lab-card'>
-            <h3 style='color: #38bdf8; margin-top:0;'>🌌 The Core Thesis</h3>
+            <h3 style='color: #f59e0b; margin-top:0;'>🌌 The Core Thesis</h3>
             <p style='color: #e2e8f0; font-size: 14px; line-height: 1.6;'>
             Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault where generational trauma, institutional surveillance, and suppressed memory are stored.
             </p>
@@ -188,9 +174,9 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         st.markdown(
             """
         <div class='lab-card'>
-            <h3 style='color: #38bdf8; margin-top:0;'>⚙️ Interactive Capabilities</h3>
+            <h3 style='color: #f59e0b; margin-top:0;'>⚙️ Interactive Capabilities</h3>
             <p style='color: #e2e8f0; font-size: 14px; line-height: 1.6;'>
-            This system allows creators and researchers to input custom dialogue lines or adjust psychological friction variables in real time, calculating existential indices instantly.
+            This system allows creators and researchers to input custom dialogue lines, run real-time diagnostic simulations, and test interactive branching trajectories instantly.
             </p>
         </div>
         """,
@@ -281,7 +267,44 @@ elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
             "- **Subtext:** Unspoken truths acting as psychological barriers."
         )
 
-# --- MODULE 3: SIMULATOR ---
+# --- MODULE 3: INTERACTIVE BRANCHING SIMULATION (YENİ) ---
+elif selected_module == "🔄 Interactive Branching Simulation":
+    st.markdown("### 🔄 Narrative Branching & Intervention Simulator")
+    st.markdown(
+        "<p style='color: #94a3b8;'>Simulate how alternative intervention vectors alter the psychological trajectory of the kitchen confrontation scene.</p>",
+        unsafe_allow_html=True,
+    )
+
+    branch_choice = st.selectbox(
+        "Select Narrative Intervention Vector:",
+        [
+            "Parvaz's Defensive Retaliation (Maintain Silence)",
+            "Zahra's Ontological Breakthrough (Pierce the Wall)",
+            "Architectural Dissolution (Acknowledge Ilhama's Absence)",
+        ],
+    )
+
+    if st.button("Execute Branch Simulation"):
+        with st.spinner("Recalculating narrative physics and structural tension..."):
+            time.sleep(1)
+
+        if "Defensive" in branch_choice:
+            st.markdown(
+                "<div class='warning-terminal'>🔴 <b>BRANCH OUTCOME [Parvaz's Retreat]:</b> Paranoia Index surges to <b>91%</b>. Complete communicative shutdown. The symbolic wall hardens.</div>",
+                unsafe_allow_html=True,
+            )
+        elif "Breakthrough" in branch_choice:
+            st.markdown(
+                "<div class='terminal-box'>🟢 <b>BRANCH OUTCOME [Breakthrough]:</b> Silence Index drops to <b>18%</b>. The symbolic contract between father and daughter is renegotiated.</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                "<div class='lab-card'>🟣 <b>BRANCH OUTCOME [Dissolution]:</b> System stabilizes at <b>45%</b>. The ghost of Ilhama is integrated into the domestic architecture. New narrative vector unlocked.</div>",
+                unsafe_allow_html=True,
+            )
+
+# --- MODULE 4: SIMULATOR ---
 elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
     st.markdown("### 🧠 Multi-Factorial Neural Simulator")
     col1, col2 = st.columns(2)
@@ -295,24 +318,39 @@ elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
     p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
     st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
 
-# --- MODULE 4: SUBTEXT MATRIX ---
+# --- MODULE 5: SUBTEXT MATRIX ---
 elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
     st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
     c1, c2, c3 = st.columns(3)
     c1.markdown(
-        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p></div>",
+        """
+        <div class='lab-card'>
+            <b>1. Sartrean Bad Faith</b><br>88%<br>
+            <p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
     c2.markdown(
-        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p></div>",
+        """
+        <div class='lab-card'>
+            <b>2. Lacanian Lack</b><br>92%<br>
+            <p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
     c3.markdown(
-        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p></div>",
+        """
+        <div class='lab-card'>
+            <b>3. Foucault Panopticism</b><br>76%<br>
+            <p style='font-size:12px; color:#94a3b8; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
-# --- MODULE 5: ARTIFACT ---
+# --- MODULE 6: ARTIFACT ---
 elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
     st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
     st.text_area(
