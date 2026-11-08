@@ -119,11 +119,11 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Context",
-            "💬 Smart AI Scene Analyzer (Advanced)",
-            "🔄 Dynamic Branching & Intervention Simulator",
-            "🧠 Neural-Psychoanalytic Simulator",
-            "⚛️ Lacanian & Sartrean Subtext Matrix",
-            "📜 Core Artifact: 'Ilhama & Parvaz'",
+            "Smart AI Scene Analyzer (Advanced)",
+            "Dynamic Branching & Intervention Simulator",
+            "Neural-Psychoanalytic Simulator",
+            "Lacanian & Sartrean Subtext Matrix",
+            "Core Artifact: Ilhama & Parvaz",
         ],
     )
 
@@ -208,4 +208,69 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     st.code(bibtex_code, language="bibtex")
 
 # --- MODULE 2: SMART AI SCENE ANALYZER (ADVANCED HEURISTICS + CHART) ---
-elif selected_
+elif selected_module == "Smart AI Scene Analyzer (Advanced)":
+    st.markdown("### 💬 Smart Heuristic Scene & Subtext Analyzer")
+    st.markdown(
+        "<p style='color: #8b949e;'>Advanced NLP heuristic engine scanning for trauma markers, semantic gaps, and ontological defense mechanisms in real time.</p>",
+        unsafe_allow_html=True,
+    )
+
+    col_a, col_b = st.columns(2)
+    with col_a:
+        scene_a = st.text_area(
+            "Corpus A (Primary Dialog / Baseline):",
+            value=(
+                "Zahra: - Did Ilhama ever love me?\n"
+                "Parvaz: - Why are you asking?\n"
+                "Zahra: - Because I don't remember her voice."
+            ),
+            height=130,
+        )
+    with col_b:
+        scene_b = st.text_area(
+            "Corpus B (Intervention / Alternative):",
+            value=(
+                "Zahra: - We need to talk about what happened to her.\n"
+                "Parvaz: - Some doors are better left locked.\n"
+                "Zahra: - Not anymore."
+            ),
+            height=130,
+        )
+
+    analyze_clicked = st.button("⚡ Execute Dual-Corpus Heuristic Analysis")
+
+    if analyze_clicked:
+        with st.spinner("Processing semantic weight, trauma markers and silence density..."):
+            time.sleep(1)
+
+        def analyze_text(text):
+            words = text.split()
+            wc = len(words)
+            trauma_keywords = [
+                "ilhama",
+                "parvaz",
+                "mother",
+                "father",
+                "blood",
+                "door",
+                "lock",
+                "voice",
+                "remember",
+                "truth",
+            ]
+            kw_hits = sum(
+                1 for w in words if w.lower().strip(".,?-") in trauma_keywords
+            )
+            silence_score = min(
+                95,
+                max(
+                    20,
+                    int(
+                        40
+                        + (text.count("?") * 7)
+                        + (text.count("...") * 12)
+                        + (kw_hits * 5)
+                    ),
+                ),
+            )
+            paranoia
