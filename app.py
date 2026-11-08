@@ -65,7 +65,7 @@ st.markdown(
         color: #0f172a !important;
     }
     
-    /* Kartlar və Panellər */
+    /* Kartlar, Kontekst və Panellər */
     .lab-card {
         background-color: #1e293b;
         border: 1px solid #334155;
@@ -73,6 +73,17 @@ st.markdown(
         padding: 20px;
         border-radius: 6px;
         margin-bottom: 15px;
+    }
+    .context-box {
+        background-color: #172554;
+        border: 1px solid #1e3a8a;
+        border-left: 4px solid #38bdf8;
+        padding: 18px;
+        color: #e0f2fe;
+        font-size: 13px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        line-height: 1.5;
     }
     .terminal-box {
         background-color: #022c22;
@@ -114,7 +125,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v4.2</p>",
+        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.0</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -122,7 +133,7 @@ with st.sidebar:
     selected_module = st.radio(
         "Navigation Matrix",
         [
-            "🏛️ Executive Manifesto",
+            "🏛️ Executive Manifesto & Context",
             "💬 Custom AI Scene Analyzer (İnteraktiv)",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
@@ -135,8 +146,8 @@ with st.sidebar:
     st.markdown("**Target:** MIT Media Lab Portfolio")
     st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
-# --- MODULE 1: MANIFESTO ---
-if selected_module == "🏛️ Executive Manifesto":
+# --- MODULE 1: MANIFESTO & CONTEXT ---
+if selected_module == "🏛️ Executive Manifesto & Context":
     st.markdown(
         "<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>",
         unsafe_allow_html=True,
@@ -146,6 +157,17 @@ if selected_module == "🏛️ Executive Manifesto":
         unsafe_allow_html=True,
     )
     st.markdown("---")
+
+    # Komissiya və kənar oxucular üçün Kontekst Xülasəsi əlavə olundu
+    st.markdown(
+        """
+    <div class='context-box'>
+        📌 <b>PROTOTYPE CONTEXT BRIEF (For Evaluators):</b><br>
+        <i>"İlhəmə və Pərvaz"</i> is a narrative exploring domestic isolation and inherited trauma. The core scene features a late-night kitchen confrontation between young Zəhra and her father, <b>Pərvaz</b>, where the unspoken memory of the mother (İlhəmə) acts as an invisible structural wall. This engine treats that text not as fiction, but as a computational field of silence, paranoia, and linguistic defense.
+    </div>
+    """,
+        unsafe_allow_html=True,
+    )
 
     col1, col2 = st.columns(2)
 
@@ -204,9 +226,7 @@ elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
     analyze_clicked = st.button("⚡ Run AI Analysis")
 
     if analyze_clicked:
-        with st.spinner(
-            "Synthesizing linguistic pauses and psychological friction..."
-        ):
+        with st.spinner("Synthesizing linguistic pauses and psychological friction..."):
             time.sleep(1)
 
         word_count = len(user_input_scene.split())
@@ -267,10 +287,10 @@ elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
     col1, col2 = st.columns(2)
     with col1:
         e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void", 0, 100, 70)
+        l_void = st.slider("Lacanian Void (İlhəmə's Absence)", 0, 100, 70)
     with col2:
         l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
-        i_trauma = st.slider("Inherited Trauma", 0, 100, 60)
+        i_trauma = st.slider("Inherited Trauma (Pərvaz factor)", 0, 100, 60)
 
     p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
     st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
@@ -280,25 +300,33 @@ elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
     st.markdown("### ⚛️ Subtext Matrix")
     c1, c2, c3 = st.columns(3)
     c1.markdown(
-        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%</div>",
+        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Pərvaz hiding behind institutionalized duty.</p></div>",
         unsafe_allow_html=True,
     )
     c2.markdown(
-        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%</div>",
+        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zəhra's symbolic void regarding her mother İlhəmə.</p></div>",
         unsafe_allow_html=True,
     )
     c3.markdown(
-        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%</div>",
+        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p></div>",
         unsafe_allow_html=True,
     )
 
 # --- MODULE 5: ARTIFACT ---
 elif selected_module == "📜 Core Artifact: 'İlhəmə və Pərvaz'":
-    st.markdown("### 📜 Core Artifact")
+    st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
     st.text_area(
-        "Corpus",
-        "Zehra: Did İlhəmə ever love me?\nParviz: She was your mother...",
-        height=150,
+        "Corpus Data Stream (Read-Only)",
+        (
+            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
+            "Zəhra: - Did İlhəmə ever love me?\n"
+            "Pərvaz: - Why are you asking?\n"
+            "Zəhra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+            "Pərvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zəhra.\n"
+            "Zəhra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+            "Pərvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+        ),
+        height=220,
     )
 
 # FOOTER
