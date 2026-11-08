@@ -140,7 +140,6 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     )
     st.markdown("---")
 
-    # Kənar şəxslər üçün Kontekst Bloku (Əsəri bilməyənlər üçün)
     st.markdown(
         """
     <div class='context-box'>
@@ -253,14 +252,12 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
         res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
         res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
 
-        # --- PLOTLY EMOTIONAL VECTOR CHART ---
         st.markdown("### 📈 Real-Time Plotly Paranoia & Sentiment Vector")
         st.markdown(
             "<p style='font-size: 12px; color: #94a3b8;'>Tracking psychological tension spikes across dialogue sequence nodes:</p>",
             unsafe_allow_html=True,
         )
 
-        # Hər sətir üçün dinamik paranoya dəyərləri simulyasiyası
         x_nodes = [f"Node {i+1}" for i in range(len(lines))]
         y_values = [
             min(95, max(20, (i + 1) * 25 + (len(l) % 15)))
@@ -305,7 +302,6 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
                 unsafe_allow_html=True,
             )
 
-        # --- INTERACTIVE BRANCHING FOR CUSTOM TEXT ---
         st.markdown("---")
         st.markdown("### 🔄 Interactive Branching Simulation")
         st.markdown(
@@ -378,8 +374,7 @@ elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
     st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Decomposition")
     c1, c2, c3 = st.columns(3)
     c1.markdown(
-        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br><span style='color:#f59e0b;'>88%</span><br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Pərvaz hiding behind institutionalized duty ("
-        "A person loves their own blood").</p></div>",
+        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br><span style='color:#f59e0b;'>88%</span><br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Pərvaz hiding behind institutionalized duty (A person loves their own blood).</p></div>",
         unsafe_allow_html=True,
     )
     c2.markdown(
@@ -398,27 +393,4 @@ elif selected_module == "📜 Core Artifact: 'İlhəmə və Pərvaz'":
     )
     st.markdown(
         "<p style='color: #94a3b8;'>The foundational dialogue between Zəhra and her father Pərvaz.</p>",
-        unsafe_allow_html=True,
-    )
-    script_text = """
-    [ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]
-    
-    Zəhra: - Did İlhəmə ever love me?
-    Pərvaz: - Why are you asking?
-    Zəhra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.
-    Pərvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zəhra.
-    Zəhra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.
-    Pərvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it.
-    """
-    st.text_area("Corpus Data Stream (Read-Only)", script_text, height=220)
-    st.markdown(
-        "<div class='terminal-box'>🏛️ <b>Note:</b> Pərvaz's transition to universal fatalism marks a 78% spike in communicative withdrawal.</div>",
-        unsafe_allow_html=True,
-    )
-
-# FOOTER
-st.markdown("---")
-st.markdown(
-    "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // CRAFTED FOR MIT MEDIA LAB PORTFOLIO EXCELLENCE</p>",
-    unsafe_allow_html=True,
-)
+        unsafe_allow_html
