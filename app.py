@@ -110,7 +110,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v11.2 (Ultimate)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v11.4 (Ultimate)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -120,6 +120,7 @@ with st.sidebar:
         [
             "🏛️ Executive Manifesto & Context",
             "💬 Smart AI Scene Analyzer (Advanced)",
+            "🎭 Replica Emotional X-Ray (Line-by-Line)",
             "🔄 Dynamic Branching & Intervention Simulator",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
@@ -175,7 +176,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         <div class='lab-card'>
             <h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>
             <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
-            This system allows researchers to execute smart heuristic NLP checks, view dynamic tension charts, and export structured JSON research dossiers instantly.
+            This system allows researchers to execute smart heuristic NLP checks, line-by-line emotional X-rays, and export structured JSON research dossiers instantly.
             </p>
         </div>
         """,
@@ -196,18 +197,20 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         "<p style='color: #8b949e; font-size: 13px;'>If you are reviewing this artifact for academic or laboratory evaluation, use the following BibTeX citation:</p>",
         unsafe_allow_html=True,
     )
-    bibtex_code = (
-        "@software{Chiragli2026OntologicalSilence,\n"
-        "  author = {Chiragli, Agil},\n"
-        "  title = {The Ontological Silence & Paranoia Engine: Computational Dramaturgy Prototype},\n"
-        "  year = {2026},\n"
-        "  url = {https://github.com/agilchiragli/ontological-silence-engine},\n"
-        "  note = {MIT Media Lab Research Portfolio Artifact}\n"
-        "}"
-    )
-    st.code(bibtex_code, language="bibtex")
+    
+    bibtex_text = """@software{Chiragli2026OntologicalSilence,
+  author = {Chiragli, Agil},
+  title = {The Ontological Silence & Paranoia Engine: Computational Dramaturgy Prototype},
+  year = {2026},
+  url = {https://github.com/agilchiragli/ontological-silence-engine},
+  note = {MIT Media Lab Research Portfolio Artifact}
+}"""
+    
+    st.markdown(f"""
+        <div style="background-color: #0d1117; border: 1px solid #30363d; border-left: 4px solid #f0883e; padding: 18px; border-radius: 6px; font-family: 'Courier New', Courier, monospace; color: #58a6ff; font-size: 13px; white-space: pre-wrap;">{bibtex_text}</div>
+    """, unsafe_allow_html=True)
 
-# --- MODULE 2: SMART AI SCENE ANALYZER (ADVANCED HEURISTICS + CHART) ---
+# --- MODULE 2: SMART AI SCENE ANALYZER ---
 elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
     st.markdown("### 💬 Smart Heuristic Scene & Subtext Analyzer")
     st.markdown(
@@ -292,7 +295,9 @@ elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
             )
             st.metric(label="Corpus A Word Count", value=wc_a)
             st.metric(label="Silence Index (A)", value=f"{sil_a}%")
+            st.progress(sil_a / 100)
             st.metric(label="Paranoia Coefficient (A)", value=f"{par_a}%")
+            st.progress(par_a / 100)
             st.markdown(f"🎯 Traversal Markers Detected: {kw_a}")
             st.markdown("</div>", unsafe_allow_html=True)
 
@@ -303,11 +308,12 @@ elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
             )
             st.metric(label="Corpus B Word Count", value=wc_b)
             st.metric(label="Silence Index (B)", value=f"{sil_b}%")
+            st.progress(sil_b / 100)
             st.metric(label="Paranoia Coefficient (B)", value=f"{par_b}%")
+            st.progress(par_b / 100)
             st.markdown(f"🎯 Traversal Markers Detected: {kw_b}")
             st.markdown("</div>", unsafe_allow_html=True)
 
-        # --- NATIVE STREAMLIT LINE CHART ---
         st.markdown("#### 📈 Structural Tension & Paranoia Fluctuation Vector")
         chart_data = pd.DataFrame(
             {
@@ -339,7 +345,6 @@ elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
                 unsafe_allow_html=True,
             )
 
-        # --- EXPORT DOSSIER FEATURE ---
         st.markdown("---")
         dossier_data = {
             "timestamp": str(datetime.datetime.now()),
@@ -353,7 +358,78 @@ elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
             mime="application/json",
         )
 
-# --- MODULE 3: DYNAMIC BRANCHING SIMULATION ---
+# --- MODULE 3: REPLICA EMOTIONAL X-RAY (NEW!) ---
+elif selected_module == "🎭 Replica Emotional X-Ray (Line-by-Line)":
+    st.markdown("### 🎭 Replica-by-Replica Emotional & Psychoanalytic X-Ray")
+    st.markdown(
+        "<p style='color: #8b949e;'>Inspect the dominant emotional state, defensive mask, and subtextual tension of every spoken line in the script.</p>",
+        unsafe_allow_html=True,
+    )
+
+    dialogue_beats = [
+        {
+            "speaker": "Zahra",
+            "line": "Did Ilhama ever love me?",
+            "emotion": "Varidati Boşluq / Lacanian Lack",
+            "defense": "Direct Inquiry (Unprotected)",
+            "tension": 65,
+            "type": "warning"
+        },
+        {
+            "speaker": "Parvaz",
+            "line": "Why are you asking?",
+            "emotion": "Müdafiə Refleksi / Qarşı-Sual",
+            "defense": "Defensive Evasion (Bad Faith)",
+            "tension": 72,
+            "type": "warning"
+        },
+        {
+            "speaker": "Zahra",
+            "line": "Because I don't remember her voice, father. I don't even remember her face.",
+            "emotion": "Travmatik Unutqanlıq / Existential Dread",
+            "defense": "Vulnerability Exposure",
+            "tension": 85,
+            "type": "warning"
+        },
+        {
+            "speaker": "Parvaz",
+            "line": "She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.",
+            "emotion": "İnstitusional Sərtlik / Rol Qoruma",
+            "defense": "Sartrean Bad Faith (Duty Shield)",
+            "tension": 78,
+            "type": "lab"
+        },
+        {
+            "speaker": "Zahra",
+            "line": "That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.",
+            "emotion": "Açıq Etiraz / Qırıqlıq",
+            "defense": "Deconstruction of the Father's Shield",
+            "tension": 94,
+            "type": "warning"
+        },
+        {
+            "speaker": "Parvaz",
+            "line": "She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it.",
+            "emotion": "Total Soyuqluq / Ontological Paranoia",
+            "defense": "Absolute Systemic Closure",
+            "tension": 99,
+            "type": "warning"
+        }
+    ]
+
+    for i, beat in enumerate(dialogue_beats):
+        card_class = "warning-terminal" if beat['tension'] > 80 else "lab-card"
+        st.markdown(f"""
+            <div class='{card_class}'>
+                <b>Beat {i+1} — {beat['speaker']}</b><br>
+                <i style='color: #58a6ff; font-size: 15px;'>"{beat['line']}"</i><br><br>
+                ⚡ <b>Dominant Emotion:</b> {beat['emotion']}<br>
+                🛡️ <b>Defense Mechanism:</b> {beat['defense']}<br>
+                📊 <b>Subtext Tension Index:</b> {beat['tension']}%
+            </div>
+        """, unsafe_allow_html=True)
+
+# --- MODULE 4: DYNAMIC BRANCHING SIMULATION ---
 elif selected_module == "🔄 Dynamic Branching & Intervention Simulator":
     st.markdown("### 🔄 Custom Narrative Branching & Simulation Engine")
     st.markdown(
@@ -373,88 +449,4 @@ elif selected_module == "🔄 Dynamic Branching & Intervention Simulator":
         length_factor = len(custom_intervention)
         calculated_tension = min(99, max(30, (length_factor * 3) % 95))
 
-        if calculated_tension > 70:
-            st.markdown(
-                f"<div class='warning-terminal'>🔴 <b>HIGH TENSION VECTOR ({calculated_tension}%):</b> The intervention shatters the existing linguistic contract. System enters extreme paranoia mode.</div>",
-                unsafe_allow_html=True,
-            )
-        elif calculated_tension > 45:
-            st.markdown(
-                f"<div class='lab-card'>🟣 <b>MODERATE FRICTION VECTOR ({calculated_tension}%):</b> The system absorbs the statement; structural walls remain intact but fluctuate.</div>",
-                unsafe_allow_html=True,
-            )
-        else:
-            st.markdown(
-                f"<div class='terminal-box'>🟢 <b>STABILIZING VECTOR ({calculated_tension}%):</b> Smooth communicative flow. Symbolic barrier diminishes significantly.</div>",
-                unsafe_allow_html=True,
-            )
-
-# --- MODULE 4: SIMULATOR ---
-elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
-    st.markdown("### 🧠 Multi-Factorial Neural Simulator")
-    col1, col2 = st.columns(2)
-    with col1:
-        e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
-    with col2:
-        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
-        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
-
-    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
-    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
-
-# --- MODULE 5: SUBTEXT MATRIX ---
-elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
-    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
-    c1, c2, c3 = st.columns(3)
-    c1.markdown(
-        """
-        <div class='lab-card'>
-            <b>1. Sartrean Bad Faith</b><br>88%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    c2.markdown(
-        """
-        <div class='lab-card'>
-            <b>2. Lacanian Lack</b><br>92%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    c3.markdown(
-        """
-        <div class='lab-card'>
-            <b>3. Foucault Panopticism</b><br>76%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-# --- MODULE 6: ARTIFACT ---
-elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
-    st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
-    st.text_area(
-        "Corpus Data Stream (Read-Only)",
-        (
-            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
-            "Zahra: - Did Ilhama ever love me?\n"
-            "Parvaz: - Why are you asking?\n"
-            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
-            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
-            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
-            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
-        ),
-        height=220,
-    )
-
-# FOOTER
-st.markdown("---")
-st.markdown(
-    "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
-    unsafe_allow_html=True,
-)
+        if calculated_tension
