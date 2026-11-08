@@ -14,14 +14,11 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Ümumi Arxa Fon */
     .stApp {
         background-color: #0b0f19 !important;
         color: #f1f5f9 !important;
         font-family: 'Courier New', Courier, monospace !important;
     }
-    
-    /* Sol Panel (Sidebar) */
     [data-testid="stSidebar"] {
         background-color: #111827 !important;
         border-right: 1px solid #1f2937 !important;
@@ -29,14 +26,10 @@ st.markdown(
     [data-testid="stSidebar"] * {
         color: #e2e8f0 !important;
     }
-    
-    /* Başlıqlar */
     h1, h2, h3, h4, h5, h6, label {
         color: #ffffff !important;
         font-family: 'Courier New', Courier, monospace !important;
     }
-    
-    /* TEXTAREA & Chat Input */
     .stTextArea textarea {
         background-color: #1e293b !important;
         color: #38bdf8 !important;
@@ -49,8 +42,6 @@ st.markdown(
         border-color: #38bdf8 !important;
         box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
     }
-    
-    /* Düymələr */
     .stButton button {
         background-color: #0284c7 !important;
         color: #ffffff !important;
@@ -64,8 +55,6 @@ st.markdown(
         background-color: #38bdf8 !important;
         color: #0f172a !important;
     }
-    
-    /* Kartlar, Kontekst və Panellər */
     .lab-card {
         background-color: #1e293b;
         border: 1px solid #334155;
@@ -105,8 +94,6 @@ st.markdown(
         border-radius: 6px;
         margin-top: 15px;
     }
-    
-    /* Metrik Rəqəmləri */
     [data-testid="stMetricValue"] {
         color: #38bdf8 !important;
         font-size: 32px !important;
@@ -282,78 +269,4 @@ elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
         )
 
 # --- MODULE 3: AI INTERROGATOR (CHATBOT) ---
-elif selected_module == "🧠 Dialogue with the Void (AI Interrogator)":
-    st.markdown("### 💬 Ontological Chatbot & Narrative Interrogator")
-    st.markdown(
-        "<p style='color: #94a3b8;'>Engage in a psychoanalytic dialogue with the computational engine. The AI embodies the structural silence of the house and responds through Lacanian/Sartrean subtext.</p>",
-        unsafe_allow_html=True,
-    )
-
-    if "messages" not in st.session_state:
-        st.session_state.messages = [
-            {
-                "role": "assistant",
-                "content": "I am the voice of the kitchen vault. You entered this space seeking answers about Ilhama and Parvaz. What is your question, or are you merely hiding behind words like they do?",
-            }
-        ]
-
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
-    if user_prompt := st.chat_input("Ask the engine or challenge the characters..."):
-        st.session_state.messages.append({"role": "user", "content": user_prompt})
-        with st.chat_message("user"):
-            st.markdown(user_prompt)
-
-        with st.chat_message("assistant"):
-            with st.spinner("Decoding structural silence..."):
-                time.sleep(0.8)
-                lower_prompt = user_prompt.lower()
-                if "why" in lower_prompt or "how" in lower_prompt:
-                    bot_reply = (
-                        f"You ask '{user_prompt}', searching for a causal chain where there is only a structural void. "
-                        "Parvaz does not answer because an answer acknowledges the door was opened. "
-                        "What responsibility are you trying to escape by asking this?"
-                    )
-                elif "love" in lower_prompt or "sevgi" in lower_prompt:
-                    bot_reply = (
-                        "Love in this architecture is a regulated currency. 'A person loves their own blood'—a sentence used as armor against the abyss of absence. "
-                        "Does love require a witness, or does it survive only in silence?"
-                    )
-                else:
-                    bot_reply = (
-                        f"Your words ('{user_prompt}') ripple against the marble walls of the kitchen, but they touch no core. "
-                        "The absence of Ilhama remains absolute. Deconstruct your premise: why do you assume speech brings clarity?"
-                    )
-                st.markdown(bot_reply)
-        st.session_state.messages.append({"role": "assistant", "content": bot_reply})
-
-# --- MODULE 4: SIMULATOR ---
-elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
-    st.markdown("### 🧠 Multi-Factorial Neural Simulator")
-    col1, col2 = st.columns(2)
-    with col1:
-        e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
-    with col2:
-        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
-        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
-
-    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
-    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
-
-# --- MODULE 5: SUBTEXT MATRIX ---
-elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
-    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
-    c1, c2, c3 = st.columns(3)
-    c1.markdown(
-        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p></div>",
-        unsafe_allow_html=True,
-    )
-    c2.markdown(
-        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p></div>",
-        unsafe_allow_html=True,
-    )
-    c3.markdown(
-        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%<br><p style='
+elif selected_module == "🧠 Dialogue with
