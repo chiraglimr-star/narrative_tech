@@ -260,5 +260,4 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
 
         x_nodes = [f"Node {i+1}" for i in range(len(lines))]
         y_values = [
-            min(95, max(20, (i + 1) * 25 + (len(l) % 15)))
-            for i, l in enumerate
+            min(95, max(20, (i
