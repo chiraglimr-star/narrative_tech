@@ -112,7 +112,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.4</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.5</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -237,94 +237,4 @@ elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
         res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
         res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
 
-        st.markdown("### 📈 Real-Time Plotly Paranoia & Sentiment Vector")
-        st.markdown(
-            "<p style='font-size: 12px; color: #8b949e;'>Tracking psychological tension spikes across dialogue sequence nodes:</p>",
-            unsafe_allow_html=True,
-        )
-
-        x_nodes = [f"Node {i+1}" for i in range(len(lines))]
-        y_values = [min(95, max(20, (i + 1) * 25 + (len(l) % 15))) for i, l in enumerate(lines)]
-
-        fig = go.Figure(
-            data=[
-                go.Scatter(
-                    x=x_nodes,
-                    y=y_values,
-                    mode="lines+markers",
-                    name="Paranoia Vector",
-                    line={"color": "#f0883e", "width": 3},
-                    marker={"size": 10, "color": "#58a6ff"}
-                )
-            ]
-        )
-        fig.update_layout(
-            paper_bgcolor="#07090e",
-            plot_bgcolor="#0d1117",
-            font={"color": "#f1f5f9", "family": "Courier New"},
-            margin={"l": 20, "r": 20, "t": 20, "b": 20},
-            height=280,
-            xaxis={"showgrid": True, "gridcolor": "#30363d"},
-            yaxis={"showgrid": True, "gridcolor": "#30363d", "range": [0, 100], "title": "Paranoia Intensity (%)"}
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
-        if computed_paranoia > 60:
-            st.markdown(
-                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA SPIKE ({computed_paranoia}%):</b> Linguistic evasion and defensive walls detected. Structural collapse imminent.</div>",
-                unsafe_allow_html=True,
-            )
-        else:
-            st.markdown(
-                f"<div class='terminal-box'>🟢 <b>NOMINAL DIALOGUE STATE ({computed_paranoia}%):</b> Communicative flow is stable, with controlled emotional subtext.</div>",
-                unsafe_allow_html=True,
-            )
-
-# --- MODULE 3: INTERACTIVE BRANCHING SIMULATION ---
-elif selected_module == "🔄 Interactive Branching Simulation":
-    st.markdown("### 🔄 Narrative Branching & Intervention Simulator")
-    st.markdown(
-        "<p style='color: #8b949e;'>Simulate how alternative intervention vectors alter the psychological trajectory of the kitchen confrontation scene.</p>",
-        unsafe_allow_html=True,
-    )
-
-    branch_choice = st.selectbox(
-        "Select Narrative Intervention Vector:",
-        [
-            "Parvaz's Defensive Retaliation (Maintain Silence)",
-            "Zahra's Ontological Breakthrough (Pierce the Wall)",
-            "Architectural Dissolution (Acknowledge Ilhama's Absence)",
-        ],
-    )
-
-    if st.button("Execute Branch Simulation"):
-        with st.spinner("Recalculating narrative physics and structural tension..."):
-            time.sleep(1)
-
-        if "Defensive" in branch_choice:
-            st.markdown(
-                "<div class='warning-terminal'>🔴 <b>BRANCH OUTCOME [Parvaz's Retreat]:</b> Paranoia Index surges to <b>91%</b>. Complete communicative shutdown. The symbolic wall hardens.</div>",
-                unsafe_allow_html=True,
-            )
-        elif "Breakthrough" in branch_choice:
-            st.markdown(
-                "<div class='terminal-box'>🟢 <b>BRANCH OUTCOME [Breakthrough]:</b> Silence Index drops to <b>18%</b>. The symbolic contract between father and daughter is renegotiated.</div>",
-                unsafe_allow_html=True,
-            )
-        else:
-            st.markdown(
-                "<div class='lab-card'>🟣 <b>BRANCH OUTCOME [Dissolution]:</b> System stabilizes at <b>45%</b>. The ghost of Ilhama is integrated into the domestic architecture. New narrative vector unlocked.</div>",
-                unsafe_allow_html=True,
-            )
-
-# --- MODULE 4: NEURAL-PSYCHOANALYTIC SIMULATOR ---
-elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
-    st.markdown("### 🧠 Multi-Factorial Neural Simulator")
-    st.markdown(
-        "<p style='color: #8b949e;'>Adjust the core psychological variables to calculate the real-time Paranoia Amplification Index.</p>",
-        unsafe_allow_html=True,
-    )
-    col1, col2 = st.columns(2)
-    with col1:
-        e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void (
+        st.markdown("### 📈 Real
