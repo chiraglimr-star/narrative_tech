@@ -3,7 +3,7 @@ import time
 import plotly.graph_objects as go
 import streamlit as st
 
-# Səhifə konfiqurasiyası
+# --- Səhifə konfiqurasiyası ---
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
     page_icon="👁️",
@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- ULTIMATE CINEMATIC DARK-NOIR & AMBER CSS ---
+# --- CINEMATIC DARK-NOIR & AMBER CSS ---
 st.markdown(
     """
     <style>
@@ -107,7 +107,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.0</p>",
+        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.1</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -222,26 +222,10 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
 
         word_count = len(user_input_scene.split())
         computed_silence = min(
-            95,
-            max(
-                20,
-                int(
-                    50
-                    + (user_input_scene.count("?") * 8)
-                    - (word_count * 0.1)
-                ),
-            ),
+            95, max(20, int(50 + (user_input_scene.count("?") * 8) - (word_count * 0.1)))
         )
         computed_paranoia = min(
-            98,
-            max(
-                15,
-                int(
-                    100
-                    - computed_silence
-                    + (user_input_scene.count("...") * 10)
-                ),
-            ),
+            98, max(15, int(100 - computed_silence + (user_input_scene.count("...") * 10)))
         )
 
         st.markdown("---")
@@ -258,12 +242,9 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
             unsafe_allow_html=True,
         )
 
-        x_nodes = []
-        y_values = []
-        for i, l in enumerate(lines):
-            x_nodes.append(f"Node {i+1}")
-            val = min(95, max(20, (i + 1) * 25 + (len(l) % 15)))
-            y_values.append(val)
+        # --- SADƏLƏŞDİRİLMİŞ PLOTLY QRAFİKİ ---
+        x_nodes = [f"Node {i + 1}" for i in range(len(lines))]
+        y_values = [min(95, max(20, (i + 1) * 25 + (len(l) % 15))) for i, l in enumerate(lines)]
 
         fig = go.Figure()
         fig.add_trace(
@@ -275,3 +256,145 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
                 line=dict(color="#f59e0b", width=3),
                 marker=dict(size=10, color="#38bdf8"),
             )
+        )
+
+        fig.update_layout(
+            paper_bgcolor="#0b0f19",
+            plot_bgcolor="#1e293b",
+            font=dict(color="#f1f5f9", family="Courier New"),
+            margin=dict(l=20, r=20, t=20, b=20),
+            height=280,
+            xaxis=dict(showgrid=True, gridcolor="#334155"),
+            yaxis=dict(
+                showgrid=True,
+                gridcolor="#334155",
+                range=[0, 100],
+                title="Paranoia Intensity (%)",
+            ),
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+        if computed_paranoia > 60:
+            st.markdown(
+                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA SPIKE ({computed_paranoia}%):</b> Linguistic evasion and defensive walls detected. Structural collapse imminent.</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                f"<div class='terminal-box'>🟢 <b>NOMINAL DIALOGUE STATE ({computed_paranoia}%):</b> Communicative flow is stable, with controlled emotional subtext.</div>",
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("---")
+        st.markdown("### 🔄 Interactive Branching Simulation")
+        st.markdown(
+            "<p style='font-size: 13px; color: #94a3b8;'>Select an alternative narrative intervention vector for this text:</p>",
+            unsafe_allow_html=True,
+        )
+
+        branch_choice = st.selectbox(
+            "Choose Next Action:",
+            [
+                "Atanın (Pərvazın) yerinə sərt cavab yaz",
+                "Sükutu poz və birbaşa həqiqəti soruş",
+                "Mərmər divar metaforasını dekonstruksiya et",
+            ],
+        )
+
+        if st.button("Execute Branch Simulation"):
+            with st.spinner("Processing narrative trajectory shift..."):
+                time.sleep(0.8)
+            if "Atanın" in branch_choice:
+                st.markdown(
+                    "<div class='warning-terminal'>🔴 <b>BRANCH OUTCOME [Pərvaz's Defensive Retaliation]:</b> Paranoia Index surges to <b>91%</b>. Complete communicative shutdown.</div>",
+                    unsafe_allow_html=True,
+                )
+            elif "Sükutu poz" in branch_choice:
+                st.markdown(
+                    "<div class='terminal-box'>🟢 <b>BRANCH OUTCOME [Ontological Breakthrough]:</b> Silence Index drops to <b>18%</b>. Symbolic contract renegotiated.</div>",
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.markdown(
+                    "<div class='lab-card'>🟣 <b>BRANCH OUTCOME [Architectural Dissolution]:</b> System stabilizes at <b>45%</b>. New narrative vector unlocked.</div>",
+                    unsafe_allow_html=True,
+                )
+
+# --- MODULE 3: NEURAL-PSYCHOANALYTIC SIMULATOR ---
+elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
+    st.markdown("### 🧠 Multi-Factorial Neural & Psychological Simulator")
+    st.markdown(
+        "<p style='color: #94a3b8;'>Adjust the parameters below to simulate shifts in domestic paranoia and existential alienation.</p>",
+        unsafe_allow_html=True,
+    )
+
+    col1, col2 = st.columns(2)
+    with col1:
+        e_dread = st.slider("Existential Dread", 0, 100, 65)
+        l_void = st.slider("Lacanian Void (İlhəmə's Absence)", 0, 100, 70)
+    with col2:
+        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
+        i_trauma = st.slider("Inherited Trauma (Pərvaz factor)", 0, 100, 60)
+
+    p_score = int((e_dread * 0.25) + (l_void * 0.25) + (l_supp * 0.3) + (i_trauma * 0.2))
+    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
+
+    if p_score > 65:
+        st.markdown(
+            "<div class='warning-terminal'>⚠️ Critical psychological friction detected across simulated parameters.</div>",
+            unsafe_allow_html=True,
+        )
+    else:
+        st.markdown(
+            "<div class='terminal-box'>🟢 Simulated psychological state is within nominal domestic tolerances.</div>",
+            unsafe_allow_html=True,
+        )
+
+# --- MODULE 4: SUBTEXT MATRIX ---
+elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
+    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Decomposition")
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(
+        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br><span style='color:#f59e0b;'>88%</span><br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Pərvaz hiding behind institutionalized duty.</p></div>",
+        unsafe_allow_html=True,
+    )
+    c2.markdown(
+        "<div class='lab-card'><b>2. Lacanian Lack</b><br><span style='color:#f59e0b;'>92%</span><br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zəhra's symbolic void regarding her mother İlhəmə.</p></div>",
+        unsafe_allow_html=True,
+    )
+    c3.markdown(
+        "<div class='lab-card'><b>3. Foucault Panopticism</b><br><span style='color:#f59e0b;'>76%</span><br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p></div>",
+        unsafe_allow_html=True,
+    )
+
+# --- MODULE 5: CORE ARTIFACT ---
+elif selected_module == "📜 Core Artifact: 'İlhəmə və Pərvaz'":
+    st.markdown("### 📜 Primary Textual Artifact: The Kitchen Confrontation")
+    st.markdown(
+        "<p style='color: #94a3b8;'>The foundational dialogue between Zəhra and her father Pərvaz.</p>",
+        unsafe_allow_html=True,
+    )
+
+    script_text = (
+        "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
+        "Zəhra: - Did İlhəmə ever love me?\n"
+        "Pərvaz: - Why are you asking?\n"
+        "Zəhra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+        "Pərvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zəhra.\n"
+        "Zəhra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+        "Pərvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+    )
+
+    st.text_area("Corpus Data Stream (Read-Only)", script_text, height=220)
+    st.markdown(
+        "<div class='terminal-box'>🏛️ <b>Note:</b> Pərvaz's transition to universal fatalism marks a 78% spike in communicative withdrawal.</div>",
+        unsafe_allow_html=True,
+    )
+
+# --- FOOTER ---
+st.markdown("---")
+st.markdown(
+    "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // CRAFTED FOR MIT MEDIA LAB PORTFOLIO EXCELLENCE</p>",
+    unsafe_allow_html=True,
+)
