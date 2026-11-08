@@ -10,76 +10,100 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- ULTIMATE CINEMATIC DARK-NOIR & AMBER CSS ---
+# --- OVERRIDE STREAMLIT DEFAULT STYLES WITH HIGH-CONTRAST DARK CSS ---
 st.markdown(
     """
     <style>
+    /* Ümumi Arxa Fon */
     .stApp {
-        background-color: #000000;
-        color: #e2e8f0;
-        font-family: 'Courier New', Courier, monospace;
+        background-color: #0b0f19 !important;
+        color: #f1f5f9 !important;
+        font-family: 'Courier New', Courier, monospace !important;
     }
+    
+    /* Sol Panel (Sidebar) */
     [data-testid="stSidebar"] {
-        background-color: #08080a;
-        border-right: 1px solid #1c1c24;
+        background-color: #111827 !important;
+        border-right: 1px solid #1f2937 !important;
     }
-    h1, h2, h3, h4 {
-        color: #f3f4f6 !important;
-        font-family: 'Courier New', Courier, monospace;
-        letter-spacing: -0.5px;
+    [data-testid="stSidebar"] * {
+        color: #e2e8f0 !important;
     }
+    
+    /* Başlıqlar */
+    h1, h2, h3, h4, h5, h6, label {
+        color: #ffffff !important;
+        font-family: 'Courier New', Courier, monospace !important;
+    }
+    
+    /* TEXTAREA (Mətn daxiletmə qutusu) - TAM DÜZƏLİŞ */
+    .stTextArea textarea {
+        background-color: #1e293b !important;
+        color: #38bdf8 !important;
+        font-size: 15px !important;
+        font-weight: bold !important;
+        border: 1px solid #334155 !important;
+        border-radius: 6px !important;
+    }
+    .stTextArea textarea:focus {
+        border-color: #38bdf8 !important;
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.3) !important;
+    }
+    
+    /* Düymələr */
+    .stButton button {
+        background-color: #0284c7 !important;
+        color: #ffffff !important;
+        font-weight: bold !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 10px 24px !important;
+        transition: 0.3s !important;
+    }
+    .stButton button:hover {
+        background-color: #38bdf8 !important;
+        color: #0f172a !important;
+    }
+    
+    /* Kartlar və Panellər */
     .lab-card {
-        background-color: #0a0a0e;
-        border: 1px solid #22222e;
-        border-left: 4px solid #f59e0b;
-        padding: 22px;
+        background-color: #1e293b;
+        border: 1px solid #334155;
+        border-left: 4px solid #38bdf8;
+        padding: 20px;
         border-radius: 6px;
         margin-bottom: 15px;
     }
     .terminal-box {
-        background-color: #050508;
-        border: 1px solid #22222e;
-        border-left: 4px solid #10b981;
+        background-color: #022c22;
+        border: 1px solid #065f46;
+        border-left: 4px solid #34d399;
         padding: 18px;
-        color: #34d399;
-        font-size: 13px;
-        border-radius: 4px;
-        font-family: 'Courier New', Courier, monospace;
+        color: #6ee7b7;
+        font-size: 14px;
+        border-radius: 6px;
+        margin-top: 15px;
     }
     .warning-terminal {
-        background-color: #140305;
-        border: 1px solid #501015;
-        border-left: 4px solid #ef4444;
+        background-color: #450a0a;
+        border: 1px solid #991b1b;
+        border-left: 4px solid #f87171;
         padding: 18px;
         color: #fca5a5;
-        font-size: 13px;
-        border-radius: 4px;
-        font-family: 'Courier New', Courier, monospace;
+        font-size: 14px;
+        border-radius: 6px;
+        margin-top: 15px;
     }
+    
+    /* Metrik Rəqəmləri */
     [data-testid="stMetricValue"] {
-        color: #f59e0b !important;
-        font-size: 28px !important;
-        font-weight: bold;
+        color: #38bdf8 !important;
+        font-size: 32px !important;
+        font-weight: bold !important;
     }
     [data-testid="stMetricLabel"] {
-        color: #9ca3af !important;
-        font-size: 13px !important;
-    }
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 12px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        background-color: #0a0a0e;
-        border-radius: 6px;
-        color: #9ca3af;
-        padding: 10px 20px;
-        font-family: 'Courier New', Courier, monospace;
-        border: 1px solid #22222e;
-    }
-    .stTabs [aria-selected="true"] {
-        background-color: #16161f !important;
-        color: #f59e0b !important;
-        border: 1px solid #f59e0b !important;
+        color: #94a3b8 !important;
+        font-size: 14px !important;
     }
     </style>
 """,
@@ -90,7 +114,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #9ca3af;'>Computational Dramaturgy & AI Lab v4.1</p>",
+        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v4.2</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -118,7 +142,7 @@ if selected_module == "🏛️ Executive Manifesto":
         unsafe_allow_html=True,
     )
     st.markdown(
-        "<p style='color: #f59e0b; font-size: 15px;'>An Experimental Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>",
+        "<p style='color: #38bdf8; font-size: 15px;'>An Experimental Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -129,8 +153,8 @@ if selected_module == "🏛️ Executive Manifesto":
         st.markdown(
             """
         <div class='lab-card'>
-            <h3 style='color: #f59e0b; margin-top:0;'>🌌 The Core Thesis</h3>
-            <p style='color: #d1d5db; font-size: 13px; line-height: 1.6;'>
+            <h3 style='color: #38bdf8; margin-top:0;'>🌌 The Core Thesis</h3>
+            <p style='color: #e2e8f0; font-size: 14px; line-height: 1.6;'>
             Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault where generational trauma, institutional surveillance, and suppressed memory are stored.
             </p>
         </div>
@@ -142,8 +166,8 @@ if selected_module == "🏛️ Executive Manifesto":
         st.markdown(
             """
         <div class='lab-card'>
-            <h3 style='color: #f59e0b; margin-top:0;'>⚙️ Interactive Capabilities</h3>
-            <p style='color: #d1d5db; font-size: 13px; line-height: 1.6;'>
+            <h3 style='color: #38bdf8; margin-top:0;'>⚙️ Interactive Capabilities</h3>
+            <p style='color: #e2e8f0; font-size: 14px; line-height: 1.6;'>
             This system allows creators and researchers to input custom dialogue lines or adjust psychological friction variables in real time, calculating existential indices instantly.
             </p>
         </div>
@@ -162,7 +186,7 @@ if selected_module == "🏛️ Executive Manifesto":
 elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
     st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
     st.markdown(
-        "<p style='color: #9ca3af;'>Type or paste any dramatic dialogue, family confrontation, or script excerpt below. The AI engine will compute its underlying silence density, paranoia index, and psychoanalytic subtext in real time.</p>",
+        "<p style='color: #94a3b8;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
         unsafe_allow_html=True,
     )
 
@@ -174,18 +198,16 @@ elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
             "- Onda niyə danışmırsan?\n"
             "- Danışmaq təslim olmaqdır."
         ),
-        height=140,
+        height=150,
     )
 
-    col_btn1, col_btn2 = st.columns([1, 4])
-    with col_btn1:
-        analyze_clicked = st.button("⚡ Run AI Analysis")
+    analyze_clicked = st.button("⚡ Run AI Analysis")
 
     if analyze_clicked:
         with st.spinner(
             "Synthesizing linguistic pauses and psychological friction..."
         ):
-            time.sleep(1.2)
+            time.sleep(1)
 
         word_count = len(user_input_scene.split())
         computed_silence = min(
@@ -221,175 +243,67 @@ elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
 
         if computed_paranoia > 60:
             st.markdown(
-                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA & DEFENSIVE ANCHOR ({computed_paranoia}%):</b> The provided text exhibits strong linguistic evasion, closed loops, and deep psychological friction. Structural breakdown is active.</div>",
+                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA ({computed_paranoia}%):</b> High presence of defensive mechanisms, communicative walls, and structural paranoia.</div>",
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
-                f"<div class='terminal-box'>🟢 <b>NOMINAL DIALOGUE STATE ({computed_paranoia}%):</b> The text maintains standard communicative flow, though underlying emotional containment is visible.</div>",
+                f"<div class='terminal-box'>🟢 <b>NOMINAL STATE ({computed_paranoia}%):</b> Dialogue breakdown risk is low.</div>",
                 unsafe_allow_html=True,
             )
 
-        st.markdown("#### 🧬 AI Psychoanalytic Breakdown of Your Text:")
-        st.markdown(
-            f"""
-        - **Syntactic Friction:** Detected {user_input_scene.count('.')} structural pauses and {user_input_scene.count('?')} interrogative tension triggers.
-        - **Lacanian Subtext:** The dialogue relies on an unspoken symbolic contract where withholding information functions as self-preservation.
-        - **Architectural Weight:** The text reflects an internal confinement space similar to institutional domestic barriers.
-        """
+        st.markdown("#### 🧬 AI Breakdown:")
+        st.write(
+            f"- **Pauses/Questions:** {user_input_scene.count('.')} pauses,"
+            f" {user_input_scene.count('?')} questions."
+        )
+        st.write(
+            "- **Subtext:** Unspoken truths acting as psychological barrier."
         )
 
-# --- MODULE 3: NEURAL-PSYCHOANALYTIC SIMULATOR ---
+# --- MODULE 3: SIMULATOR ---
 elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
-    st.markdown("### 🧠 Multi-Factorial Neural & Psychological Simulator")
-    st.markdown(
-        "<p style='color: #9ca3af;'>Adjust the parameters below to dynamically simulate shifts in domestic paranoia and existential alienation.</p>",
-        unsafe_allow_html=True,
-    )
-
+    st.markdown("### 🧠 Multi-Factorial Simulator")
     col1, col2 = st.columns(2)
-
     with col1:
-        existential_dread = st.slider(
-            "Existential Dread / Void Level (Ekzistensial Boşluq)",
-            0,
-            100,
-            65,
-        )
-        lacanian_void = st.slider(
-            "The Big Other Absence (Büyük Öykünün Yoxluğu)", 0, 100, 70
-        )
-        domestic_surveillance = st.slider(
-            "Implicit Structural Surveillance (Qapalı Nəzarət)", 0, 100, 50
-        )
-
+        e_dread = st.slider("Existential Dread", 0, 100, 65)
+        l_void = st.slider("Lacanian Void", 0, 100, 70)
     with col2:
-        linguistic_suppression = st.slider(
-            "Linguistic Suppression (Dehidrasiya olunmuş Sözlər)",
-            0,
-            100,
-            80,
-        )
-        inherited_trauma = st.slider(
-            "Transgenerational Trauma Coefficient (Nəsillərarası Travma)",
-            0,
-            100,
-            60,
-        )
+        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
+        i_trauma = st.slider("Inherited Trauma", 0, 100, 60)
 
-    calculated_paranoia = int(
-        (existential_dread * 0.2)
-        + (lacanian_void * 0.25)
-        + (domestic_surveillance * 0.15)
-        + (linguistic_suppression * 0.25)
-        + (inherited_trauma * 0.15)
-    )
-    calculated_silence = int(100 - (calculated_paranoia * 0.45))
-    alienation_score = int((calculated_paranoia + calculated_silence) / 2)
-
-    st.markdown("---")
-    st.markdown("### 📈 Real-Time Simulation Metrics")
-
-    m1, m2, m3 = st.columns(3)
-    m1.metric(label="Computed Silence Density", value=f"{calculated_silence}%")
-    m2.metric(label="Paranoia Amplification", value=f"{calculated_paranoia}%")
-    m3.metric(
-        label="Alienation Quotient", value=f"{alienation_score} / 100"
-    )
-
-    if calculated_paranoia > 65:
-        st.markdown(
-            f"<div class='warning-terminal'>⚠️ <b>CRITICAL THRESHOLD ({calculated_paranoia}%):</b> Linguistic defenses have saturated the cognitive space. Total conversational alienation is underway.</div>",
-            unsafe_allow_html=True,
-        )
-    else:
-        st.markdown(
-            "<div class='terminal-box'>🟢 <b>EQUILIBRIUM STATE:</b> Structural silence is maintained within tolerable human limits.</div>",
-            unsafe_allow_html=True,
-        )
+    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
+    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
 
 # --- MODULE 4: SUBTEXT MATRIX ---
 elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
-    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Decomposition")
-    st.markdown(
-        "<p style='color: #9ca3af;'>Granular breakdown of linguistic defense mechanisms through existential and psychoanalytic frameworks.</p>",
+    st.markdown("### ⚛️ Subtext Matrix")
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(
+        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%</div>",
+        unsafe_allow_html=True,
+    )
+    c2.markdown(
+        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%</div>",
+        unsafe_allow_html=True,
+    )
+    c3.markdown(
+        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%</div>",
         unsafe_allow_html=True,
     )
 
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.markdown(
-            """
-        <div class='lab-card'>
-            <h4 style='color: #f59e0b; margin-top:0;'>1. Sartrean 'Bad Faith'</h4>
-            <p style='font-size: 12px; color: #d1d5db;'>
-            <b>Intensity: 88%</b><br>
-            Evading radical freedom by hiding behind institutionalized duty and predetermined domestic roles.
-            </p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-    with col2:
-        st.markdown(
-            """
-        <div class='lab-card'>
-            <h4 style='color: #f59e0b; margin-top:0;'>2. Lacanian Lack</h4>
-            <p style='font-size: 12px; color: #d1d5db;'>
-            <b>Intensity: 92%</b><br>
-            The symbolic void where memory is erased and replaced by structural silence.
-            </p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-    with col3:
-        st.markdown(
-            """
-        <div class='lab-card'>
-            <h4 style='color: #f59e0b; margin-top:0;'>3. Foucaultian Panopticism</h4>
-            <p style='font-size: 12px; color: #d1d5db;'>
-            <b>Intensity: 76%</b><br>
-            The household operating as an internal prison where inhabitants police their own unsaid words.
-            </p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-# --- MODULE 5: CORE ARTIFACT ---
+# --- MODULE 5: ARTIFACT ---
 elif selected_module == "📜 Core Artifact: 'İlhəmə və Pərvaz'":
-    st.markdown("### 📜 Primary Textual Artifact: The Kitchen Silence")
-    st.markdown(
-        "<p style='color: #9ca3af;'>The foundational narrative matrix mapping the confrontation between Zehra and Parviz.</p>",
-        unsafe_allow_html=True,
+    st.markdown("### 📜 Core Artifact")
+    st.text_area(
+        "Corpus",
+        "Zehra: Did İlhəmə ever love me?\nParviz: She was your mother...",
+        height=150,
     )
 
-    script_text = """
-    [ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]
-    
-    Zehra: - Did İlhəmə ever love me?
-    Parviz: - Why are you asking?
-    Zehra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.
-    Parviz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zehra.
-    Zehra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.
-    Parviz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it.
-    
-    [END OF CORPUS STREAM]
-    """
-    st.text_area("Corpus Data Stream", script_text, height=220)
-
-    st.markdown(
-        "<div class='terminal-box'>🏛️ <b>Philosophical Note:</b> Parviz's shift from personal defense to universal fatalism represents the collapse of individual responsibility into an inherited architectural doom.</div>",
-        unsafe_allow_html=True,
-    )
-
-# --- FOOTER ---
+# FOOTER
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: #4b5563; font-size: 11px;'>ONTOLOGICAL SILENCE & PARANOIA ENGINE // CRAFTED FOR MIT MEDIA Lab PORTFOLIO EXCELLENCE</p>",
+    "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
     unsafe_allow_html=True,
 )
