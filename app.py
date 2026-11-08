@@ -109,7 +109,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v9.1</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v9.0</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -124,14 +124,6 @@ with st.sidebar:
             "⚛️ Lacanian & Sartrean Subtext Matrix",
             "📜 Core Artifact: 'Ilhama & Parvaz'",
         ],
-    )
-
-    st.markdown("---")
-    st.markdown("🎵 **Noir Atmosphere Audio**")
-    # Təhlükəsiz və işlək ambient audio treki
-    st.audio(
-        "https://upload.wikimedia.org/wikipedia/commons/e/e5/Rain_in_Field_and_Thunder.ogg",
-        format="audio/ogg",
     )
 
     st.markdown("---")
@@ -194,3 +186,204 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     m1.metric(label="Deconstructed Vectors", value="3,120")
     m2.metric(label="Base Silence Index", value="44.2%")
     m3.metric(label="Paranoia Coefficient", value="71.5%")
+    m4.metric(label="AI Engine Status", value="ACTIVE")
+
+# --- MODULE 2: CUSTOM AI SCENE ANALYZER ---
+elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
+    st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
+    st.markdown(
+        "<p style='color: #8b949e;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
+        unsafe_allow_html=True,
+    )
+
+    user_input_scene = st.text_area(
+        "Enter Dialogue Corpus for Real-Time Analysis:",
+        value=(
+            "- Why does your voice tremble every time this door opens?\n"
+            "- Because certain truths cannot fit inside this room.\n"
+            "- Then why remain silent?\n"
+            "- To speak is to surrender."
+        ),
+        height=150,
+    )
+
+    analyze_clicked = st.button("⚡ Run AI Analysis")
+
+    if analyze_clicked:
+        with st.spinner("Synthesizing linguistic pauses and psychological friction..."):
+            time.sleep(1)
+
+        word_count = len(user_input_scene.split())
+        computed_silence = min(
+            95,
+            max(
+                20,
+                int(
+                    50
+                    + (user_input_scene.count("?") * 8)
+                    - (word_count * 0.1)
+                ),
+            ),
+        )
+        computed_paranoia = min(
+            98,
+            max(
+                15,
+                int(
+                    100
+                    - computed_silence
+                    + (user_input_scene.count("...") * 10)
+                ),
+            ),
+        )
+
+        st.markdown("---")
+        st.markdown("### 🔬 Computational Output & Diagnostics")
+
+        res1, res2, res3 = st.columns(3)
+        res1.metric(label="Analyzed Word Count", value=word_count)
+        res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
+        res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
+
+        if computed_paranoia > 60:
+            st.markdown(
+                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA ({computed_paranoia}%):</b> High presence of defensive mechanisms, communicative walls, and structural paranoia.</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                f"<div class='terminal-box'>🟢 <b>NOMINAL STATE ({computed_paranoia}%):</b> Dialogue breakdown risk is low.</div>",
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("#### 🧬 AI Breakdown:")
+        st.write(
+            f"- **Pauses/Questions:** {user_input_scene.count('.')} pauses,"
+            f" {user_input_scene.count('?')} questions."
+        )
+        st.write(
+            "- **Subtext:** Unspoken truths acting as psychological barriers."
+        )
+
+        # --- EXPORT DOSSIER FEATURE ---
+        st.markdown("---")
+        dossier_data = {
+            "timestamp": str(datetime.datetime.now()),
+            "corpus": user_input_scene,
+            "word_count": word_count,
+            "silence_index": computed_silence,
+            "paranoia_coefficient": computed_paranoia,
+        }
+        st.download_button(
+            label="📥 Export Research Dossier (JSON)",
+            data=json.dumps(dossier_data, indent=4),
+            file_name="ontological_silence_dossier.json",
+            mime="application/json",
+        )
+
+# --- MODULE 3: INTERACTIVE BRANCHING SIMULATION ---
+elif selected_module == "🔄 Interactive Branching Simulation":
+    st.markdown("### 🔄 Narrative Branching & Intervention Simulator")
+    st.markdown(
+        "<p style='color: #8b949e;'>Simulate how alternative intervention vectors alter the psychological trajectory of the kitchen confrontation scene.</p>",
+        unsafe_allow_html=True,
+    )
+
+    branch_choice = st.selectbox(
+        "Select Narrative Intervention Vector:",
+        [
+            "Parvaz's Defensive Retaliation (Maintain Silence)",
+            "Zahra's Ontological Breakthrough (Pierce the Wall)",
+            "Architectural Dissolution (Acknowledge Ilhama's Absence)",
+        ],
+    )
+
+    if st.button("Execute Branch Simulation"):
+        with st.spinner("Recalculating narrative physics and structural tension..."):
+            time.sleep(1)
+
+        if "Defensive" in branch_choice:
+            st.markdown(
+                "<div class='warning-terminal'>🔴 <b>BRANCH OUTCOME [Parvaz's Retreat]:</b> Paranoia Index surges to <b>91%</b>. Complete communicative shutdown. The symbolic wall hardens.</div>",
+                unsafe_allow_html=True,
+            )
+        elif "Breakthrough" in branch_choice:
+            st.markdown(
+                "<div class='terminal-box'>🟢 <b>BRANCH OUTCOME [Breakthrough]:</b> Silence Index drops to <b>18%</b>. The symbolic contract between father and daughter is renegotiated.</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                "<div class='lab-card'>🟣 <b>BRANCH OUTCOME [Dissolution]:</b> System stabilizes at <b>45%</b>. The ghost of Ilhama is integrated into the domestic architecture. New narrative vector unlocked.</div>",
+                unsafe_allow_html=True,
+            )
+
+# --- MODULE 4: SIMULATOR ---
+elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
+    st.markdown("### 🧠 Multi-Factorial Neural Simulator")
+    col1, col2 = st.columns(2)
+    with col1:
+        e_dread = st.slider("Existential Dread", 0, 100, 65)
+        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
+    with col2:
+        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
+        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
+
+    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
+    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
+
+# --- MODULE 5: SUBTEXT MATRIX ---
+elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
+    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(
+        """
+        <div class='lab-card'>
+            <b>1. Sartrean Bad Faith</b><br>88%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    c2.markdown(
+        """
+        <div class='lab-card'>
+            <b>2. Lacanian Lack</b><br>92%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    c3.markdown(
+        """
+        <div class='lab-card'>
+            <b>3. Foucault Panopticism</b><br>76%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# --- MODULE 6: ARTIFACT ---
+elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
+    st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
+    st.text_area(
+        "Corpus Data Stream (Read-Only)",
+        (
+            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
+            "Zahra: - Did Ilhama ever love me?\n"
+            "Parvaz: - Why are you asking?\n"
+            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
+            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+        ),
+        height=220,
+    )
+
+# FOOTER
+st.markdown("---")
+st.markdown(
+    "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
+    unsafe_allow_html=True,
+)
