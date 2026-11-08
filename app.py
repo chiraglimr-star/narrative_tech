@@ -520,5 +520,4 @@ elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
 st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
-    unsafe_allow_html=True,
-)
+    unsafe_allow_
