@@ -14,61 +14,48 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Dərin qara noür arxa fon */
     .stApp {
         background-color: #000000;
         color: #e2e8f0;
         font-family: 'Courier New', Courier, monospace;
     }
-    
-    /* Yan panel - zərif qrafit */
     [data-testid="stSidebar"] {
         background-color: #08080a;
         border-right: 1px solid #1c1c24;
     }
-    
-    /* Başlıqlar - təmiz ağ və kəhrəba işığı */
     h1, h2, h3, h4 {
         color: #f3f4f6 !important;
         font-family: 'Courier New', Courier, monospace;
         letter-spacing: -0.5px;
     }
-    
-    /* Əsas Kartlar (Laboratoriya panelləri) */
     .lab-card {
         background-color: #0a0a0e;
         border: 1px solid #22222e;
-        border-left: 4px solid #f59e0b; /* Kəhrəba / Amber vurğu */
+        border-left: 4px solid #f59e0b;
         padding: 22px;
         border-radius: 6px;
         margin-bottom: 15px;
     }
-    
-    /* Terminal qutuları */
     .terminal-box {
         background-color: #050508;
         border: 1px solid #22222e;
-        border-left: 4px solid #10b981; /* Yaşıl terminal işığı */
+        border-left: 4px solid #10b981;
         padding: 18px;
         color: #34d399;
         font-size: 13px;
         border-radius: 4px;
         font-family: 'Courier New', Courier, monospace;
     }
-    
-    /* Xəbərdarlıq qutuları (Qan-qırmızı triller stili) */
     .warning-terminal {
         background-color: #140305;
         border: 1px solid #501015;
-        border-left: 4px solid #ef4444; /* Dərin qırmızı */
+        border-left: 4px solid #ef4444;
         padding: 18px;
         color: #fca5a5;
         font-size: 13px;
         border-radius: 4px;
         font-family: 'Courier New', Courier, monospace;
     }
-    
-    /* Metrik rəqəmləri - Parlaq kəhrəba */
     [data-testid="stMetricValue"] {
         color: #f59e0b !important;
         font-size: 28px !important;
@@ -78,8 +65,6 @@ st.markdown(
         color: #9ca3af !important;
         font-size: 13px !important;
     }
-    
-    /* Tabların stili */
     .stTabs [data-baseweb="tab-list"] {
         gap: 12px;
     }
@@ -184,9 +169,10 @@ elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
     user_input_scene = st.text_area(
         "Enter Dialogue Corpus for Real-Time Analysis:",
         value=(
-            "- Niyə hər dəfə bu qapı açılanda səsin titrəyir?\n- Çünki bəzi"
-            " həqiqətlər otağa sığmır.\n- Onda niyə danışmırsan?\n- Danışmaq"
-            " təslim olmaqdır."
+            "- Niyə hər dəfə bu qapı açılanda səsin titrəyir?\n"
+            "- Çünki bəzi həqiqətlər otağa sığmır.\n"
+            "- Onda niyə danışmırsan?\n"
+            "- Danışmaq təslim olmaqdır."
         ),
         height=140,
     )
@@ -203,10 +189,26 @@ elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
 
         word_count = len(user_input_scene.split())
         computed_silence = min(
-            95, max(20, int(50 + (user_input_scene.count("?") * 8) - (word_count * 0.1)))
+            95,
+            max(
+                20,
+                int(
+                    50
+                    + (user_input_scene.count("?") * 8)
+                    - (word_count * 0.1)
+                ),
+            ),
         )
         computed_paranoia = min(
-            98, max(15, int(100 - computed_silence + (user_input_scene.count("...") * 10)))
+            98,
+            max(
+                15,
+                int(
+                    100
+                    - computed_silence
+                    + (user_input_scene.count("...") * 10)
+                ),
+            ),
         )
 
         st.markdown("---")
@@ -390,5 +392,4 @@ st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: #4b5563; font-size: 11px;'>ONTOLOGICAL SILENCE & PARANOIA ENGINE // CRAFTED FOR MIT MEDIA Lab PORTFOLIO EXCELLENCE</p>",
     unsafe_allow_html=True,
-)
 )
