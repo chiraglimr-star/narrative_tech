@@ -29,7 +29,7 @@ st.markdown(
         color: #ffffff !important;
         font-family: 'Courier New', Courier, monospace !important;
     }
-    .stTextArea textarea {
+    .stTextArea textarea, .stTextInput input {
         background-color: #0d1117 !important;
         color: #58a6ff !important;
         font-size: 15px !important;
@@ -37,7 +37,7 @@ st.markdown(
         border: 1px solid #30363d !important;
         border-radius: 6px !important;
     }
-    .stTextArea textarea:focus {
+    .stTextArea textarea:focus, .stTextInput input:focus {
         border-color: #58a6ff !important;
         box-shadow: 0 0 12px rgba(88, 166, 255, 0.3) !important;
     }
@@ -109,7 +109,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v9.0</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v10.0 (Ultimate)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -118,8 +118,8 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Context",
-            "💬 Custom AI Scene Analyzer (Interactive)",
-            "🔄 Interactive Branching Simulation",
+            "💬 Smart AI Scene Analyzer (Advanced)",
+            "🔄 Dynamic Branching & Intervention Simulator",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
             "📜 Core Artifact: 'Ilhama & Parvaz'",
@@ -174,7 +174,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         <div class='lab-card'>
             <h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>
             <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
-            This system allows creators and researchers to input custom dialogue lines, run real-time diagnostic simulations, and test interactive branching trajectories instantly.
+            This system allows researchers to execute smart heuristic NLP checks, run comparative matrix diagnostics, and export structured JSON research dossiers instantly.
             </p>
         </div>
         """,
@@ -188,133 +188,165 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     m3.metric(label="Paranoia Coefficient", value="71.5%")
     m4.metric(label="AI Engine Status", value="ACTIVE")
 
-# --- MODULE 2: CUSTOM AI SCENE ANALYZER ---
-elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
-    st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
+# --- MODULE 2: SMART AI SCENE ANALYZER (ADVANCED HEURISTICS) ---
+elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
+    st.markdown("### 💬 Smart Heuristic Scene & Subtext Analyzer")
     st.markdown(
-        "<p style='color: #8b949e;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
+        "<p style='color: #8b949e;'>Advanced NLP heuristic engine scanning for trauma markers, semantic gaps, and ontological defense mechanisms in real time.</p>",
         unsafe_allow_html=True,
     )
 
-    user_input_scene = st.text_area(
-        "Enter Dialogue Corpus for Real-Time Analysis:",
-        value=(
-            "- Why does your voice tremble every time this door opens?\n"
-            "- Because certain truths cannot fit inside this room.\n"
-            "- Then why remain silent?\n"
-            "- To speak is to surrender."
-        ),
-        height=150,
-    )
+    col_a, col_b = st.columns(2)
+    with col_a:
+        scene_a = st.text_area(
+            "Corpus A (Primary Dialog / Baseline):",
+            value=(
+                "Zahra: - Did Ilhama ever love me?\n"
+                "Parvaz: - Why are you asking?\n"
+                "Zahra: - Because I don't remember her voice."
+            ),
+            height=130,
+        )
+    with col_b:
+        scene_b = st.text_area(
+            "Corpus B (Intervention / Alternative):",
+            value=(
+                "Zahra: - We need to talk about what happened to her.\n"
+                "Parvaz: - Some doors are better left locked.\n"
+                "Zahra: - Not anymore."
+            ),
+            height=130,
+        )
 
-    analyze_clicked = st.button("⚡ Run AI Analysis")
+    analyze_clicked = st.button("⚡ Execute Dual-Corpus Heuristic Analysis")
 
     if analyze_clicked:
-        with st.spinner("Synthesizing linguistic pauses and psychological friction..."):
+        with st.spinner("Processing semantic weight, trauma markers and silence density..."):
             time.sleep(1)
 
-        word_count = len(user_input_scene.split())
-        computed_silence = min(
-            95,
-            max(
-                20,
-                int(
-                    50
-                    + (user_input_scene.count("?") * 8)
-                    - (word_count * 0.1)
+        def analyze_text(text):
+            words = text.split()
+            wc = len(words)
+            # Ağıllı açar söz skoru (Trauma/Silence keywords)
+            trauma_keywords = [
+                "ilhama",
+                "parvaz",
+                "mother",
+                "father",
+                "blood",
+                "door",
+                "lock",
+                "voice",
+                "remember",
+                "truth",
+            ]
+            kw_hits = sum(
+                1 for w in words if w.lower().strip(".,?-") in trauma_keywords
+            )
+            silence_score = min(
+                95,
+                max(
+                    20,
+                    int(
+                        40
+                        + (text.count("?") * 7)
+                        + (text.count("...") * 12)
+                        + (kw_hits * 5)
+                    ),
                 ),
-            ),
-        )
-        computed_paranoia = min(
-            98,
-            max(
-                15,
-                int(
-                    100
-                    - computed_silence
-                    + (user_input_scene.count("...") * 10)
-                ),
-            ),
-        )
+            )
+            paranoia_score = min(
+                98, max(15, int(100 - silence_score + (kw_hits * 8)))
+            )
+            return wc, silence_score, paranoia_score, kw_hits
+
+        wc_a, sil_a, par_a, kw_a = analyze_text(scene_a)
+        wc_b, sil_b, par_b, kw_b = analyze_text(scene_b)
 
         st.markdown("---")
-        st.markdown("### 🔬 Computational Output & Diagnostics")
+        st.markdown("### 🔬 Comparative Diagnostic Matrix")
 
-        res1, res2, res3 = st.columns(3)
-        res1.metric(label="Analyzed Word Count", value=word_count)
-        res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
-        res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
-
-        if computed_paranoia > 60:
+        res_col1, res_col2 = st.columns(2)
+        with res_col1:
             st.markdown(
-                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA ({computed_paranoia}%):</b> High presence of defensive mechanisms, communicative walls, and structural paranoia.</div>",
+                "<div class='lab-card'><b>Corpus A Metrics</b>",
+                unsafe_allow_html=True,
+            )
+            st.metric(label="Corpus A Word Count", value=wc_a)
+            st.metric(label="Silence Index (A)", value=f"{sil_a}%")
+            st.metric(label="Paranoia Coefficient (A)", value=f"{par_a}%")
+            st.markdown(f"🎯 Traversal Markers Detected: {kw_a}")
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        with res_col2:
+            st.markdown(
+                "<div class='lab-card'><b>Corpus B Metrics</b>",
+                unsafe_allow_html=True,
+            )
+            st.metric(label="Corpus B Word Count", value=wc_b)
+            st.metric(label="Silence Index (B)", value=f"{sil_b}%")
+            st.metric(label="Paranoia Coefficient (B)", value=f"{par_b}%")
+            st.markdown(f"🎯 Traversal Markers Detected: {kw_b}")
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        if par_a > par_b:
+            st.markdown(
+                "<div class='warning-terminal'>⚠️ <b>DIAGNOSTIC INSIGHT:</b> Corpus A exhibits higher defensive evasion and structural paranoia than Corpus B.</div>",
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
-                f"<div class='terminal-box'>🟢 <b>NOMINAL STATE ({computed_paranoia}%):</b> Dialogue breakdown risk is low.</div>",
+                "<div class='terminal-box'>🟢 <b>DIAGNOSTIC INSIGHT:</b> Corpus B displays higher direct confrontation, reducing the systemic silence barrier.</div>",
                 unsafe_allow_html=True,
             )
-
-        st.markdown("#### 🧬 AI Breakdown:")
-        st.write(
-            f"- **Pauses/Questions:** {user_input_scene.count('.')} pauses,"
-            f" {user_input_scene.count('?')} questions."
-        )
-        st.write(
-            "- **Subtext:** Unspoken truths acting as psychological barriers."
-        )
 
         # --- EXPORT DOSSIER FEATURE ---
         st.markdown("---")
         dossier_data = {
             "timestamp": str(datetime.datetime.now()),
-            "corpus": user_input_scene,
-            "word_count": word_count,
-            "silence_index": computed_silence,
-            "paranoia_coefficient": computed_paranoia,
+            "corpus_a": {"text": scene_a, "silence": sil_a, "paranoia": par_a},
+            "corpus_b": {"text": scene_b, "silence": sil_b, "paranoia": par_b},
         }
         st.download_button(
-            label="📥 Export Research Dossier (JSON)",
+            label="📥 Export Advanced Research Dossier (JSON)",
             data=json.dumps(dossier_data, indent=4),
-            file_name="ontological_silence_dossier.json",
+            file_name="ontological_silence_dual_dossier.json",
             mime="application/json",
         )
 
-# --- MODULE 3: INTERACTIVE BRANCHING SIMULATION ---
-elif selected_module == "🔄 Interactive Branching Simulation":
-    st.markdown("### 🔄 Narrative Branching & Intervention Simulator")
+# --- MODULE 3: DYNAMIC BRANCHING SIMULATION ---
+elif selected_module == "🔄 Dynamic Branching & Intervention Simulator":
+    st.markdown("### 🔄 Custom Narrative Branching & Simulation Engine")
     st.markdown(
-        "<p style='color: #8b949e;'>Simulate how alternative intervention vectors alter the psychological trajectory of the kitchen confrontation scene.</p>",
+        "<p style='color: #8b949e;'>Test custom character reactions and observe how real-time intervention vectors shift structural tension.</p>",
         unsafe_allow_html=True,
     )
 
-    branch_choice = st.selectbox(
-        "Select Narrative Intervention Vector:",
-        [
-            "Parvaz's Defensive Retaliation (Maintain Silence)",
-            "Zahra's Ontological Breakthrough (Pierce the Wall)",
-            "Architectural Dissolution (Acknowledge Ilhama's Absence)",
-        ],
+    custom_intervention = st.text_input(
+        "Enter Custom Character Intervention or Dialogue Line:",
+        value="Zahra steps closer to the door and demands the key.",
     )
 
-    if st.button("Execute Branch Simulation"):
-        with st.spinner("Recalculating narrative physics and structural tension..."):
+    if st.button("Simulate Custom Vector Trajectory"):
+        with st.spinner("Calculating conversational physics and behavioral outcomes..."):
             time.sleep(1)
 
-        if "Defensive" in branch_choice:
+        length_factor = len(custom_intervention)
+        calculated_tension = min(99, max(30, (length_factor * 3) % 95))
+
+        if calculated_tension > 70:
             st.markdown(
-                "<div class='warning-terminal'>🔴 <b>BRANCH OUTCOME [Parvaz's Retreat]:</b> Paranoia Index surges to <b>91%</b>. Complete communicative shutdown. The symbolic wall hardens.</div>",
+                f"<div class='warning-terminal'>🔴 <b>HIGH TENSION VECTOR ({calculated_tension}%):</b> The intervention shatters the existing linguistic contract. System enters extreme paranoia mode.</div>",
                 unsafe_allow_html=True,
             )
-        elif "Breakthrough" in branch_choice:
+        elif calculated_tension > 45:
             st.markdown(
-                "<div class='terminal-box'>🟢 <b>BRANCH OUTCOME [Breakthrough]:</b> Silence Index drops to <b>18%</b>. The symbolic contract between father and daughter is renegotiated.</div>",
+                f"<div class='lab-card'>🟣 <b>MODERATE FRICTION VECTOR ({calculated_tension}%):</b> The system absorbs the statement; structural walls remain intact but fluctuate.</div>",
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
-                "<div class='lab-card'>🟣 <b>BRANCH OUTCOME [Dissolution]:</b> System stabilizes at <b>45%</b>. The ghost of Ilhama is integrated into the domestic architecture. New narrative vector unlocked.</div>",
+                f"<div class='terminal-box'>🟢 <b>STABILIZING VECTOR ({calculated_tension}%):</b> Smooth communicative flow. Symbolic barrier diminishes significantly.</div>",
                 unsafe_allow_html=True,
             )
 
