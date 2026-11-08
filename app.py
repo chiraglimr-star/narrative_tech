@@ -36,7 +36,7 @@ st.markdown(
         font-family: 'Courier New', Courier, monospace !important;
     }
     
-    /* TEXTAREA (Mətn daxiletmə qutusu) - TAM DÜZƏLİŞ */
+    /* TEXTAREA (Mətn daxiletmə qutusu) */
     .stTextArea textarea {
         background-color: #1e293b !important;
         color: #38bdf8 !important;
@@ -134,10 +134,10 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Context",
-            "💬 Custom AI Scene Analyzer (İnteraktiv)",
+            "💬 Custom AI Scene Analyzer (Interactive)",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
-            "📜 Core Artifact: 'İlhəmə və Pərvaz'",
+            "📜 Core Artifact: 'Ilhama & Parvaz'",
         ],
     )
 
@@ -158,12 +158,12 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     )
     st.markdown("---")
 
-    # Komissiya və kənar oxucular üçün Kontekst Xülasəsi əlavə olundu
+    # Evaluators & Commission Context Brief
     st.markdown(
         """
     <div class='context-box'>
         📌 <b>PROTOTYPE CONTEXT BRIEF (For Evaluators):</b><br>
-        <i>"İlhəmə və Pərvaz"</i> is a narrative exploring domestic isolation and inherited trauma. The core scene features a late-night kitchen confrontation between young Zəhra and her father, <b>Pərvaz</b>, where the unspoken memory of the mother (İlhəmə) acts as an invisible structural wall. This engine treats that text not as fiction, but as a computational field of silence, paranoia, and linguistic defense.
+        <i>"Ilhama and Parvaz"</i> is a narrative exploring domestic isolation and inherited trauma. The core scene features a late-night kitchen confrontation between young Zahra and her father, <b>Parvaz</b>, where the unspoken memory of the mother (Ilhama) acts as an invisible structural wall. This engine treats that text not as fiction, but as a computational field of silence, paranoia, and linguistic defense.
     </div>
     """,
         unsafe_allow_html=True,
@@ -205,7 +205,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     m4.metric(label="AI Engine Status", value="ACTIVE")
 
 # --- MODULE 2: CUSTOM AI SCENE ANALYZER ---
-elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
+elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
     st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
     st.markdown(
         "<p style='color: #94a3b8;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
@@ -215,10 +215,10 @@ elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
     user_input_scene = st.text_area(
         "Enter Dialogue Corpus for Real-Time Analysis:",
         value=(
-            "- Niyə hər dəfə bu qapı açılanda səsin titrəyir?\n"
-            "- Çünki bəzi həqiqətlər otağa sığmır.\n"
-            "- Onda niyə danışmırsan?\n"
-            "- Danışmaq təslim olmaqdır."
+            "- Why does your voice tremble every time this door opens?\n"
+            "- Because certain truths cannot fit inside this room.\n"
+            "- Then why remain silent?\n"
+            "- To speak is to surrender."
         ),
         height=150,
     )
@@ -278,33 +278,33 @@ elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
             f" {user_input_scene.count('?')} questions."
         )
         st.write(
-            "- **Subtext:** Unspoken truths acting as psychological barrier."
+            "- **Subtext:** Unspoken truths acting as psychological barriers."
         )
 
 # --- MODULE 3: SIMULATOR ---
 elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
-    st.markdown("### 🧠 Multi-Factorial Simulator")
+    st.markdown("### 🧠 Multi-Factorial Neural Simulator")
     col1, col2 = st.columns(2)
     with col1:
         e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void (İlhəmə's Absence)", 0, 100, 70)
+        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
     with col2:
         l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
-        i_trauma = st.slider("Inherited Trauma (Pərvaz factor)", 0, 100, 60)
+        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
 
     p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
     st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
 
 # --- MODULE 4: SUBTEXT MATRIX ---
 elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
-    st.markdown("### ⚛️ Subtext Matrix")
+    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
     c1, c2, c3 = st.columns(3)
     c1.markdown(
-        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Pərvaz hiding behind institutionalized duty.</p></div>",
+        "<div class='lab-card'><b>1. Sartrean Bad Faith</b><br>88%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p></div>",
         unsafe_allow_html=True,
     )
     c2.markdown(
-        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zəhra's symbolic void regarding her mother İlhəmə.</p></div>",
+        "<div class='lab-card'><b>2. Lacanian Lack</b><br>92%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p></div>",
         unsafe_allow_html=True,
     )
     c3.markdown(
@@ -313,18 +313,18 @@ elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
     )
 
 # --- MODULE 5: ARTIFACT ---
-elif selected_module == "📜 Core Artifact: 'İlhəmə və Pərvaz'":
+elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
     st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
     st.text_area(
         "Corpus Data Stream (Read-Only)",
         (
             "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
-            "Zəhra: - Did İlhəmə ever love me?\n"
-            "Pərvaz: - Why are you asking?\n"
-            "Zəhra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
-            "Pərvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zəhra.\n"
-            "Zəhra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
-            "Pərvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+            "Zahra: - Did Ilhama ever love me?\n"
+            "Parvaz: - Why are you asking?\n"
+            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
+            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
         ),
         height=220,
     )
