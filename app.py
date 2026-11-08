@@ -112,7 +112,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.2</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.3</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -238,7 +238,6 @@ elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
         res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
         res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
 
-        # --- PLOTLY DYNAMIC VECTOR GRAPH (SYNTAX-SAFE) ---
         st.markdown("### 📈 Real-Time Plotly Paranoia & Sentiment Vector")
         st.markdown(
             "<p style='font-size: 12px; color: #8b949e;'>Tracking psychological tension spikes across dialogue sequence nodes:</p>",
@@ -319,4 +318,53 @@ elif selected_module == "🔄 Interactive Branching Simulation":
                 unsafe_allow_html=True,
             )
 
-# --- MODULE 4: SIMULATOR
+# --- MODULE 4: NEURAL-PSYCHOANALYTIC SIMULATOR ---
+elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
+    st.markdown("### 🧠 Multi-Factorial Neural Simulator")
+    st.markdown(
+        "<p style='color: #8b949e;'>Adjust the core psychological variables to calculate the real-time Paranoia Amplification Index.</p>",
+        unsafe_allow_html=True,
+    )
+    col1, col2 = st.columns(2)
+    with col1:
+        e_dread = st.slider("Existential Dread", 0, 100, 65)
+        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
+    with col2:
+        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
+        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
+
+    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
+    st.markdown("---")
+    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
+
+# --- MODULE 5: LACANIAN & SARTREAN SUBTEXT MATRIX ---
+elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
+    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
+    st.markdown(
+        "<p style='color: #8b949e;'>Theoretical deconstruction of the dramatic text through major philosophical frameworks:</p>",
+        unsafe_allow_html=True,
+    )
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(
+        """
+        <div class='lab-card'>
+            <b>1. Sartrean Bad Faith</b><br>88%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty and predetermined roles.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    c2.markdown(
+        """
+        <div class='lab-card'>
+            <b>2. Lacanian Lack</b><br>92%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama's unmapped memory.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    c3.markdown(
+        """
+        <div class='lab-card'>
+            <b>3. Foucault Panopticism</b><br>76%<br>
+            <p style='font-size
