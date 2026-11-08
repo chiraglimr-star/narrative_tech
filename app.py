@@ -1,8 +1,8 @@
 import datetime
 import time
-import plotly.graph_objects as go
 import streamlit as st
 
+# Səhifə konfiqurasiyası
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
     page_icon="👁️",
@@ -10,6 +10,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# --- ADVANCED CYBER-NOIR & AMBER/CYAN CSS PALETTE ---
 st.markdown(
     """
     <style>
@@ -106,10 +107,11 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# --- SIDEBAR ---
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.8</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v7.5</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -118,7 +120,7 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Context",
-            "💬 Custom AI Scene Analyzer & Plotly",
+            "💬 Custom AI Scene Analyzer (Interactive)",
             "🔄 Interactive Branching Simulation",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
@@ -131,6 +133,7 @@ with st.sidebar:
     st.markdown("**Target:** MIT Media Lab Portfolio")
     st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
+# --- MODULE 1: MANIFESTO & CONTEXT ---
 if selected_module == "🏛️ Executive Manifesto & Context":
     st.markdown(
         "<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>",
@@ -143,13 +146,12 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     st.markdown("---")
 
     st.markdown(
-        "<div class='context-box'>"
-        "📌 <b>PROTOTYPE CONTEXT BRIEF (For Evaluators):</b><br>"
-        "<i>\"Ilhama and Parvaz\"</i> is a narrative exploring domestic isolation and inherited trauma. "
-        "The core scene features a late-night kitchen confrontation between young Zahra and her father, <b>Parvaz</b>, "
-        "where the unspoken memory of the mother (Ilhama) acts as an invisible structural wall. "
-        "This engine treats that text not as fiction, but as a computational field of silence, paranoia, and linguistic defense."
-        "</div>",
+        """
+    <div class='context-box'>
+        📌 <b>PROTOTYPE CONTEXT BRIEF (For Evaluators):</b><br>
+        <i>"Ilhama and Parvaz"</i> is a narrative exploring domestic isolation and inherited trauma. The core scene features a late-night kitchen confrontation between young Zahra and her father, <b>Parvaz</b>, where the unspoken memory of the mother (Ilhama) acts as an invisible structural wall. This engine treats that text not as fiction, but as a computational field of silence, paranoia, and linguistic defense.
+    </div>
+    """,
         unsafe_allow_html=True,
     )
 
@@ -157,25 +159,27 @@ if selected_module == "🏛️ Executive Manifesto & Context":
 
     with col1:
         st.markdown(
-            "<div class='lab-card'>"
-            "<h3 style='color: #f0883e; margin-top:0;'>🌌 The Core Thesis</h3>"
-            "<p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>"
-            "Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault "
-            "where generational trauma, institutional surveillance, and suppressed memory are stored."
-            "</p>"
-            "</div>",
+            """
+        <div class='lab-card'>
+            <h3 style='color: #f0883e; margin-top:0;'>🌌 The Core Thesis</h3>
+            <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
+            Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault where generational trauma, institutional surveillance, and suppressed memory are stored.
+            </p>
+        </div>
+        """,
             unsafe_allow_html=True,
         )
 
     with col2:
         st.markdown(
-            "<div class='lab-card'>"
-            "<h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>"
-            "<p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>"
-            "This system allows creators and researchers to input custom dialogue lines, render real-time Plotly emotional vector curves, "
-            "and test interactive branching trajectories instantly."
-            "</p>"
-            "</div>",
+            """
+        <div class='lab-card'>
+            <h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>
+            <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
+            This system allows creators and researchers to input custom dialogue lines, run real-time diagnostic simulations, and test interactive branching trajectories instantly.
+            </p>
+        </div>
+        """,
             unsafe_allow_html=True,
         )
 
@@ -186,10 +190,11 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     m3.metric(label="Paranoia Coefficient", value="71.5%")
     m4.metric(label="AI Engine Status", value="ACTIVE")
 
-elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
-    st.markdown("### 💬 Custom AI Scene Analyzer & Emotional Vector Meter")
+# --- MODULE 2: CUSTOM AI SCENE ANALYZER ---
+elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
+    st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
     st.markdown(
-        "<p style='color: #8b949e;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density, paranoia index, and generate a real-time Plotly emotional vector curve across narrative segments.</p>",
+        "<p style='color: #8b949e;'>Type or paste any dramatic dialogue below. The AI engine will compute its silence density and paranoia index in real time.</p>",
         unsafe_allow_html=True,
     )
 
@@ -201,27 +206,37 @@ elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
             "- Then why remain silent?\n"
             "- To speak is to surrender."
         ),
-        height=140,
+        height=150,
     )
 
-    analyze_clicked = st.button("⚡ Run AI Analysis & Plot Vectors")
+    analyze_clicked = st.button("⚡ Run AI Analysis")
 
     if analyze_clicked:
         with st.spinner("Synthesizing linguistic pauses and psychological friction..."):
             time.sleep(1)
 
-        lines = [l.strip() for l in user_input_scene.split("\n") if l.strip()]
-        if not lines:
-            lines = ["Start"]
-
         word_count = len(user_input_scene.split())
         computed_silence = min(
             95,
-            max(20, int(50 + (user_input_scene.count("?") * 8) - (word_count * 0.1))),
+            max(
+                20,
+                int(
+                    50
+                    + (user_input_scene.count("?") * 8)
+                    - (word_count * 0.1)
+                ),
+            ),
         )
         computed_paranoia = min(
             98,
-            max(15, int(100 - computed_silence + (user_input_scene.count("...") * 10))),
+            max(
+                15,
+                int(
+                    100
+                    - computed_silence
+                    + (user_input_scene.count("...") * 10)
+                ),
+            ),
         )
 
         st.markdown("---")
@@ -232,54 +247,27 @@ elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
         res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
         res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
 
-        st.markdown("### 📈 Real-Time Plotly Paranoia & Sentiment Vector")
-        st.markdown(
-            "<p style='font-size: 12px; color: #8b949e;'>Tracking psychological tension spikes across dialogue sequence nodes:</p>",
-            unsafe_allow_html=True,
-        )
-
-        x_nodes = [f"Node {i+1}" for i in range(len(lines))]
-        y_values = [min(95, max(20, (i + 1) * 25 + (len(l) % 15))) for i, l in enumerate(lines)]
-
-        fig = go.Figure(
-            data=[
-                go.Scatter(
-                    x=x_nodes,
-                    y=y_values,
-                    mode="lines+markers",
-                    name="Paranoia Vector",
-                    line={"color": "#f0883e", "width": 3},
-                    marker={"size": 10, "color": "#58a6ff"},
-                )
-            ]
-        )
-        fig.update_layout(
-            paper_bgcolor="#07090e",
-            plot_bgcolor="#0d1117",
-            font={"color": "#f1f5f9", "family": "Courier New"},
-            margin={"l": 20, "r": 20, "t": 20, "b": 20},
-            height=280,
-            xaxis={"showgrid": True, "gridcolor": "#30363d"},
-            yaxis={
-                "showgrid": True,
-                "gridcolor": "#30363d",
-                "range": [0, 100],
-                "title": "Paranoia Intensity (%)",
-            },
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
         if computed_paranoia > 60:
             st.markdown(
-                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA SPIKE ({computed_paranoia}%):</b> Linguistic evasion and defensive walls detected. Structural collapse imminent.</div>",
+                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA ({computed_paranoia}%):</b> High presence of defensive mechanisms, communicative walls, and structural paranoia.</div>",
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
-                f"<div class='terminal-box'>🟢 <b>NOMINAL DIALOGUE STATE ({computed_paranoia}%):</b> Communicative flow is stable, with controlled emotional subtext.</div>",
+                f"<div class='terminal-box'>🟢 <b>NOMINAL STATE ({computed_paranoia}%):</b> Dialogue breakdown risk is low.</div>",
                 unsafe_allow_html=True,
             )
 
+        st.markdown("#### 🧬 AI Breakdown:")
+        st.write(
+            f"- **Pauses/Questions:** {user_input_scene.count('.')} pauses,"
+            f" {user_input_scene.count('?')} questions."
+        )
+        st.write(
+            "- **Subtext:** Unspoken truths acting as psychological barriers."
+        )
+
+# --- MODULE 3: INTERACTIVE BRANCHING SIMULATION ---
 elif selected_module == "🔄 Interactive Branching Simulation":
     st.markdown("### 🔄 Narrative Branching & Intervention Simulator")
     st.markdown(
@@ -316,53 +304,72 @@ elif selected_module == "🔄 Interactive Branching Simulation":
                 unsafe_allow_html=True,
             )
 
+# --- MODULE 4: SIMULATOR ---
 elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
     st.markdown("### 🧠 Multi-Factorial Neural Simulator")
-    st.markdown(
-        "<p style='color: #8b949e;'>Adjust the core psychological variables to calculate the real-time Paranoia Amplification Index.</p>",
-        unsafe_allow_html=True,
-    )
     col1, col2 = st.columns(2)
     with col1:
         e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void", 0, 100, 70)
+        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
     with col2:
         l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
-        i_trauma = st.slider("Inherited Trauma", 0, 100, 60)
+        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
 
     p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
-    st.markdown("---")
     st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
 
+# --- MODULE 5: SUBTEXT MATRIX ---
 elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
     st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
-    st.markdown(
-        "<p style='color: #8b949e;'>Theoretical deconstruction of the dramatic text through major philosophical frameworks:</p>",
-        unsafe_allow_html=True,
-    )
     c1, c2, c3 = st.columns(3)
     c1.markdown(
-        "<div class='lab-card'>"
-        "<b>1. Sartrean Bad Faith</b><br>88%<br>"
-        "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty and predetermined roles.</p>"
-        "</div>",
+        """
+        <div class='lab-card'>
+            <b>1. Sartrean Bad Faith</b><br>88%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
     c2.markdown(
-        "<div class='lab-card'>"
-        "<b>2. Lacanian Lack</b><br>92%<br>"
-        "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama's unmapped memory.</p>"
-        "</div>",
+        """
+        <div class='lab-card'>
+            <b>2. Lacanian Lack</b><br>92%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
     c3.markdown(
-        "<div class='lab-card'>"
-        "<b>3. Foucault Panopticism</b><br>76%<br>"
-        "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>The kitchen vault acting as an internal domestic surveillance room.</p>"
-        "</div>",
+        """
+        <div class='lab-card'>
+            <b>3. Foucault Panopticism</b><br>76%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
+# --- MODULE 6: ARTIFACT ---
 elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
     st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
-    st.markdown(
+    st.text_area(
+        "Corpus Data Stream (Read-Only)",
+        (
+            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
+            "Zahra: - Did Ilhama ever love me?\n"
+            "Parvaz: - Why are you asking?\n"
+            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
+            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+        ),
+        height=220,
+    )
+
+# FOOTER
+st.markdown("---")
+st.markdown(
+    "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
+    unsafe_allow_html=True,
+)
