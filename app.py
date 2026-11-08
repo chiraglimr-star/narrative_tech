@@ -112,7 +112,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.3</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.4</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -147,12 +147,13 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     st.markdown("---")
 
     st.markdown(
-        """
-    <div class='context-box'>
-        📌 <b>PROTOTYPE CONTEXT BRIEF (For Evaluators):</b><br>
-        <i>"Ilhama and Parvaz"</i> is a narrative exploring domestic isolation and inherited trauma. The core scene features a late-night kitchen confrontation between young Zahra and her father, <b>Parvaz</b>, where the unspoken memory of the mother (Ilhama) acts as an invisible structural wall. This engine treats that text not as fiction, but as a computational field of silence, paranoia, and linguistic defense.
-    </div>
-    """,
+        "<div class='context-box'>"
+        "📌 <b>PROTOTYPE CONTEXT BRIEF (For Evaluators):</b><br>"
+        "<i>\"Ilhama and Parvaz\"</i> is a narrative exploring domestic isolation and inherited trauma. "
+        "The core scene features a late-night kitchen confrontation between young Zahra and her father, <b>Parvaz</b>, "
+        "where the unspoken memory of the mother (Ilhama) acts as an invisible structural wall. "
+        "This engine treats that text not as fiction, but as a computational field of silence, paranoia, and linguistic defense."
+        "</div>",
         unsafe_allow_html=True,
     )
 
@@ -160,27 +161,25 @@ if selected_module == "🏛️ Executive Manifesto & Context":
 
     with col1:
         st.markdown(
-            """
-        <div class='lab-card'>
-            <h3 style='color: #f0883e; margin-top:0;'>🌌 The Core Thesis</h3>
-            <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
-            Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault where generational trauma, institutional surveillance, and suppressed memory are stored.
-            </p>
-        </div>
-        """,
+            "<div class='lab-card'>"
+            "<h3 style='color: #f0883e; margin-top:0;'>🌌 The Core Thesis</h3>"
+            "<p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>"
+            "Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault "
+            "where generational trauma, institutional surveillance, and suppressed memory are stored."
+            "</p>"
+            "</div>",
             unsafe_allow_html=True,
         )
 
     with col2:
         st.markdown(
-            """
-        <div class='lab-card'>
-            <h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>
-            <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
-            This system allows creators and researchers to input custom dialogue lines, render real-time Plotly emotional vector curves, and test interactive branching trajectories instantly.
-            </p>
-        </div>
-        """,
+            "<div class='lab-card'>"
+            "<h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>"
+            "<p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>"
+            "This system allows creators and researchers to input custom dialogue lines, render real-time Plotly emotional vector curves, "
+            "and test interactive branching trajectories instantly."
+            "</p>"
+            "</div>",
             unsafe_allow_html=True,
         )
 
@@ -328,43 +327,4 @@ elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
     col1, col2 = st.columns(2)
     with col1:
         e_dread = st.slider("Existential Dread", 0, 100, 65)
-        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
-    with col2:
-        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
-        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
-
-    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
-    st.markdown("---")
-    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
-
-# --- MODULE 5: LACANIAN & SARTREAN SUBTEXT MATRIX ---
-elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
-    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
-    st.markdown(
-        "<p style='color: #8b949e;'>Theoretical deconstruction of the dramatic text through major philosophical frameworks:</p>",
-        unsafe_allow_html=True,
-    )
-    c1, c2, c3 = st.columns(3)
-    c1.markdown(
-        """
-        <div class='lab-card'>
-            <b>1. Sartrean Bad Faith</b><br>88%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty and predetermined roles.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    c2.markdown(
-        """
-        <div class='lab-card'>
-            <b>2. Lacanian Lack</b><br>92%<br>
-            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama's unmapped memory.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    c3.markdown(
-        """
-        <div class='lab-card'>
-            <b>3. Foucault Panopticism</b><br>76%<br>
-            <p style='font-size
+        l_void = st.slider("Lacanian Void (
