@@ -109,7 +109,7 @@ st.markdown(
         font-size: 14px !important;
     }
     </style>
-""",
+    """,
     unsafe_allow_html=True,
 )
 
@@ -151,11 +151,11 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
 
     st.markdown(
         """
-    <div class='context-box'>
-        📌 <b>ACADEMIC RESEARCH BRIEF & METHODOLOGY:</b><br>
-        Designed as a universal computational dramaturgy engine. While tested on <i>"Ilhama and Parvaz"</i>, the framework accepts <b>any user-supplied narrative corpus</b> (scripts, poetry, wartime dialogues, or letters) to dynamically compute structural silence, paranoia coefficients, and psychoanalytic defense vectors.
-    </div>
-    """,
+        <div class='context-box'>
+            📌 <b>ACADEMIC RESEARCH BRIEF & METHODOLOGY:</b><br>
+            Designed as a universal computational dramaturgy engine. While tested on <i>"Ilhama and Parvaz"</i>, the framework accepts <b>any user-supplied narrative corpus</b> (scripts, poetry, wartime dialogues, or letters) to dynamically compute structural silence, paranoia coefficients, and psychoanalytic defense vectors.
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
@@ -169,7 +169,7 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
         """
         <div class='lab-card' style='font-family: monospace; color: #58a6ff;'>
             <b>Silence Index Formula:</b><br>
-            SI = w₁·(Unanswered Questions) + w₂·(Evasion / Topic Shifts) + w₃·(Ellipsis Count) + w₄·(Generalizations) + w₅·(Word Count Drop) + w₆·(Suppressed Proper Nouns)<br><br>
+            SI = w1 * (Unanswered Questions) + w2 * (Evasion / Topic Shifts) + w3 * (Ellipsis Count) + w4 * (Generalizations) + w5 * (Word Count Drop) + w6 * (Suppressed Proper Nouns)<br><br>
             <i>Weights normalized to 100% across all operationalized markers.</i>
         </div>
         """,
@@ -182,15 +182,15 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
         st.markdown(
             """
             <div class='lab-card'>
-                <b>1. Unanswered Questions (w₁ = 15%)</b><br>
+                <b>1. Unanswered Questions (w1 = 15%)</b><br>
                 <span style='color: #8b949e; font-size: 13px;'>Measured when inquiries are met with counter-interrogation or deflection.</span>
             </div>
             <div class='lab-card'>
-                <b>2. Evasion & Topic Shifts (w₂ = 20%)</b><br>
+                <b>2. Evasion & Topic Shifts (w2 = 20%)</b><br>
                 <span style='color: #8b949e; font-size: 13px;'>Quantifies semantic distance between prompt and respondent reply.</span>
             </div>
             <div class='lab-card'>
-                <b>3. Ellipsis & Suspended Syntax (w₃ = 10%)</b><br>
+                <b>3. Ellipsis & Suspended Syntax (w3 = 10%)</b><br>
                 <span style='color: #8b949e; font-size: 13px;'>Counts explicit punctuation markers ('...') indicating unarticulated thoughts.</span>
             </div>
             """,
@@ -200,15 +200,15 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
         st.markdown(
             """
             <div class='lab-card'>
-                <b>4. Totalizing Generalizations (w₄ = 15%)</b><br>
+                <b>4. Totalizing Generalizations (w4 = 15%)</b><br>
                 <span style='color: #8b949e; font-size: 13px;'>Detects ontological shields (e.g., "Everyone...", "A person loves...").</span>
             </div>
             <div class='lab-card'>
-                <b>5. Word Count Compression (w₅ = 20%)</b><br>
+                <b>5. Word Count Compression (w5 = 20%)</b><br>
                 <span style='color: #8b949e; font-size: 13px;'>Tracks sudden drops in utterance length as defensive minimization.</span>
             </div>
             <div class='lab-card'>
-                <b>6. Suppressed Proper Nouns (w₆ = 20%)</b><br>
+                <b>6. Suppressed Proper Nouns (w6 = 20%)</b><br>
                 <span style='color: #8b949e; font-size: 13px;'>Tracks the total omission of core identifiers by the speaker.</span>
             </div>
             """,
@@ -353,6 +353,4 @@ elif selected_module == "🔄 Real Branching & Intervention Simulator":
         with col_b2:
             st.markdown(
                 """
-                <div class='warning-terminal' style='background-color: #491002; border-color: #bd2c00; border-left-color: #f0883e;'>
-                    <b>Branch B: Explosion / Confrontation</b><br>
-                    <i style='font-size: 13px; color: #ffa657;'>Respondent sh
+                <div class='
