@@ -3,7 +3,7 @@ import time
 import plotly.graph_objects as go
 import streamlit as st
 
-# --- Səhifə konfiqurasiyası ---
+# Səhifə konfiqurasiyası
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
     page_icon="👁️",
@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- CINEMATIC DARK-NOIR & AMBER CSS ---
+# --- ULTIMATE CINEMATIC DARK-NOIR & AMBER CSS ---
 st.markdown(
     """
     <style>
@@ -107,7 +107,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.1</p>",
+        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.2</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -207,9 +207,7 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
     analyze_clicked = st.button("⚡ Run AI Analysis & Plot Vectors")
 
     if analyze_clicked:
-        with st.spinner(
-            "Synthesizing linguistic pauses and psychological friction..."
-        ):
+        with st.spinner("Synthesizing linguistic pauses and psychological friction..."):
             time.sleep(1)
 
         lines = []
@@ -242,8 +240,7 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
             unsafe_allow_html=True,
         )
 
-        # --- SADƏLƏŞDİRİLMİŞ PLOTLY QRAFİKİ ---
-        x_nodes = [f"Node {i + 1}" for i in range(len(lines))]
+        x_nodes = [f"Node {i+1}" for i in range(len(lines))]
         y_values = [min(95, max(20, (i + 1) * 25 + (len(l) % 15))) for i, l in enumerate(lines)]
 
         fig = go.Figure()
@@ -257,7 +254,6 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
                 marker=dict(size=10, color="#38bdf8"),
             )
         )
-
         fig.update_layout(
             paper_bgcolor="#0b0f19",
             plot_bgcolor="#1e293b",
@@ -265,14 +261,8 @@ elif selected_module == "💬 Custom AI Scene & Plotly Analyzer":
             margin=dict(l=20, r=20, t=20, b=20),
             height=280,
             xaxis=dict(showgrid=True, gridcolor="#334155"),
-            yaxis=dict(
-                showgrid=True,
-                gridcolor="#334155",
-                range=[0, 100],
-                title="Paranoia Intensity (%)",
-            ),
+            yaxis=dict(showgrid=True, gridcolor="#334155", range=[0, 100], title="Paranoia Intensity (%)"),
         )
-
         st.plotly_chart(fig, use_container_width=True)
 
         if computed_paranoia > 60:
@@ -392,7 +382,7 @@ elif selected_module == "📜 Core Artifact: 'İlhəmə və Pərvaz'":
         unsafe_allow_html=True,
     )
 
-# --- FOOTER ---
+# FOOTER
 st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // CRAFTED FOR MIT MEDIA LAB PORTFOLIO EXCELLENCE</p>",
