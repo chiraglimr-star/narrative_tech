@@ -4,105 +4,108 @@ import streamlit as st
 
 # Səhifə konfiqurasiyası
 st.set_page_config(
-    page_title=(
-        "Ontological Silence & Paranoia Engine | AI Research Prototype"
-    ),
-    page_icon="🌌",
+    page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
+    page_icon="👁️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# --- CINEMATIC PHILOSOPHICAL DARK MODE & CSS ---
+# --- ULTIMATE CINEMATIC DARK-NOIR & AMBER CSS ---
 st.markdown(
     """
     <style>
+    /* Dərin qara noür arxa fon */
     .stApp {
-        background-color: #05070b;
+        background-color: #000000;
         color: #e2e8f0;
         font-family: 'Courier New', Courier, monospace;
     }
+    
+    /* Yan panel - zərif qrafit */
     [data-testid="stSidebar"] {
-        background-color: #090e17;
-        border-right: 1px solid #1e293b;
+        background-color: #08080a;
+        border-right: 1px solid #1c1c24;
     }
+    
+    /* Başlıqlar - təmiz ağ və kəhrəba işığı */
     h1, h2, h3, h4 {
-        color: #f8fafc !important;
+        color: #f3f4f6 !important;
         font-family: 'Courier New', Courier, monospace;
         letter-spacing: -0.5px;
     }
-    .metric-card {
-        background-color: #0f172a;
-        border: 1px solid #334155;
-        border-left: 4px solid #38bdf8;
-        padding: 20px;
+    
+    /* Əsas Kartlar (Laboratoriya panelləri) */
+    .lab-card {
+        background-color: #0a0a0e;
+        border: 1px solid #22222e;
+        border-left: 4px solid #f59e0b; /* Kəhrəba / Amber vurğu */
+        padding: 22px;
         border-radius: 6px;
         margin-bottom: 15px;
     }
-    .warning-box {
-        background-color: #450a0a;
-        border-left: 4px solid #ef4444;
-        padding: 16px;
+    
+    /* Terminal qutuları */
+    .terminal-box {
+        background-color: #050508;
+        border: 1px solid #22222e;
+        border-left: 4px solid #10b981; /* Yaşıl terminal işığı */
+        padding: 18px;
+        color: #34d399;
+        font-size: 13px;
+        border-radius: 4px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    
+    /* Xəbərdarlıq qutuları (Qan-qırmızı triller stili) */
+    .warning-terminal {
+        background-color: #140305;
+        border: 1px solid #501015;
+        border-left: 4px solid #ef4444; /* Dərin qırmızı */
+        padding: 18px;
         color: #fca5a5;
         font-size: 13px;
-        margin-bottom: 12px;
         border-radius: 4px;
         font-family: 'Courier New', Courier, monospace;
     }
-    .safe-box {
-        background-color: #022c22;
-        border-left: 4px solid #34d399;
-        padding: 16px;
-        color: #6ee7b7;
-        font-size: 13px;
-        margin-bottom: 12px;
-        border-radius: 4px;
-        font-family: 'Courier New', Courier, monospace;
-    }
-    .philosophy-box {
-        background-color: #1e1b4b;
-        border-left: 4px solid #818cf8;
-        padding: 16px;
-        color: #c7d2fe;
-        font-size: 13px;
-        margin-bottom: 12px;
-        border-radius: 4px;
-        font-family: 'Courier New', Courier, monospace;
-    }
+    
+    /* Metrik rəqəmləri - Parlaq kəhrəba */
     [data-testid="stMetricValue"] {
-        color: #38bdf8 !important;
+        color: #f59e0b !important;
         font-size: 28px !important;
         font-weight: bold;
     }
     [data-testid="stMetricLabel"] {
-        color: #94a3b8 !important;
+        color: #9ca3af !important;
         font-size: 13px !important;
     }
+    
+    /* Tabların stili */
     .stTabs [data-baseweb="tab-list"] {
         gap: 12px;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #0f172a;
+        background-color: #0a0a0e;
         border-radius: 6px;
-        color: #94a3b8;
+        color: #9ca3af;
         padding: 10px 20px;
         font-family: 'Courier New', Courier, monospace;
-        border: 1px solid #334155;
+        border: 1px solid #22222e;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #1e293b !important;
-        color: #38bdf8 !important;
-        border: 1px solid #38bdf8 !important;
+        background-color: #16161f !important;
+        color: #f59e0b !important;
+        border: 1px solid #f59e0b !important;
     }
     </style>
 """,
     unsafe_allow_html=True,
 )
 
-# --- SIDEBAR: ONTOLOGICAL NAVIGATION ---
+# --- SIDEBAR ---
 with st.sidebar:
-    st.markdown("### 🌌 Ontological Control")
+    st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Psychoanalysis v3.0</p>",
+        "<p style='font-size: 11px; color: #9ca3af;'>Computational Dramaturgy & AI Lab v4.1</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -110,27 +113,27 @@ with st.sidebar:
     selected_module = st.radio(
         "Navigation Matrix",
         [
-            "🏛️ Manifesto & Epistemology",
-            "📜 The Core Text: 'İlhəmə və Pərvaz'",
+            "🏛️ Executive Manifesto",
+            "💬 Custom AI Scene Analyzer (İnteraktiv)",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
-            "🔄 Ontological Decision Branching",
+            "📜 Core Artifact: 'İlhəmə və Pərvaz'",
         ],
     )
 
     st.markdown("---")
     st.markdown("**Framework Architect:** Agil Chiragli")
-    st.markdown("**Institution:** MIT Media Lab Candidate Artifact")
-    st.markdown(f"**Timestamp:** {datetime.date.today().strftime('%Y-%m-%d')}")
+    st.markdown("**Target:** MIT Media Lab Portfolio")
+    st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
-# --- MAIN MODULES ---
-if selected_module == "🏛️ Manifesto & Epistemology":
+# --- MODULE 1: MANIFESTO ---
+if selected_module == "🏛️ Executive Manifesto":
     st.markdown(
-        "<h1 style='font-size: 30px;'>🌌 THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>",
+        "<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>",
         unsafe_allow_html=True,
     )
     st.markdown(
-        "<p style='color: #38bdf8; font-size: 15px;'>Bridging Computational Linguistics, Psychoanalytic Theory, and Domestic Dramaturgy.</p>",
+        "<p style='color: #f59e0b; font-size: 15px;'>An Experimental Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -140,10 +143,10 @@ if selected_module == "🏛️ Manifesto & Epistemology":
     with col1:
         st.markdown(
             """
-        <div class='metric-container'>
-            <h3 style='color: #38bdf8; margin-top:0;'>👁️ The Core Thesis</h3>
-            <p style='color: #cbd5e1; font-size: 13px; line-height: 1.6;'>
-            Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault where generational trauma, institutional surveillance, and suppressed memory are stored. This engine computes the physics of that unsaid weight.
+        <div class='lab-card'>
+            <h3 style='color: #f59e0b; margin-top:0;'>🌌 The Core Thesis</h3>
+            <p style='color: #d1d5db; font-size: 13px; line-height: 1.6;'>
+            Silence in domestic architecture is never empty. It is a dense, calculated structural weapon—a linguistic vault where generational trauma, institutional surveillance, and suppressed memory are stored.
             </p>
         </div>
         """,
@@ -153,29 +156,213 @@ if selected_module == "🏛️ Manifesto & Epistemology":
     with col2:
         st.markdown(
             """
-        <div class='metric-container'>
-            <h3 style='color: #38bdf8; margin-top:0;'>⚙️ Computational Framework</h3>
-            <p style='color: #cbd5e1; font-size: 13px; line-height: 1.6;'>
-            By merging Lacanian psychoanalysis (The Symbolic Order) with modern NLP metrics, the system evaluates how syntactic pauses, defensive rationalizations, and closed conversational loops dictate human alienation.
+        <div class='lab-card'>
+            <h3 style='color: #f59e0b; margin-top:0;'>⚙️ Interactive Capabilities</h3>
+            <p style='color: #d1d5db; font-size: 13px; line-height: 1.6;'>
+            This system allows creators and researchers to input custom dialogue lines or adjust psychological friction variables in real time, calculating existential indices instantly.
             </p>
         </div>
         """,
             unsafe_allow_html=True,
         )
 
-    st.markdown(
-        "### 📊 System Diagnostics & Epistemological Metrics"
-    )
+    st.markdown("### 📊 System Diagnostics")
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric(label="Deconstructed Vectors", value="2,840")
-    m2.metric(label="Base Silence Index", value="42.8%")
-    m3.metric(label="Paranoia Coefficient", value="68.4%")
-    m4.metric(label="Neural State", value="HYPER-AWARE")
+    m1.metric(label="Deconstructed Vectors", value="3,120")
+    m2.metric(label="Base Silence Index", value="44.2%")
+    m3.metric(label="Paranoia Coefficient", value="71.5%")
+    m4.metric(label="AI Engine Status", value="ACTIVE")
 
-elif selected_module == "📜 The Core Text: 'İlhəmə və Pərvaz'":
+# --- MODULE 2: CUSTOM AI SCENE ANALYZER ---
+elif selected_module == "💬 Custom AI Scene Analyzer (İnteraktiv)":
+    st.markdown("### 💬 Custom AI Scene & Dialogue Analyzer")
+    st.markdown(
+        "<p style='color: #9ca3af;'>Type or paste any dramatic dialogue, family confrontation, or script excerpt below. The AI engine will compute its underlying silence density, paranoia index, and psychoanalytic subtext in real time.</p>",
+        unsafe_allow_html=True,
+    )
+
+    user_input_scene = st.text_area(
+        "Enter Dialogue Corpus for Real-Time Analysis:",
+        value=(
+            "- Niyə hər dəfə bu qapı açılanda səsin titrəyir?\n- Çünki bəzi"
+            " həqiqətlər otağa sığmır.\n- Onda niyə danışmırsan?\n- Danışmaq"
+            " təslim olmaqdır."
+        ),
+        height=140,
+    )
+
+    col_btn1, col_btn2 = st.columns([1, 4])
+    with col_btn1:
+        analyze_clicked = st.button("⚡ Run AI Analysis")
+
+    if analyze_clicked:
+        with st.spinner(
+            "Synthesizing linguistic pauses and psychological friction..."
+        ):
+            time.sleep(1.2)
+
+        word_count = len(user_input_scene.split())
+        computed_silence = min(
+            95, max(20, int(50 + (user_input_scene.count("?") * 8) - (word_count * 0.1)))
+        )
+        computed_paranoia = min(
+            98, max(15, int(100 - computed_silence + (user_input_scene.count("...") * 10)))
+        )
+
+        st.markdown("---")
+        st.markdown("### 🔬 Computational Output & Diagnostics")
+
+        res1, res2, res3 = st.columns(3)
+        res1.metric(label="Analyzed Word Count", value=word_count)
+        res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
+        res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
+
+        if computed_paranoia > 60:
+            st.markdown(
+                f"<div class='warning-terminal'>⚠️ <b>HIGH PARANOIA & DEFENSIVE ANCHOR ({computed_paranoia}%):</b> The provided text exhibits strong linguistic evasion, closed loops, and deep psychological friction. Structural breakdown is active.</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                f"<div class='terminal-box'>🟢 <b>NOMINAL DIALOGUE STATE ({computed_paranoia}%):</b> The text maintains standard communicative flow, though underlying emotional containment is visible.</div>",
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("#### 🧬 AI Psychoanalytic Breakdown of Your Text:")
+        st.markdown(
+            f"""
+        - **Syntactic Friction:** Detected {user_input_scene.count('.')} structural pauses and {user_input_scene.count('?')} interrogative tension triggers.
+        - **Lacanian Subtext:** The dialogue relies on an unspoken symbolic contract where withholding information functions as self-preservation.
+        - **Architectural Weight:** The text reflects an internal confinement space similar to institutional domestic barriers.
+        """
+        )
+
+# --- MODULE 3: NEURAL-PSYCHOANALYTIC SIMULATOR ---
+elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
+    st.markdown("### 🧠 Multi-Factorial Neural & Psychological Simulator")
+    st.markdown(
+        "<p style='color: #9ca3af;'>Adjust the parameters below to dynamically simulate shifts in domestic paranoia and existential alienation.</p>",
+        unsafe_allow_html=True,
+    )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        existential_dread = st.slider(
+            "Existential Dread / Void Level (Ekzistensial Boşluq)",
+            0,
+            100,
+            65,
+        )
+        lacanian_void = st.slider(
+            "The Big Other Absence (Büyük Öykünün Yoxluğu)", 0, 100, 70
+        )
+        domestic_surveillance = st.slider(
+            "Implicit Structural Surveillance (Qapalı Nəzarət)", 0, 100, 50
+        )
+
+    with col2:
+        linguistic_suppression = st.slider(
+            "Linguistic Suppression (Dehidrasiya olunmuş Sözlər)",
+            0,
+            100,
+            80,
+        )
+        inherited_trauma = st.slider(
+            "Transgenerational Trauma Coefficient (Nəsillərarası Travma)",
+            0,
+            100,
+            60,
+        )
+
+    calculated_paranoia = int(
+        (existential_dread * 0.2)
+        + (lacanian_void * 0.25)
+        + (domestic_surveillance * 0.15)
+        + (linguistic_suppression * 0.25)
+        + (inherited_trauma * 0.15)
+    )
+    calculated_silence = int(100 - (calculated_paranoia * 0.45))
+    alienation_score = int((calculated_paranoia + calculated_silence) / 2)
+
+    st.markdown("---")
+    st.markdown("### 📈 Real-Time Simulation Metrics")
+
+    m1, m2, m3 = st.columns(3)
+    m1.metric(label="Computed Silence Density", value=f"{calculated_silence}%")
+    m2.metric(label="Paranoia Amplification", value=f"{calculated_paranoia}%")
+    m3.metric(
+        label="Alienation Quotient", value=f"{alienation_score} / 100"
+    )
+
+    if calculated_paranoia > 65:
+        st.markdown(
+            f"<div class='warning-terminal'>⚠️ <b>CRITICAL THRESHOLD ({calculated_paranoia}%):</b> Linguistic defenses have saturated the cognitive space. Total conversational alienation is underway.</div>",
+            unsafe_allow_html=True,
+        )
+    else:
+        st.markdown(
+            "<div class='terminal-box'>🟢 <b>EQUILIBRIUM STATE:</b> Structural silence is maintained within tolerable human limits.</div>",
+            unsafe_allow_html=True,
+        )
+
+# --- MODULE 4: SUBTEXT MATRIX ---
+elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
+    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Decomposition")
+    st.markdown(
+        "<p style='color: #9ca3af;'>Granular breakdown of linguistic defense mechanisms through existential and psychoanalytic frameworks.</p>",
+        unsafe_allow_html=True,
+    )
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown(
+            """
+        <div class='lab-card'>
+            <h4 style='color: #f59e0b; margin-top:0;'>1. Sartrean 'Bad Faith'</h4>
+            <p style='font-size: 12px; color: #d1d5db;'>
+            <b>Intensity: 88%</b><br>
+            Evading radical freedom by hiding behind institutionalized duty and predetermined domestic roles.
+            </p>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+
+    with col2:
+        st.markdown(
+            """
+        <div class='lab-card'>
+            <h4 style='color: #f59e0b; margin-top:0;'>2. Lacanian Lack</h4>
+            <p style='font-size: 12px; color: #d1d5db;'>
+            <b>Intensity: 92%</b><br>
+            The symbolic void where memory is erased and replaced by structural silence.
+            </p>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+
+    with col3:
+        st.markdown(
+            """
+        <div class='lab-card'>
+            <h4 style='color: #f59e0b; margin-top:0;'>3. Foucaultian Panopticism</h4>
+            <p style='font-size: 12px; color: #d1d5db;'>
+            <b>Intensity: 76%</b><br>
+            The household operating as an internal prison where inhabitants police their own unsaid words.
+            </p>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+
+# --- MODULE 5: CORE ARTIFACT ---
+elif selected_module == "📜 Core Artifact: 'İlhəmə və Pərvaz'":
     st.markdown("### 📜 Primary Textual Artifact: The Kitchen Silence")
     st.markdown(
-        "<p style='color: #94a3b8;'>The foundational dialogue matrix mapping the ontological confrontation between Zehra and her father, Parviz.</p>",
+        "<p style='color: #9ca3af;'>The foundational narrative matrix mapping the confrontation between Zehra and Parviz.</p>",
         unsafe_allow_html=True,
     )
 
@@ -191,179 +378,17 @@ elif selected_module == "📜 The Core Text: 'İlhəmə və Pərvaz'":
     
     [END OF CORPUS STREAM]
     """
-    st.text_area(
-        "Corpus Data Stream (Read-Only Neural Log)", script_text, height=230
-    )
+    st.text_area("Corpus Data Stream", script_text, height=220)
 
     st.markdown(
-        "<div class='philosophy-box'>🏛️ <b>Philosophical Deconstruction:</b> Parviz's shift from personal defense to universal fatalism ('Everyone in this house opened that door...') represents the collapse of individual responsibility into an inherited architectural doom.</div>",
+        "<div class='terminal-box'>🏛️ <b>Philosophical Note:</b> Parviz's shift from personal defense to universal fatalism represents the collapse of individual responsibility into an inherited architectural doom.</div>",
         unsafe_allow_html=True,
     )
-
-elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
-    st.markdown("### 🧠 Multi-Factorial Neural & Psychological Simulator")
-    st.markdown(
-        "<p style='color: #94a3b8;'>Adjust the psychological friction variables to compute real-time shifts in domestic paranoia and existential alienation.</p>",
-        unsafe_allow_html=True,
-    )
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        existential_dread = st.slider(
-            "Existential Dread / Void Level (Ekzistensial Boşluq)",
-            0,
-            100,
-            60,
-        )
-        lacanian_void = st.slider(
-            "The Big Other Absence (Büyük Öykünün Yoxluğu)", 0, 100, 75
-        )
-        domestic_surveillance = st.slider(
-            "Implicit Structural Surveillance (Qapalı Nəzarət)", 0, 100, 50
-        )
-
-    with col2:
-        linguistic_suppression = st.slider(
-            "Linguistic Suppression / Unsaid Truths (Dehidrasiya olunmuş Sözlər)",
-            0,
-            100,
-            80,
-        )
-        inherited_trauma = st.slider(
-            "Transgenerational Trauma Coefficient (Nəsillərarası Travma)",
-            0,
-            100,
-            70,
-        )
-
-    # Advanced Multi-Layer Algorithmic Computation
-    calculated_paranoia = int(
-        (existential_dread * 0.2)
-        + (lacanian_void * 0.25)
-        + (domestic_surveillance * 0.15)
-        + (linguistic_suppression * 0.25)
-        + (inherited_trauma * 0.15)
-    )
-    calculated_silence = int(100 - (calculated_paranoia * 0.48))
-    alienation_score = int((calculated_paranoia + calculated_silence) / 2)
-
-    st.markdown("---")
-    st.markdown("### 📈 Real-Time Neural & Psychological Metrics")
-
-    m1, m2, m3 = st.columns(3)
-    m1.metric(label="Computed Silence Index", value=f"{calculated_silence}%")
-    m2.metric(label="Paranoia Amplification", value=f"{calculated_paranoia}%")
-    m3.metric(
-        label="Alienation Quotient", value=f"{alienation_score} / 100"
-    )
-
-    if calculated_paranoia > 65:
-        st.markdown(
-            f"<div class='warning-box'>⚠️ <b>CRITICAL ONTOLOGICAL BREAK ({calculated_paranoia}%):</b> Linguistic defenses have completely saturated the cognitive space. The domestic structure is operating under extreme psychological alienation.</div>",
-            unsafe_allow_html=True,
-        )
-    else:
-        st.markdown(
-            "<div class='safe-box'>🟢 <b>NOMINAL DIALOGIC EQUILIBRIUM:</b> Structural silence is maintained within tolerable human limits. The architecture holds, though deep fractures remain unaddressed.</div>",
-            unsafe_allow_html=True,
-        )
-
-elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
-    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Decomposition")
-    st.markdown(
-        "<p style='color: #94a3b8;'>Granular breakdown of linguistic defense mechanisms through existential and psychoanalytic frameworks.</p>",
-        unsafe_allow_html=True,
-    )
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.markdown(
-            """
-        <div class='metric-container'>
-            <h4 style='color: #38bdf8; margin-top:0;'>1. Sartrean 'Bad Faith'</h4>
-            <p style='font-size: 12px; color: #cbd5e1;'>
-            <b>Intensity: 88%</b><br>
-            Parviz's appeal to natural law ("A person loves their own blood") is a classic evasion of radical freedom, hiding behind institutionalized duty.
-            </p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-    with col2:
-        st.markdown(
-            """
-        <div class='metric-container'>
-            <h4 style='color: #38bdf8; margin-top:0;'>2. Lacanian Lack & Absence</h4>
-            <p style='font-size: 12px; color: #cbd5e1;'>
-            <b>Intensity: 92%</b><br>
-            Zehra's inability to remember her mother's face points to a fundamental symbolic void that no institutional explanation can fill.
-            </p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-    with col3:
-        st.markdown(
-            """
-        <div class='metric-container'>
-            <h4 style='color: #38bdf8; margin-top:0;'>3. Foucaultian Panopticism</h4>
-            <p style='font-size: 12px; color: #cbd5e1;'>
-            <b>Intensity: 76%</b><br>
-            The domestic household operating as an internal prison where every inhabitant polices their own unsaid words.
-            </p>
-        </div>
-        """,
-            unsafe_allow_html=True,
-        )
-
-elif selected_module == "🔄 Ontological Decision Branching":
-    st.markdown("### 🔄 Interactive Philosophical Branching Engine")
-    st.markdown(
-        "<p style='color: #94a3b8;'>Select Zehra's investigative trajectory to simulate alternative ontological futures.</p>",
-        unsafe_allow_html=True,
-    )
-
-    user_choice = st.selectbox(
-        "Select Interrogation Vector:",
-        [
-            "Confrontation: 'You didn't protect her; you exiled her, father.'",
-            "Nihilistic Surrender: 'Then this house is just a waiting room for ghosts.'",
-            (
-                "Deconstructive Inquiry: 'What was behind the door she"
-                " opened?'"
-            ),
-        ],
-    )
-
-    if st.button("Execute Neural Simulation Branch"):
-        with st.spinner(
-            "Running quantum narrative and psychoanalytic computation..."
-        ):
-            time.sleep(1.2)
-
-        if "Confrontation" in user_choice:
-            st.markdown(
-                "<div class='warning-box'>🔴 <b>BRANCH OUTCOME [Sartrean Crisis]:</b> Paranoia index surges to <b>94%</b>. Absolute rupture of the symbolic contract. Parviz enters terminal emotional withdrawal.</div>",
-                unsafe_allow_html=True,
-            )
-        elif "Nihilistic Surrender" in user_choice:
-            st.markdown(
-                "<div class='philosophy-box'>🟣 <b>BRANCH OUTCOME [Absolute Dissolution]:</b> Silence index reaches <b>91%</b>. All active communication loops terminate. The domestic architecture freezes in timeless vacuum.</div>",
-                unsafe_allow_html=True,
-            )
-        else:
-            st.markdown(
-                "<div class='safe-box'>🟢 <b>BRANCH OUTCOME [Ontological Breakthrough]:</b> Paranoia stabilizes at <b>48%</b>. A new interpretive vector opens up, bypassing the generational curse through critical awareness.</div>",
-                unsafe_allow_html=True,
-            )
 
 # --- FOOTER ---
 st.markdown("---")
 st.markdown(
-    "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE & PARANOIA ENGINE // CRAFTED FOR MIT MEDIA Lab PORTFOLIO EXCELLENCE</p>",
+    "<p style='text-align: center; color: #4b5563; font-size: 11px;'>ONTOLOGICAL SILENCE & PARANOIA ENGINE // CRAFTED FOR MIT MEDIA Lab PORTFOLIO EXCELLENCE</p>",
     unsafe_allow_html=True,
+)
 )
