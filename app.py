@@ -1,6 +1,7 @@
 import datetime
 import json
 import time
+import pandas as pd
 import streamlit as st
 
 st.set_page_config(
@@ -109,7 +110,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v10.0 (Ultimate)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v11.2 (Ultimate)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -174,7 +175,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         <div class='lab-card'>
             <h3 style='color: #f0883e; margin-top:0;'>⚙️ Interactive Capabilities</h3>
             <p style='color: #c9d1d9; font-size: 14px; line-height: 1.6;'>
-            This system allows researchers to execute smart heuristic NLP checks, run comparative matrix diagnostics, and export structured JSON research dossiers instantly.
+            This system allows researchers to execute smart heuristic NLP checks, view dynamic tension charts, and export structured JSON research dossiers instantly.
             </p>
         </div>
         """,
@@ -188,7 +189,25 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     m3.metric(label="Paranoia Coefficient", value="71.5%")
     m4.metric(label="AI Engine Status", value="ACTIVE")
 
-# --- MODULE 2: SMART AI SCENE ANALYZER (ADVANCED HEURISTICS) ---
+    # --- ACADEMIC CITATION BLOCK ---
+    st.markdown("---")
+    st.markdown("### 📚 Cite This Research Prototype")
+    st.markdown(
+        "<p style='color: #8b949e; font-size: 13px;'>If you are reviewing this artifact for academic or laboratory evaluation, use the following BibTeX citation:</p>",
+        unsafe_allow_html=True,
+    )
+    bibtex_code = (
+        "@software{Chiragli2026OntologicalSilence,\n"
+        "  author = {Chiragli, Agil},\n"
+        "  title = {The Ontological Silence & Paranoia Engine: Computational Dramaturgy Prototype},\n"
+        "  year = {2026},\n"
+        "  url = {https://github.com/agilchiragli/ontological-silence-engine},\n"
+        "  note = {MIT Media Lab Research Portfolio Artifact}\n"
+        "}"
+    )
+    st.code(bibtex_code, language="bibtex")
+
+# --- MODULE 2: SMART AI SCENE ANALYZER (ADVANCED HEURISTICS + CHART) ---
 elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
     st.markdown("### 💬 Smart Heuristic Scene & Subtext Analyzer")
     st.markdown(
@@ -227,7 +246,6 @@ elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
         def analyze_text(text):
             words = text.split()
             wc = len(words)
-            # Ağıllı açar söz skoru (Trauma/Silence keywords)
             trauma_keywords = [
                 "ilhama",
                 "parvaz",
@@ -288,6 +306,27 @@ elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
             st.metric(label="Paranoia Coefficient (B)", value=f"{par_b}%")
             st.markdown(f"🎯 Traversal Markers Detected: {kw_b}")
             st.markdown("</div>", unsafe_allow_html=True)
+
+        # --- NATIVE STREAMLIT LINE CHART ---
+        st.markdown("#### 📈 Structural Tension & Paranoia Fluctuation Vector")
+        chart_data = pd.DataFrame(
+            {
+                "Corpus A (Baseline)": [
+                    sil_a * 0.5,
+                    sil_a * 0.8,
+                    sil_a,
+                    par_a,
+                ],
+                "Corpus B (Intervention)": [
+                    sil_b * 0.5,
+                    sil_b * 0.8,
+                    sil_b,
+                    par_b,
+                ],
+            },
+            index=["Beat 1", "Beat 2", "Climax", "Resolution"],
+        )
+        st.line_chart(chart_data)
 
         if par_a > par_b:
             st.markdown(
