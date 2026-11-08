@@ -36,7 +36,7 @@ st.markdown(
         font-family: 'Courier New', Courier, monospace !important;
     }
     
-    /* TEXTAREA (Mətn daxiletmə qutusu) */
+    /* TEXTAREA & Chat Input */
     .stTextArea textarea {
         background-color: #1e293b !important;
         color: #38bdf8 !important;
@@ -125,7 +125,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v5.0</p>",
+        "<p style='font-size: 11px; color: #94a3b8;'>Computational Dramaturgy & AI Lab v6.0</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -135,6 +135,7 @@ with st.sidebar:
         [
             "🏛️ Executive Manifesto & Context",
             "💬 Custom AI Scene Analyzer (Interactive)",
+            "🧠 Dialogue with the Void (AI Interrogator)",
             "🧠 Neural-Psychoanalytic Simulator",
             "⚛️ Lacanian & Sartrean Subtext Matrix",
             "📜 Core Artifact: 'Ilhama & Parvaz'",
@@ -158,7 +159,6 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     )
     st.markdown("---")
 
-    # Evaluators & Commission Context Brief
     st.markdown(
         """
     <div class='context-box'>
@@ -190,7 +190,7 @@ if selected_module == "🏛️ Executive Manifesto & Context":
         <div class='lab-card'>
             <h3 style='color: #38bdf8; margin-top:0;'>⚙️ Interactive Capabilities</h3>
             <p style='color: #e2e8f0; font-size: 14px; line-height: 1.6;'>
-            This system allows creators and researchers to input custom dialogue lines or adjust psychological friction variables in real time, calculating existential indices instantly.
+            This system allows creators and researchers to input custom dialogue lines, interrogate the narrative via AI agents, and adjust psychological friction variables in real time.
             </p>
         </div>
         """,
@@ -281,7 +281,55 @@ elif selected_module == "💬 Custom AI Scene Analyzer (Interactive)":
             "- **Subtext:** Unspoken truths acting as psychological barriers."
         )
 
-# --- MODULE 3: SIMULATOR ---
+# --- MODULE 3: AI INTERROGATOR (CHATBOT) ---
+elif selected_module == "🧠 Dialogue with the Void (AI Interrogator)":
+    st.markdown("### 💬 Ontological Chatbot & Narrative Interrogator")
+    st.markdown(
+        "<p style='color: #94a3b8;'>Engage in a psychoanalytic dialogue with the computational engine. The AI embodies the structural silence of the house and responds through Lacanian/Sartrean subtext.</p>",
+        unsafe_allow_html=True,
+    )
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            {
+                "role": "assistant",
+                "content": "I am the voice of the kitchen vault. You entered this space seeking answers about Ilhama and Parvaz. What is your question, or are you merely hiding behind words like they do?",
+            }
+        ]
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    if user_prompt := st.chat_input("Ask the engine or challenge the characters..."):
+        st.session_state.messages.append({"role": "user", "content": user_prompt})
+        with st.chat_message("user"):
+            st.markdown(user_prompt)
+
+        with st.chat_message("assistant"):
+            with st.spinner("Decoding structural silence..."):
+                time.sleep(0.8)
+                lower_prompt = user_prompt.lower()
+                if "why" in lower_prompt or "how" in lower_prompt:
+                    bot_reply = (
+                        f"You ask '{user_prompt}', searching for a causal chain where there is only a structural void. "
+                        "Parvaz does not answer because an answer acknowledges the door was opened. "
+                        "What responsibility are you trying to escape by asking this?"
+                    )
+                elif "love" in lower_prompt or "sevgi" in lower_prompt:
+                    bot_reply = (
+                        "Love in this architecture is a regulated currency. 'A person loves their own blood'—a sentence used as armor against the abyss of absence. "
+                        "Does love require a witness, or does it survive only in silence?"
+                    )
+                else:
+                    bot_reply = (
+                        f"Your words ('{user_prompt}') ripple against the marble walls of the kitchen, but they touch no core. "
+                        "The absence of Ilhama remains absolute. Deconstruct your premise: why do you assume speech brings clarity?"
+                    )
+                st.markdown(bot_reply)
+        st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+
+# --- MODULE 4: SIMULATOR ---
 elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
     st.markdown("### 🧠 Multi-Factorial Neural Simulator")
     col1, col2 = st.columns(2)
@@ -295,7 +343,7 @@ elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
     p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
     st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
 
-# --- MODULE 4: SUBTEXT MATRIX ---
+# --- MODULE 5: SUBTEXT MATRIX ---
 elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
     st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
     c1, c2, c3 = st.columns(3)
@@ -308,30 +356,4 @@ elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
         unsafe_allow_html=True,
     )
     c3.markdown(
-        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%<br><p style='font-size:12px; color:#94a3b8; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p></div>",
-        unsafe_allow_html=True,
-    )
-
-# --- MODULE 5: ARTIFACT ---
-elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
-    st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
-    st.text_area(
-        "Corpus Data Stream (Read-Only)",
-        (
-            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
-            "Zahra: - Did Ilhama ever love me?\n"
-            "Parvaz: - Why are you asking?\n"
-            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
-            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
-            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
-            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
-        ),
-        height=220,
-    )
-
-# FOOTER
-st.markdown("---")
-st.markdown(
-    "<p style='text-align: center; color: #64748b; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
-    unsafe_allow_html=True,
-)
+        "<div class='lab-card'><b>3. Foucault Panopticism</b><br>76%<br><p style='
