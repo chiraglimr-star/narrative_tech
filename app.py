@@ -3,7 +3,6 @@ import time
 import plotly.graph_objects as go
 import streamlit as st
 
-# Səhifə konfiqurasiyası
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
     page_icon="👁️",
@@ -11,7 +10,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# --- ADVANCED CYBER-NOIR & AMBER/CYAN CSS PALETTE ---
 st.markdown(
     """
     <style>
@@ -108,11 +106,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# --- SIDEBAR ---
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.5</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v8.6</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -134,7 +131,6 @@ with st.sidebar:
     st.markdown("**Target:** MIT Media Lab Portfolio")
     st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
-# --- MODULE 1: MANIFESTO & CONTEXT ---
 if selected_module == "🏛️ Executive Manifesto & Context":
     st.markdown(
         "<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>",
@@ -190,7 +186,6 @@ if selected_module == "🏛️ Executive Manifesto & Context":
     m3.metric(label="Paranoia Coefficient", value="71.5%")
     m4.metric(label="AI Engine Status", value="ACTIVE")
 
-# --- MODULE 2: CUSTOM AI SCENE ANALYZER & PLOTLY ---
 elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
     st.markdown("### 💬 Custom AI Scene Analyzer & Emotional Vector Meter")
     st.markdown(
@@ -237,4 +232,32 @@ elif selected_module == "💬 Custom AI Scene Analyzer & Plotly":
         res2.metric(label="Calculated Silence Index", value=f"{computed_silence}%")
         res3.metric(label="Paranoia Coefficient", value=f"{computed_paranoia}%")
 
-        st.markdown("### 📈 Real
+        st.markdown("### 📈 Real-Time Plotly Paranoia & Sentiment Vector")
+        st.markdown(
+            "<p style='font-size: 12px; color: #8b949e;'>Tracking psychological tension spikes across dialogue sequence nodes:</p>",
+            unsafe_allow_html=True,
+        )
+
+        x_nodes = [f"Node {i+1}" for i in range(len(lines))]
+        y_values = [min(95, max(20, (i + 1) * 25 + (len(l) % 15))) for i, l in enumerate(lines)]
+
+        fig = go.Figure(
+            data=[
+                go.Scatter(
+                    x=x_nodes,
+                    y=y_values,
+                    mode="lines+markers",
+                    name="Paranoia Vector",
+                    line={"color": "#f0883e", "width": 3},
+                    marker={"size": 10, "color": "#58a6ff"}
+                )
+            ]
+        )
+        fig.update_layout(
+            paper_bgcolor="#07090e",
+            plot_bgcolor="#0d1117",
+            font={"color": "#f1f5f9", "family": "Courier New"},
+            margin={"l": 20, "r": 20, "t": 20, "b": 20},
+            height=280,
+            xaxis={"showgrid": True, "gridcolor": "#30363d"},
+            yaxis={"showgrid": True, "gridcolor": "#30363d", "range": [0, 1
