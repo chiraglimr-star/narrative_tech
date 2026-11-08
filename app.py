@@ -283,3 +283,242 @@ elif selected_module == "💬 Smart AI Scene Analyzer (Advanced)":
 
         wc_a, sil_a, par_a, kw_a = analyze_text(scene_a)
         wc_b, sil_b, par_b, kw_b = analyze_text(scene_b)
+
+        st.markdown("---")
+        st.markdown("### 🔬 Comparative Diagnostic Matrix")
+
+        res_col1, res_col2 = st.columns(2)
+        with res_col1:
+            st.markdown(
+                "<div class='lab-card'><b>Corpus A Metrics</b>",
+                unsafe_allow_html=True,
+            )
+            st.metric(label="Corpus A Word Count", value=wc_a)
+            st.metric(label="Silence Index (A)", value=f"{sil_a}%")
+            st.progress(sil_a / 100)
+            st.metric(label="Paranoia Coefficient (A)", value=f"{par_a}%")
+            st.progress(par_a / 100)
+            st.markdown(f"🎯 Traversal Markers Detected: {kw_a}")
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        with res_col2:
+            st.markdown(
+                "<div class='lab-card'><b>Corpus B Metrics</b>",
+                unsafe_allow_html=True,
+            )
+            st.metric(label="Corpus B Word Count", value=wc_b)
+            st.metric(label="Silence Index (B)", value=f"{sil_b}%")
+            st.progress(sil_b / 100)
+            st.metric(label="Paranoia Coefficient (B)", value=f"{par_b}%")
+            st.progress(par_b / 100)
+            st.markdown(f"🎯 Traversal Markers Detected: {kw_b}")
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        st.markdown("#### 📈 Structural Tension & Paranoia Fluctuation Vector")
+        chart_data = pd.DataFrame(
+            {
+                "Corpus A (Baseline)": [
+                    sil_a * 0.5,
+                    sil_a * 0.8,
+                    sil_a,
+                    par_a,
+                ],
+                "Corpus B (Intervention)": [
+                    sil_b * 0.5,
+                    sil_b * 0.8,
+                    sil_b,
+                    par_b,
+                ],
+            },
+            index=["Beat 1", "Beat 2", "Climax", "Resolution"],
+        )
+        st.line_chart(chart_data)
+
+        if par_a > par_b:
+            st.markdown(
+                "<div class='warning-terminal'>⚠️ <b>DIAGNOSTIC INSIGHT:</b> Corpus A exhibits higher defensive evasion and structural paranoia than Corpus B.</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                "<div class='terminal-box'>🟢 <b>DIAGNOSTIC INSIGHT:</b> Corpus B displays higher direct confrontation, reducing the systemic silence barrier.</div>",
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("---")
+        dossier_data = {
+            "timestamp": str(datetime.datetime.now()),
+            "corpus_a": {"text": scene_a, "silence": sil_a, "paranoia": par_a},
+            "corpus_b": {"text": scene_b, "silence": sil_b, "paranoia": par_b},
+        }
+        st.download_button(
+            label="📥 Export Advanced Research Dossier (JSON)",
+            data=json.dumps(dossier_data, indent=4),
+            file_name="ontological_silence_dual_dossier.json",
+            mime="application/json",
+        )
+
+# --- MODULE 3: DYNAMIC REPLICA EMOTIONAL X-RAY (CUSTOM INPUT) ---
+elif selected_module == "🎭 Dynamic Replica Emotional X-Ray":
+    st.markdown("### 🎭 Dynamic Line-by-Line Emotional & Psychoanalytic X-Ray")
+    st.markdown(
+        "<p style='color: #8b949e;'>Enter any custom dialogue lines below. The heuristic engine will instantly deconstruct each line's subtext tension, defense mechanism, and psychological state.</p>",
+        unsafe_allow_html=True,
+    )
+
+    custom_dialogue_input = st.text_area(
+        "Input Script / Dialogue Lines (Format: Speaker: Line or just sentences):",
+        value=(
+            "Zahra: Did Ilhama ever love me?\n"
+            "Parvaz: Why are you asking?\n"
+            "Zahra: Because I don't remember her voice, father.\n"
+            "Parvaz: Some doors are better left locked."
+        ),
+        height=150,
+    )
+
+    if st.button("⚡ Run Dynamic Emotional X-Ray"):
+        with st.spinner("Deconstructing conversational subtext and defense vectors..."):
+            time.sleep(1)
+
+        lines = [l.strip() for l in custom_dialogue_input.split("\n") if l.strip()]
+
+        st.markdown("---")
+        st.markdown(f"### 🔬 X-Ray Diagnostic Results ({len(lines)} Beats Analyzed)")
+
+        for i, line in enumerate(lines):
+            has_question = "?" in line
+            has_ellipsis = "..." in line
+            length = len(line)
+            
+            tension = min(98, max(35, int(40 + (length * 0.8) + (7 if has_question else 0) + (12 if has_ellipsis else 0))))
+            
+            if tension > 80:
+                card_class = "warning-terminal"
+                emotion = "Ontological Paranoia / Acute Dread"
+                defense = "Absolute Systemic Closure / Evasion"
+            elif tension > 60:
+                card_class = "lab-card"
+                emotion = "Lacanian Void / Defensive Friction"
+                defense = "Sartrean Bad Faith / Rationalization"
+            else:
+                card_class = "terminal-box"
+                emotion = "Surface Clarity / Low Resistance"
+                defense = "Direct Vulnerability / Open Flow"
+
+            st.markdown(f"""
+                <div class='{card_class}'>
+                    <b>Beat {i+1}</b><br>
+                    <i style='color: #58a6ff; font-size: 15px;'>"{line}"</i><br><br>
+                    ⚡ <b>Inferred Emotional State:</b> {emotion}<br>
+                    🛡️ <b>Detected Defense Mechanism:</b> {defense}<br>
+                    📊 <b>Subtext Tension Index:</b> {tension}%
+                </div>
+            """, unsafe_allow_html=True)
+
+# --- MODULE 4: DYNAMIC BRANCHING SIMULATION ---
+elif selected_module == "🔄 Dynamic Branching & Intervention Simulator":
+    st.markdown("### 🔄 Custom Narrative Branching & Simulation Engine")
+    st.markdown(
+        "<p style='color: #8b949e;'>Test custom character reactions and observe how real-time intervention vectors shift structural tension.</p>",
+        unsafe_allow_html=True,
+    )
+
+    custom_intervention = st.text_input(
+        "Enter Custom Character Intervention or Dialogue Line:",
+        value="Zahra steps closer to the door and demands the key.",
+    )
+
+    if st.button("Simulate Custom Vector Trajectory"):
+        with st.spinner("Calculating conversational physics and behavioral outcomes..."):
+            time.sleep(1)
+
+        length_factor = len(custom_intervention)
+        calculated_tension = min(99, max(30, (length_factor * 3) % 95))
+
+        if calculated_tension > 70:
+            st.markdown(
+                f"<div class='warning-terminal'>🔴 <b>HIGH TENSION VECTOR ({calculated_tension}%):</b> The intervention shatters the existing linguistic contract. System enters extreme paranoia mode.</div>",
+                unsafe_allow_html=True,
+            )
+        elif calculated_tension > 45:
+            st.markdown(
+                f"<div class='lab-card'>🟣 <b>MODERATE FRICTION VECTOR ({calculated_tension}%):</b> The system absorbs the statement; structural walls remain intact but fluctuate.</div>",
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                f"<div class='terminal-box'>🟢 <b>STABILIZING VECTOR ({calculated_tension}%):</b> Smooth communicative flow. Symbolic barrier diminishes significantly.</div>",
+                unsafe_allow_html=True,
+            )
+
+# --- MODULE 5: NEURAL SIMULATOR ---
+elif selected_module == "🧠 Neural-Psychoanalytic Simulator":
+    st.markdown("### 🧠 Multi-Factorial Neural Simulator")
+    col1, col2 = st.columns(2)
+    with col1:
+        e_dread = st.slider("Existential Dread", 0, 100, 65)
+        l_void = st.slider("Lacanian Void (Ilhama's Absence)", 0, 100, 70)
+    with col2:
+        l_supp = st.slider("Linguistic Suppression", 0, 100, 80)
+        i_trauma = st.slider("Inherited Trauma (Parvaz factor)", 0, 100, 60)
+
+    p_score = int((e_dread * 0.3) + (l_void * 0.3) + (l_supp * 0.4))
+    st.metric(label="Paranoia Amplification Index", value=f"{p_score}%")
+    st.progress(p_score / 100)
+
+# --- MODULE 6: SUBTEXT MATRIX ---
+elif selected_module == "⚛️ Lacanian & Sartrean Subtext Matrix":
+    st.markdown("### ⚛️ Advanced Psychoanalytic Subtext Matrix")
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(
+        """
+        <div class='lab-card'>
+            <b>1. Sartrean Bad Faith</b><br>88%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Parvaz hiding behind institutionalized duty.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    c2.markdown(
+        """
+        <div class='lab-card'>
+            <b>2. Lacanian Lack</b><br>92%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>Zahra's symbolic void regarding her mother Ilhama.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    c3.markdown(
+        """
+        <div class='lab-card'>
+            <b>3. Foucault Panopticism</b><br>76%<br>
+            <p style='font-size:12px; color:#8b949e; margin-top:5px;'>The kitchen vault acting as an internal surveillance room.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# --- MODULE 7: ARTIFACT ---
+elif selected_module == "📜 Core Artifact: 'Ilhama & Parvaz'":
+    st.markdown("### 📜 Core Artifact: The Kitchen Confrontation")
+    st.text_area(
+        "Corpus Data Stream (Read-Only)",
+        (
+            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
+            "Zahra: - Did Ilhama ever love me?\n"
+            "Parvaz: - Why are you asking?\n"
+            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
+            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
+            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+        ),
+        height=220,
+    )
+
+# FOOTER
+st.markdown("---")
+st.markdown(
+    "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE ENGINE // MIT MEDIA LAB ARTIFACT</p>",
+    unsafe_allow_html=True,
+)
