@@ -149,7 +149,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.2 (Universal Input Edition)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.3 (English Academic Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -191,8 +191,10 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
     st.markdown(
         "<div class='context-box'>"
         "📌 <b>UNIVERSAL INPUT PARSING & AUDIT STANDARDS:</b><br>"
-        "This experimental prototype supports both complex dialogue corpuses and single-word/short-phrase inputs. "
-        "It evaluates semantic valence, contextual topic shifts, and lexical markers robustly across any conversational scenario."
+        "This experimental prototype establishes a three-layer computational pipeline: "
+        "<b>Layer 1 (Computational Linguistics)</b> processes TF-IDF cosine divergence and intra-speaker compression; "
+        "<b>Layer 2 (Theoretical Heuristics)</b> operationalizes philosophical markers (Sartre, Lacan, Foucault) dynamically from user input; "
+        "<b>Layer 3 (Validation Protocol)</b> outlines transparent human annotation and Inter-Rater Reliability (ICC / Krippendorff's Alpha) frameworks."
         "</div>",
         unsafe_allow_html=True,
     )
@@ -274,14 +276,13 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                 tfidf_matrix = None
 
             absolute_lexicon = {
-                "hamı", "heç", "həmişə", "hər", "everyone", "always", 
-                "never", "all", "nobody", "hiç", "because", "heç vaxt", 
-                "heç kim", "hiçbir", "Hiç", "nothing", "hiç kimse"
+                "everyone", "always", "never", "all", "nobody", "nothing", 
+                "hamı", "heç", "həmişə", "hər", "hiç", "hiç kimse"
             }
 
             calm_lexicon = {
-                "calm", "sakit", "rahat", "fine", "ok", "okay", "hə", 
-                "baş üstə", "peace", "sus", "yes", "bilmirəm", "neyse"
+                "calm", "sakit", "rahat", "fine", "ok", "okay", "yes", 
+                "peace", "sure", "quiet", "bilmirəm", "neyse"
             }
             
             results = []
@@ -320,8 +321,8 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
 
                 if is_calm_utterance and i == 0:
                     beat_tension = 12
-                    emo = "Neytral / Sakitləndirici İfadə"
-                    def_mech = "Emosional Sabitləşmə"
+                    emo = "Neutral / Palliative Exchange"
+                    def_mech = "Emotional Stabilization"
                     c_class = "terminal-box"
                 else:
                     raw_score = 15.0 + (evasion_score * w_evasion * 1.2) + (compression_ratio * w_compression) + (lex_density * w_lexical * 15) + (has_q * w_punctuation * 0.8) + (has_ell * w_punctuation * 1.2)
@@ -329,20 +330,24 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
 
                     if is_calm_utterance:
                         beat_tension = int(min(beat_tension, 25))
-                        emo = "Neytral / Sakitləndirici Mübadilə"
-                        def_mech = "Sabitləşmə"
+                        emo = "Neutral / Palliative Exchange"
+                        def_mech = "Stabilization"
                         c_class = "terminal-box"
-                    elif evasion_score > 0.7 or "fuck" in clean_text.lower() or "off" in clean_text.lower():
-                        emo = "Aqressiv Reaksiya / Semantik Qırılma"
-                        def_mech = "Konfrontativ Yayınma / Müdafiə"
+                    elif "fuck" in clean_text.lower() or "off" in clean_text.lower() or "shout" in clean_text.lower() or "!" in clean_text:
+                        emo = "Aggressive Reaction / Confrontational Break"
+                        def_mech = "Confrontational Attack"
                         c_class = "warning-terminal"
-                    elif lex_density > 0.1 or has_ell:
-                        emo = "Ontoloji Qapanma / Simvolik Void"
-                        def_mech = "Defensiv Çəkilmə / Bad Faith"
+                    elif evasion_score > 0.65:
+                        emo = "Defensive Deflection / Topic Shifting"
+                        def_mech = "Sartrean Bad Faith / Deflection"
                         c_class = "lab-card"
+                    elif lex_density > 0.1 or has_ell or "(silence)" in clean_text.lower():
+                        emo = "Ontological Closure / Symbolic Void"
+                        def_mech = "Defensive Withdrawal / Lacanian Lack"
+                        c_class = "warning-terminal"
                     else:
-                        emo = "Dinamik İnteraksiya / Gərgin Mübadilə"
-                        def_mech = "Açıq Ekspozisiya"
+                        emo = "Dynamic Interaction / High-Tension Exchange"
+                        def_mech = "Open Exposure"
                         c_class = "terminal-box"
 
                 total_tension += beat_tension
@@ -400,7 +405,7 @@ elif selected_module == "🔄 Rule-Based Branching Demonstrator":
         with st.spinner("Calculating conversational physics..."):
             time.sleep(0.4)
 
-        aggressive_keywords = ["qışqır", "sındır", "demand", "shatter", "vur", "qırıntı", "fuck", "off"]
+        aggressive_keywords = ["shout", "break", "demand", "shatter", "hit", "fuck", "off"]
         is_aggressive = any(kw in intervention_input.lower() for kw in aggressive_keywords)
         peak_b2 = 100 if is_aggressive else 92
 
@@ -471,7 +476,7 @@ elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
             "she loved no one... everyone in this house opened that door themselves."
         ).lower()
 
-    bad_faith_score = min(98, int(30 + (active_text_sample.count("hamı") + active_text_sample.count("everyone") + active_text_sample.count("blood") + active_text_sample.count("because")) * 12))
+    bad_faith_score = min(98, int(30 + (active_text_sample.count("everyone") + active_text_sample.count("blood") + active_text_sample.count("because")) * 12))
     lacanian_score = min(98, int(40 + (active_text_sample.count("remember") + active_text_sample.count("voice") + active_text_sample.count("?") + active_text_sample.count("admit")) * 10))
     panopticon_score = min(98, int(35 + (active_text_sample.count("door") + active_text_sample.count("house") + active_text_sample.count("desk")) * 18))
 
