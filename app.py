@@ -42,7 +42,7 @@ MEGA_LEXICON = {
         "missing", "absence", "lack", "without", "dark", "cold", "frozen",
         "hollow", "abyss", "blank", "barren", "desolate", "deserted", "abandoned", "isolated",
         "death", "final", "last", "buried", "grave", "tomb", "funeral",
-        "mourning", "grief", "sorrow", "tragedy", "loss", "passing", "departure"
+        "mourning", "grief", "sorrow", "tragedy", "loss", "passing", "departure", "gone"
     ],
     "WITHDRAWAL": [
         "sad", "cry", "tears", "pain", "hurt", "fear", "afraid", "scared", "worried", "anxious",
@@ -215,7 +215,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v19.5 (Mega Suite Edition)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v19.6 (Final Clean Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -627,18 +627,18 @@ elif selected_module == "📈 Narrative Turning Point Detector":
             )
 
 # ==============================================================================
-# 12. MODULE 6: DYNAMIC EXPLAINABLE ANALYSIS (XAI)
+# 12. MODULE 6: DYNAMIC EXPLAINABLE ANALYSIS (XAI) - FULLY UPDATED
 # ==============================================================================
 elif selected_module == "🔍 Explainable Analysis (XAI)":
     st.markdown("### 🔍 Explainable AI (XAI) Transparency Auditor")
     st.markdown(
-        "<p style='color: #8b949e;'>Deconstructs algorithm decisions dynamically using the Mega Lexicon backend.</p>",
+        "<p style='color: #8b949e;'>Deconstructs algorithm decisions dynamically using the Mega Lexicon backend with strict priority logic and stop-word filtering.</p>",
         unsafe_allow_html=True,
     )
 
     sample_target_line = st.text_input(
         "Select / Input Dialogue Line to Audit:",
-        value="Marko: - I didn't hide the evidence. I just didn't tell you the truth about the road."
+        value="Sarah: - I tried to call for help, but my voice was completely gone. I just stood there in the empty hallway, waiting for the silence to end."
     )
 
     if st.button("⚡ Run Dynamic XAI Attribution Audit"):
@@ -649,12 +649,15 @@ elif selected_module == "🔍 Explainable Analysis (XAI)":
         clean_lower = clean_target.lower()
         words = clean_target.split()
         
-        word_freq = Counter([w.lower().strip(".,!?") for w in words if len(w) > 2])
+        # Stop Words Filtrinin Tətbiqi və min söz uzunluğu > 3
+        STOP_WORDS = {"the", "and", "for", "but", "with", "just", "not", "you", "this", "that", "was", "were", "are", "has", "have", "had", "there", "here", "from", "they", "she", "him", "her", "its", "very", "completely"}
+        word_freq = Counter([w.lower().strip(".,!?") for w in words if len(w) > 3 and w.lower() not in STOP_WORDS])
         
         feature_list = []
         total_weight = 0
         
-        for word, freq in word_freq.most_common(5):
+        # most_common(15) istifadə olunur
+        for word, freq in word_freq.most_common(15):
             weight = len(word) * freq * 2.5
             contrib = "General Lexical Token"
             
@@ -680,15 +683,24 @@ elif selected_module == "🔍 Explainable Analysis (XAI)":
         for f in feature_list:
             f["weight_pct"] = round((f["weight"] / total_weight) * 100, 1) if total_weight > 0 else 0
             
-        if any(w in clean_lower for w in MEGA_LEXICON["DEFENSE"]):
-            assigned_class = "Sartrean Bad Faith / Rationalization"
-            tension_est = 68
+        has_q = "?" in clean_target
+
+        # Təkmilləşdirilmiş Təsnifat Sırası (Silence ən yüksək prioritet)
+        if any(w in clean_lower for w in MEGA_LEXICON["SILENCE"]):
+            assigned_class = "Silence / Deep Void"
+            tension_est = 95
         elif any(w in clean_lower for w in MEGA_LEXICON["AGGRESSIVE"]):
             assigned_class = "Aggressive Accusation / Confrontation"
-            tension_est = 88
-        elif any(w in clean_lower for w in MEGA_LEXICON["SILENCE"]):
-            assigned_class = "Silence / Deep Void"
-            tension_est = 94
+            tension_est = 85
+        elif any(w in clean_lower for w in MEGA_LEXICON["WITHDRAWAL"]):
+            assigned_class = "Emotional Withdrawal / Melancholia"
+            tension_est = 75
+        elif any(w in clean_lower for w in MEGA_LEXICON["DEFENSE"]):
+            assigned_class = "Sartrean Bad Faith / Rationalization"
+            tension_est = 65
+        elif has_q:
+            assigned_class = "Direct Inquiry / Interrogation"
+            tension_est = 45
         else:
             assigned_class = "Dynamic Interaction"
             tension_est = 35
@@ -697,7 +709,7 @@ elif selected_module == "🔍 Explainable Analysis (XAI)":
         st.markdown("### 🔎 Transparent Attribution Report")
         
         if not feature_list:
-            st.warning("No analyzable tokens found.")
+            st.warning("No analyzable tokens found after stop-word filtering.")
         else:
             st.markdown(
                 f"<div class='context-box'>"
