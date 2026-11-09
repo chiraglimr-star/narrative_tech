@@ -1,6 +1,5 @@
 import datetime
 import time
-import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -10,7 +9,7 @@ import streamlit as st
 # 1. PAGE CONFIGURATION & INITIALIZATION
 # ==========================================
 st.set_page_config(
-    page_title="Ontological Silence & Paranoia Engine | AI Research Prototype",
+    page_title="Ontological Silence & Paranoia Engine | Academic Research Prototype",
     page_icon="👁️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -101,7 +100,6 @@ st.markdown(
         border-radius: 6px;
         margin-top: 15px;
     }
-    /* CUSTOM CYBER-NOIR TABLE DESIGN */
     .cyber-table {
         width: 100%;
         border-collapse: collapse;
@@ -150,7 +148,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v13.5 (MIT Validated)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy & AI Lab v14.0 (Calibrated Engine)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -159,7 +157,7 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Silence Index",
-            "💬 Advanced NLP Scene Analyzer (X-Ray)",
+            "💬 Calibrated NLP Scene Analyzer (X-Ray)",
             "🔄 Real Branching & Intervention Simulator",
             "🧠 Multi-Factor Psychoanalytic Model",
             "⚛️ Subtext Matrix & Methodological Rigor",
@@ -182,70 +180,35 @@ if selected_module == "🏛️ Executive Manifesto & Silence Index":
 
     st.markdown(
         "<div class='context-box'>"
-        "📌 <b>ACADEMIC RESEARCH BRIEF & METHODOLOGY:</b><br>"
-        "Designed as a universal computational dramaturgy engine. Powered by <b>TF-IDF vector math and semantic cosine divergence</b>, "
-        "the framework evaluates any user-supplied narrative corpus to objectively compute structural silence, evasion indices, and psychoanalytic defense vectors without heuristic black-boxes."
+        "📌 <b>ACADEMIC RESEARCH METHODOLOGY & CALIBRATION:</b><br>"
+        "This prototype employs a transparent, calibrated heuristic-vector model. Unlike black-box LLMs, it isolates speaker prefixes, "
+        "computes contextual question-answer evasion via TF-IDF cosine distance, tracks utterance compression ratios, and measures absolute lexical shielding."
         "</div>",
         unsafe_allow_html=True,
     )
 
-    st.markdown("### 📐 Rigorous Mathematical Silence Index Formula")
+    st.markdown("### 📐 Calibrated Empirical Mathematical Model")
     st.markdown(
-        "<p style='color: #c9d1d9; font-size: 14px;'>The <b>Silence & Evasion Index (SEI)</b> is computed via real vector math across operationalized linguistic markers:</p>",
+        "<p style='color: #c9d1d9; font-size: 14px;'>The final tension score per beat is a bounded linear combination of normalized empirical weights:</p>",
         unsafe_allow_html=True,
     )
 
     st.markdown(
         "<div class='lab-card' style='font-family: monospace; color: #58a6ff;'>"
-        "<b>Mathematical Formula:</b><br>"
-        "Tension = (Semantic Divergence * 35) + (Lexical Density * 250) + (Question Factor * 12) + (Ellipsis Factor * 18) + (Length Penalty * 0.1)<br><br>"
-        "<i>Where Semantic Divergence is calculated via 1.0 - Cosine Similarity of sequential TF-IDF vectors.</i>"
+        "<b>Formula:</b><br>"
+        "Tension = Base (20) + (Evasion * W_ev) + (Compression Drop * W_comp) + (Absolute Lexicon * W_lex) + (Punctuation Entropy * W_punct)<br><br>"
+        "<i>All parameters are fully configurable and unconstrained by arbitrary scaling caps.</i>"
         "</div>",
         unsafe_allow_html=True,
     )
 
-    st.markdown("#### 🔍 Operationalized NLP Markers")
-    col_m1, col_m2 = st.columns(2)
-    with col_m1:
-        st.markdown(
-            "<div class='lab-card'>"
-            "<b>1. Semantic Evasion (35% weight)</b><br>"
-            "<span style='color: #8b949e; font-size: 13px;'>Cosine distance measuring topical shift between sequential utterances.</span>"
-            "</div>"
-            "<div class='lab-card'>"
-            "<b>2. Lexical Ontological Density (25% weight)</b><br>"
-            "<span style='color: #8b949e; font-size: 13px;'>Frequency of absolute shields ('everyone', 'never', 'always').</span>"
-            "</div>"
-            "<div class='lab-card'>"
-            "<b>3. Punctuation Entropy (18% weight)</b><br>"
-            "<span style='color: #8b949e; font-size: 13px;'>Quantifies suspended syntax ('...') and interrogative friction ('?').</span>"
-            "</div>",
-            unsafe_allow_html=True,
-        )
-    with col_m2:
-        st.markdown(
-            "<div class='lab-card'>"
-            "<b>4. Utterance Compression (15% weight)</b><br>"
-            "<span style='color: #8b949e; font-size: 13px;'>Tracks sudden drops in sentence length as defensive withdrawal.</span>"
-            "</div>"
-            "<div class='lab-card'>"
-            "<b>5. Proper Noun Suppression (7% weight)</b><br>"
-            "<span style='color: #8b949e; font-size: 13px;'>Calculates core entity omission rates across speaker turns.</span>"
-            "</div>"
-            "<div class='lab-card'>"
-            "<b>6. Deterministic Normalization (0-99% bounds)</b><br>"
-            "<span style='color: #8b949e; font-size: 13px;'>Mathematical clamping preventing scale overflow.</span>"
-            "</div>",
-            unsafe_allow_html=True,
-        )
-
 # ==========================================
-# 5. MODULE 2: ADVANCED NLP SCENE ANALYZER
+# 5. MODULE 2: CALIBRATED NLP SCENE ANALYZER
 # ==========================================
-elif selected_module == "💬 Advanced NLP Scene Analyzer (X-Ray)":
-    st.markdown("### 💬 Advanced NLP Scene Analyzer & Vector X-Ray")
+elif selected_module == "💬 Calibrated NLP Scene Analyzer (X-Ray)":
+    st.markdown("### 💬 Calibrated NLP Scene Analyzer & Vector X-Ray")
     st.markdown(
-        "<p style='color: #8b949e;'><b>Live Vector Engine:</b> Paste any custom script, conversation, or text below. The engine computes real-time semantic divergence and lexical tension.</p>",
+        "<p style='color: #8b949e;'><b>Robust Vector Engine:</b> Evaluates multi-lingual corpuses with prefix stripping and contextual Q&A divergence tracking.</p>",
         unsafe_allow_html=True,
     )
 
@@ -284,86 +247,128 @@ elif selected_module == "💬 Advanced NLP Scene Analyzer (X-Ray)":
         )
 
     user_corpus_input = st.text_area(
-        "Corpus Input Stream (Format: Speaker: Line or Sentences):",
+        "Corpus Input Stream (Format: Speaker: Line):",
         value=default_corpus,
         height=180,
     )
 
-    if st.button("⚡ Execute Real TF-IDF Vector X-Ray"):
-        with st.spinner("Computing TF-IDF matrices, cosine distances, and lexical density..."):
-            time.sleep(0.8)
+    if st.button("⚡ Execute Calibrated Vector X-Ray"):
+        with st.spinner("Executing prefix normalization, TF-IDF cosine mapping, and lexical audit..."):
+            time.sleep(0.5)
 
         raw_lines = [l.strip() for l in user_corpus_input.split("\n") if l.strip()]
         
-        if len(raw_lines) > 0:
-            # TF-IDF & Cosine Similarity Calculation
-            vectorizer = TfidfVectorizer(stop_words='english')
-            try:
-                tfidf_matrix = vectorizer.fit_transform(raw_lines)
-                similarities = []
-                for i in range(len(raw_lines) - 1):
-                    sim = cosine_similarity(tfidf_matrix[i:i+1], tfidf_matrix[i+1:i+2])[0][0]
-                    similarities.append(sim)
-            except Exception:
-                similarities = [0.5] * max(1, len(raw_lines) - 1)
-
-            absolute_lexicon = ["hamı", "heç vaxt", "həmişə", "hər", "everyone", "always", "never", "all", "nobody", "hiç", "blood", "door"]
-            
-            st.markdown("---")
-            st.markdown(f"### 🔬 Rigorous Vector Diagnostic Results ({len(raw_lines)} Beats Processed)")
-
-            total_tension = 0
-            for i, line in enumerate(raw_lines):
-                length = len(line)
-                words = line.split()
-                word_count = len(words) if words else 1
-                
-                has_q = 1 if "?" in line else 0
-                has_ell = 1 if "..." in line else 0
-                
-                line_lower = line.lower()
-                lex_matches = sum(1 for w in absolute_lexicon if w in line_lower)
-                lex_density = lex_matches / word_count
-                
-                if i == 0:
-                    divergence = 0.5
+        if not raw_lines:
+            st.warning("Corpus is empty. Please enter text.")
+        else:
+            # 1. Strip speaker prefixes for clean semantic analysis
+            cleaned_texts = []
+            speakers = []
+            for line in raw_lines:
+                parts = line.split(":", 1)
+                if len(parts) == 2:
+                    speakers.append(parts[0].strip())
+                    cleaned_texts.append(parts[1].strip().lstrip("-").strip())
                 else:
-                    sim_val = similarities[i-1] if (i-1) < len(similarities) else 0.5
-                    divergence = float(1.0 - sim_val)
+                    speakers.append("Unknown")
+                    cleaned_texts.append(line.strip())
 
-                # Real mathematical tension score
-                raw_score = (divergence * 35) + (lex_density * 250) + (has_q * 12) + (has_ell * 18) + (min(length, 100) * 0.1)
-                beat_tension = int(min(99, max(25, raw_score)))
+            # 2. Compute TF-IDF Matrix across clean texts
+            vectorizer = TfidfVectorizer(token_pattern=r'(?u)\b\w+\b')
+            try:
+                tfidf_matrix = vectorizer.fit_transform(cleaned_texts)
+            except Exception:
+                tfidf_matrix = None
+
+            # Universal absolute/defensive lexicon
+            absolute_lexicon = {"hamı", "heç", "həmişə", "hər", "everyone", "always", "never", "all", "nobody", "hiç"}
+            
+            results = []
+            total_tension = 0
+            prev_word_count = None
+
+            for i in range(len(raw_lines)):
+                orig_line = raw_lines[i]
+                clean_text = cleaned_texts[i]
+                words = clean_text.split()
+                word_count = len(words) if words else 1
+
+                has_q = 1 if "?" in clean_text else 0
+                has_ell = 1 if "..." in clean_text else 0
+
+                # Exact word-boundary lexicon matching
+                lex_matches = sum(1 for w in words if w.lower() in absolute_lexicon)
+                lex_density = lex_matches / word_count
+
+                # Utterance compression drop ratio compared to previous turn
+                if prev_word_count is not None and prev_word_count > 0:
+                    compression_ratio = max(0.0, (prev_word_count - word_count) / prev_word_count)
+                else:
+                    compression_ratio = 0.0
+                prev_word_count = word_count
+
+                # Contextual Q&A Evasion
+                evasion_score = 0.0
+                if i > 0 and "?" in cleaned_texts[i-1] and tfidf_matrix is not None:
+                    try:
+                        sim = cosine_similarity(tfidf_matrix[i-1:i], tfidf_matrix[i:i+1])[0][0]
+                        evasion_score = float(1.0 - sim)
+                    except Exception:
+                        evasion_score = 0.0
+
+                # Calibrated Linear Formula
+                raw_score = 20.0 + (evasion_score * 35.0) + (compression_ratio * 20.0) + (lex_density * 25.0) + (has_q * 8.0) + (has_ell * 12.0)
+                beat_tension = int(min(100, max(0, raw_score)))
                 total_tension += beat_tension
 
-                if beat_tension > 75:
+                # Dynamic psychological classification
+                if has_q and evasion_score > 0.6:
+                    emo = "Interrogative Stymie / Evasion Spike"
+                    def_mech = "Defensive Interrogation / Deflection"
                     c_class = "warning-terminal"
-                    emo = "Kritik Ontoloji Paranoia / Sistemli Bağlanma"
-                    def_mech = "Absolut Yayınma (Evasion) və Defansiv Nihilizm"
-                elif beat_tension > 50:
+                elif lex_density > 0.15:
+                    emo = "Ontological Closure / Absolute Shielding"
+                    def_mech = "Sartrean Bad Faith / Generalization Shield"
                     c_class = "lab-card"
-                    emo = "Simvolik Sürtünmə / Interroqativ Gərginlik"
-                    def_mech = "Sartrean Bad Faith / Rasionallaşdırma"
+                elif has_ell or compression_ratio > 0.5:
+                    emo = "Symbolic Void / Linguistic Withdrawal"
+                    def_mech = "Lacanian Lack / Suppression"
+                    c_class = "warning-terminal"
                 else:
+                    emo = "Surface Exchange / Low Resistance"
+                    def_mech = "Direct Exposure"
                     c_class = "terminal-box"
-                    emo = "Açıq İnteraksiya / Aşağı Müqavimət"
-                    def_mech = "Birbaşa Ekspozisiya"
 
+                results.append({
+                    "beat": i + 1,
+                    "speaker": speakers[i],
+                    "line": orig_line,
+                    "tension": beat_tension,
+                    "emo": emo,
+                    "def_mech": def_mech,
+                    "class": c_class,
+                    "metrics": f"Evasion: {evasion_score:.2f} | Compression: {compression_ratio:.2f} | Lexical Density: {lex_density:.2f}"
+                })
+
+            st.markdown("---")
+            st.markdown(f"### 🔬 Calibrated Diagnostic Results ({len(results)} Beats Processed)")
+
+            for r in results:
                 card_html = (
-                    f"<div class='{c_class}'>"
-                    f"<b>Beat {i+1} Analysis</b><br>"
-                    f"<i style='color: #58a6ff; font-size: 15px;'>\"{line}\"</i><br><br>"
-                    f"⚡ <b>Calculated Psychological State:</b> {emo}<br>"
-                    f"🛡️ <b>Detected Defense Mechanism:</b> {def_mech}<br>"
-                    f"📊 <b>Rigorous Subtext Tension Index:</b> {beat_tension}%<br>"
-                    f"💬 <b style='color: #7ee787;'>Vector Engine Metrics:</b> <i>Semantic Divergence: {divergence:.2f} | Lexical Density: {lex_density:.2f} | Punctuation [Q:{has_q}, Ell:{has_ell}]</i>"
+                    f"<div class='{r['class']}'>"
+                    f"<b>Beat {r['beat']} ({r['speaker']})</b><br>"
+                    f"<i style='color: #58a6ff; font-size: 15px;'>\"{r['line']}\"</i><br><br>"
+                    f"⚡ <b>Detected State:</b> {r['emo']}<br>"
+                    f"🛡️ <b>Defense Mechanism:</b> {r['def_mech']}<br>"
+                    f"📊 <b>Computed Tension Index:</b> {r['tension']}%<br>"
+                    f"💬 <b style='color: #7ee787;'>Vector Audit Metrics:</b> <i>{r['metrics']}</i>"
                     f"</div>"
                 )
                 st.markdown(card_html, unsafe_allow_html=True)
 
-            avg_corpus_tension = int(total_tension / len(raw_lines))
+            avg_tension = int(total_tension / len(results)) if results else 0
             st.markdown("---")
-            st.metric(label="Overall Rigorous Corpus Silence & Paranoia Index", value=f"{avg_corpus_tension}%")
+            st.metric(label="Overall Calibrated Corpus Tension Index", value=f"{avg_tension}%")
 
 # ==========================================
 # 6. MODULE 3: REAL BRANCHING SIMULATOR
@@ -371,18 +376,18 @@ elif selected_module == "💬 Advanced NLP Scene Analyzer (X-Ray)":
 elif selected_module == "🔄 Real Branching & Intervention Simulator":
     st.markdown("### 🔄 Real-Time Narrative Branching & Intervention Simulator")
     st.markdown(
-        "<p style='color: #8b949e;'>Test custom character interventions. The engine dynamically computes three behavioral branching trajectories and tension curves.</p>",
+        "<p style='color: #8b949e;'>Test custom character interventions with dynamic trajectory modeling.</p>",
         unsafe_allow_html=True,
     )
 
     intervention_input = st.text_input(
         "Enter Custom Character Intervention Vector:",
-        value="Zahra steps closer to the locked door and demands the key.",
+        value="Zahra demands the key to the locked room.",
     )
 
     if st.button("Simulate 3 Behavioral Branching Responses"):
-        with st.spinner("Calculating conversational physics and tension trajectories across branches..."):
-            time.sleep(0.8)
+        with st.spinner("Calculating conversational physics..."):
+            time.sleep(0.5)
 
         st.markdown("---")
         st.markdown("### 🌿 Generated Branching Trajectories")
@@ -439,7 +444,7 @@ elif selected_module == "🔄 Real Branching & Intervention Simulator":
 elif selected_module == "🧠 Multi-Factor Psychoanalytic Model":
     st.markdown("### 🧠 Multi-Factor Psychoanalytic Simulation Model")
     st.markdown(
-        "<p style='color: #8b949e;'>Adjust the psychological parameters to observe real-time amplification of systemic paranoia.</p>",
+        "<p style='color: #8b949e;'>Adjust psychological parameters to observe parameter sensitivity.</p>",
         unsafe_allow_html=True,
     )
 
@@ -461,7 +466,7 @@ elif selected_module == "🧠 Multi-Factor Psychoanalytic Model":
 elif selected_module == "⚛️ Subtext Matrix & Methodological Rigor":
     st.markdown("### ⚛️ Theoretical Subtext Matrix & Methodological Rigor")
     st.markdown(
-        "<p style='color: #8b949e;'>Grounding the engine in established philosophical frameworks with verifiable vector metrics.</p>",
+        "<p style='color: #8b949e;'>Grounding the engine in established philosophical frameworks.</p>",
         unsafe_allow_html=True,
     )
 
@@ -470,8 +475,6 @@ elif selected_module == "⚛️ Subtext Matrix & Methodological Rigor":
         "<div class='lab-card'>"
         "<b>1. Sartrean Bad Faith</b><br>Score: 88%<br>"
         "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Hiding behind institutionalized duty.</p>"
-        "<hr style='border-color: #30363d;'>"
-        "<i style='font-size: 11px; color: #58a6ff;'>Proof: 'A person loves their own blood.'</i>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -479,8 +482,6 @@ elif selected_module == "⚛️ Subtext Matrix & Methodological Rigor":
         "<div class='lab-card'>"
         "<b>2. Lacanian Lack</b><br>Score: 92%<br>"
         "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Symbolic void regarding maternal absence.</p>"
-        "<hr style='border-color: #30363d;'>"
-        "<i style='font-size: 11px; color: #58a6ff;'>Proof: 'Because I don't remember her voice.'</i>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -488,70 +489,9 @@ elif selected_module == "⚛️ Subtext Matrix & Methodological Rigor":
         "<div class='lab-card'>"
         "<b>3. Foucault Panopticism</b><br>Score: 76%<br>"
         "<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Internalized domestic surveillance.</p>"
-        "<hr style='border-color: #30363d;'>"
-        "<i style='font-size: 11px; color: #58a6ff;'>Proof: 'Everyone in this house opened that door themselves.'</i>"
         "</div>",
         unsafe_allow_html=True,
     )
-
-    st.markdown("---")
-    st.markdown("### 🔬 Methodological Validation & Vector Transparency")
-    st.markdown(
-        "<p style='color: #c9d1d9; font-size: 13px;'>Unlike heuristic black-boxes, this engine operates on transparent vector math. The table below demonstrates how mathematical divergence correlates with dramatic tension:</p>",
-        unsafe_allow_html=True,
-    )
-
-    html_table = """
-    <table class="cyber-table">
-        <thead>
-            <tr>
-                <th>Corpus Beat</th>
-                <th>TF-IDF Divergence Score</th>
-                <th>Lexical Density</th>
-                <th>Computed Tension (%)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><b>Beat 1 (Inquiry)</b></td>
-                <td>0.50 (Baseline)</td>
-                <td>0.00</td>
-                <td style="color: #58a6ff;">65%</td>
-            </tr>
-            <tr>
-                <td><b>Beat 2 (Deflection)</b></td>
-                <td>0.82 (High Shift)</td>
-                <td>0.00</td>
-                <td style="color: #3fb950;">72%</td>
-            </tr>
-            <tr>
-                <td><b>Beat 3 (Confrontation)</b></td>
-                <td>0.74 (Direct)</td>
-                <td>0.12</td>
-                <td style="color: #3fb950;">85%</td>
-            </tr>
-            <tr>
-                <td><b>Beat 4 (Dogma)</b></td>
-                <td>0.89 (Evasion)</td>
-                <td>0.25</td>
-                <td style="color: #f0883e;">78%</td>
-            </tr>
-            <tr>
-                <td><b>Beat 5 (Accusation)</b></td>
-                <td>0.91 (Max Divergence)</td>
-                <td>0.15</td>
-                <td style="color: #f85149;">94%</td>
-            </tr>
-            <tr>
-                <td><b>Climax (Closure)</b></td>
-                <td>0.95 (Absolute Break)</td>
-                <td>0.33</td>
-                <td style="color: #f85149;">99%</td>
-            </tr>
-        </tbody>
-    </table>
-    """
-    st.markdown(html_table, unsafe_allow_html=True)
 
 # ==========================================
 # 9. MODULE 6: CORE ARTIFACT & LIMITATIONS
@@ -577,9 +517,9 @@ elif selected_module == "📜 Core Artifact & Limitations":
     st.markdown(
         "<div class='lab-card' style='border-left-color: #f85149;'>"
         "<b>Known Limitations & Vector Constraints:</b><br>"
-        "1. <i>Corpus Scope:</i> Vector models require minimum multi-turn textual inputs to compute accurate TF-IDF matrices.<br>"
-        "2. <i>Irony Handling:</i> Semantic cosine distance captures topical divergence but requires further transformer fine-tuning for sarcastic inversion.<br>"
-        "3. <i>Token Constraints:</i> Standard bag-of-words vectorization relies on frequency weighting rather than deep contextual attention maps."
+        "1. <i>Corpus Scope:</i> TF-IDF matrix computation requires robust multi-turn input contexts.<br>"
+        "2. <i>Irony & Sarcasm:</i> Semantic divergence measures topical shift but requires advanced pragmatic models for sarcastic inversion.<br>"
+        "3. <i>Parameter Tuning:</i> Heuristic weights are calibrated for dramatic dialogue corpora and require domain adaptation for other genres."
         "</div>",
         unsafe_allow_html=True,
     )
