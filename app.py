@@ -166,7 +166,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v19.0 (Full Research Suite)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v19.1 (Dynamic XAI Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -229,7 +229,7 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
         "<b>2. Conversational Power & Dominance Mapping;</b> "
         "<b>3. Unanswered Question & Deflection Tracking;</b> "
         "<b>4. Structural Turning Point Detection;</b> "
-        "<b>5. Explainable AI (XAI) Attribution Auditing;</b> "
+        "<b>5. Fully Dynamic Explainable AI (XAI) Attribution Auditing;</b> "
         "<b>6. Cross-Corpus Comparative Diagnostics.</b>"
         "</div>",
         unsafe_allow_html=True,
@@ -238,7 +238,7 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
     st.markdown("#### 🔬 Core Research Objectives")
     st.markdown("* **Quantifying Subtext:** Measuring conversational evasion and psychological withdrawal in dramatic dialogue.")
     st.markdown("* **Conversational Physics:** Tracking narrative tension curves across branching dialogue trees.")
-    st.markdown("* **Explainable Transparency:** Unveiling the heuristic rationale behind psychological classifications.")
+    st.markdown("* **Explainable Transparency:** Unveiling real-time heuristic attribution behind psychological classifications.")
 
 # ==============================================================================
 # 7. MODULE 2: UNIVERSAL NLP SCENE ANALYZER
@@ -455,7 +455,7 @@ elif selected_module == "🕸️ Character Relationship & Power Map":
                 )
 
 # ==============================================================================
-# 9. MODULE 4: UNANSWERED QUESTION TRACKER (NEW)
+# 9. MODULE 4: UNANSWERED QUESTION TRACKER
 # ==============================================================================
 elif selected_module == "❓ Unanswered Question Tracker":
     st.markdown("### ❓ Unanswered Question & Deflection Tracker")
@@ -482,7 +482,6 @@ elif selected_module == "❓ Unanswered Question Tracker":
             next_line = lines[i + 1]
 
             if "?" in curr_line:
-                # Parse speaker and text
                 p_curr = curr_line.split(":", 1)
                 asker = p_curr[0].strip() if len(p_curr) == 2 else "Speaker"
                 q_text = p_curr[1].strip() if len(p_curr) == 2 else curr_line
@@ -492,7 +491,6 @@ elif selected_module == "❓ Unanswered Question Tracker":
                 r_text = p_next[1].strip() if len(p_next) == 2 else next_line
 
                 r_lower = r_text.lower()
-                # Heuristic check for direct answer vs deflection
                 is_deflection = any(w in r_lower for w in ["why", "luxury", "matter", "out of", "afford", "need to", "silence"]) or "?" in r_text
 
                 status = "⚠️ Deflected / Unanswered" if is_deflection else "✅ Directly Addressed"
@@ -521,7 +519,7 @@ elif selected_module == "❓ Unanswered Question Tracker":
             )
 
 # ==============================================================================
-# 10. MODULE 5: NARRATIVE TURNING POINT DETECTOR (NEW)
+# 10. MODULE 5: NARRATIVE TURNING POINT DETECTOR
 # ==============================================================================
 elif selected_module == "📈 Narrative Turning Point Detector":
     st.markdown("### 📈 Narrative Turning Point Detector")
@@ -580,55 +578,106 @@ elif selected_module == "📈 Narrative Turning Point Detector":
             )
 
 # ==============================================================================
-# 11. MODULE 6: EXPLAINABLE ANALYSIS / XAI (NEW)
+# 11. MODULE 6: DYNAMIC EXPLAINABLE ANALYSIS (XAI)
 # ==============================================================================
 elif selected_module == "🔍 Explainable Analysis (XAI)":
     st.markdown("### 🔍 Explainable AI (XAI) Transparency Auditor")
     st.markdown(
-        "<p style='color: #8b949e;'>Deconstructs algorithm decisions, revealing lexical tokens, metric weights, and contextual dependencies behind classifications.</p>",
+        "<p style='color: #8b949e;'>Deconstructs algorithm decisions dynamically, revealing real-time token weights, lexical features, and contextual dependencies behind classifications.</p>",
         unsafe_allow_html=True,
     )
 
     sample_target_line = st.text_input(
         "Select / Input Dialogue Line to Audit:",
-        value="Marko: - Truth is a luxury we cannot afford right now."
+        value="Marko: - I didn't hide the evidence. I just didn't tell you the truth about the road."
     )
 
-    if st.button("⚡ Run XAI Attribution Audit"):
-        with st.spinner("Extracting attribution weights and feature importance..."):
+    if st.button("⚡ Run Dynamic XAI Attribution Audit"):
+        with st.spinner("Executing real-time token attribution and feature importance calculation..."):
             time.sleep(0.3)
 
+        # ==========================================
+        # DİNAMİK XAI MODULU
+        # ==========================================
+        clean_target = sample_target_line.split(":", 1)[-1].strip().lstrip("-").strip()
+        clean_lower = clean_target.lower()
+        words = clean_target.split()
+        
+        word_freq = Counter([w.lower().strip(".,!?") for w in words if len(w) > 2])
+        
+        philosophical_markers = ["truth", "luxury", "afford", "matter", "family", "future", "past", "protocol", "absolute"]
+        aggressive_markers = ["fuck", "hate", "kill", "left", "hide", "road", "shut", "down", "evidence", "never"]
+        silence_markers = ["silence", "sükut", "..."]
+        
+        feature_list = []
+        total_weight = 0
+        
+        for word, freq in word_freq.most_common(5):
+            weight = len(word) * freq * 2.5
+            if word in philosophical_markers:
+                contrib = "Defensive Shield / Rationalization"
+                weight *= 1.5
+            elif word in aggressive_markers:
+                contrib = "Aggressive Marker / Accusation"
+                weight *= 1.8
+            elif word in silence_markers:
+                contrib = "Silence / Withdrawal"
+                weight *= 2.0
+            else:
+                contrib = "General Lexical Token"
+            
+            feature_list.append({"token": word, "weight": weight, "contrib": contrib})
+            total_weight += weight
+            
+        for f in feature_list:
+            f["weight_pct"] = round((f["weight"] / total_weight) * 100, 1) if total_weight > 0 else 0
+            
+        # Kateqoriyanı təyin et
+        if any(w in clean_lower for w in philosophical_markers):
+            assigned_class = "Sartrean Bad Faith / Rationalization"
+            tension_est = 65
+        elif any(w in clean_lower for w in aggressive_markers):
+            assigned_class = "Aggressive Accusation / Confrontation"
+            tension_est = 85
+        elif any(w in clean_lower for w in silence_markers):
+            assigned_class = "Silence / Deep Void"
+            tension_est = 95
+        else:
+            assigned_class = "Dynamic Interaction"
+            tension_est = 30
+            
         st.markdown("---")
         st.markdown("### 🔎 Transparent Attribution Report")
-
-        st.markdown(
-            f"<div class='context-box'>"
-            f"<b>Target Analyzed Line:</b> <i>\"{html.escape(sample_target_line)}\"</i><br>"
-            f"<b>Assigned Classification:</b> Sartrean Bad Faith / Rationalization (Tension: 65%)"
-            f"</div>",
-            unsafe_allow_html=True,
-        )
-
-        st.markdown("#### 📊 Feature Importance Breakdown (Shapley / Lexical Attribution)")
         
-        feat_df = pd.DataFrame({
-            "Lexical Token / Feature": ["luxury", "afford", "truth", "right now", "Syntactic Evasion"],
-            "Attribution Weight (%)": [38.5, 27.2, 18.0, 10.3, 6.0],
-            "Contribution Type": ["Defensive Shield", "Rationalization", "Abstract Generalization", "Temporal Deflection", "Vector Shift"]
-        })
-        st.table(feat_df)
-
-        st.markdown("#### 🧠 Decision Rule Logic")
-        st.markdown(
-            "<div class='terminal-box'>"
-            "<b>Rule Triggered:</b> <code>contains_philosophical_abstraction(text) AND previous_turn_is_interrogative()</code><br>"
-            "<b>Interpretation:</b> The speaker substitutes immediate moral accountability with an economic metaphor ('luxury we cannot afford'), satisfying the formal criteria of bad faith."
-            "</div>",
-            unsafe_allow_html=True,
-        )
+        if not feature_list:
+            st.warning("No analyzable tokens found.")
+        else:
+            st.markdown(
+                f"<div class='context-box'>"
+                f"<b>Target Analyzed Line:</b> <i>\"{html.escape(clean_target)}\"</i><br>"
+                f"<b>Assigned Classification:</b> {assigned_class} (Tension: {tension_est}%)"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+            
+            st.markdown("#### 📊 Feature Importance Breakdown (Dynamic Attribution)")
+            feat_df = pd.DataFrame([
+                {"Lexical Token": f["token"], "Attribution Weight (%)": f["weight_pct"], "Contribution Type": f["contrib"]}
+                for f in feature_list
+            ])
+            st.dataframe(feat_df, use_container_width=True)
+            
+            st.markdown("#### 🧠 Decision Rule Logic")
+            st.markdown(
+                f"<div class='terminal-box'>"
+                f"<b>Rule Triggered:</b> <code>contains_marker(text)</code><br>"
+                f"<b>Interpretation:</b> The speaker uses '{feature_list[0]['token']}' as a {feature_list[0]['contrib'].lower()} mechanism."
+                f"</div>",
+                unsafe_allow_html=True,
+            )
 
 # ==============================================================================
-# 12. MODULE 7: COMPARATIVE DIALOGUE ANALYZER (NEW)
+# 12. MODULE 7: COMPARATIVE DIALOGUE ANALYZER
 # ==============================================================================
 elif selected_module == "⚖️ Comparative Dialogue Analyzer":
     st.markdown("### ⚖️ Comparative Dialogue Analyzer")
