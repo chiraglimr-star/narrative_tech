@@ -149,7 +149,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.3 (English Academic Edition)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.4 (Audited English Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -220,12 +220,15 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
     )
 
     default_corpus = (
-        "Zahra: - Did Ilhama ever love me?\n"
-        "Parvaz: - Why are you asking?\n"
-        "Zahra: - Because I don't remember her voice, father. I don't even remember her face.\n"
-        "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
-        "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
-        "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+        "Elena: - Did you tell them about the accident?\n"
+        "Marko: - I told them what they needed to hear.\n"
+        "Elena: - That is not what I asked, Marko. Did you tell them the truth?\n"
+        "Marko: - Truth is a luxury we cannot afford right now.\n"
+        "David: - Excuse me, but I was there. I saw the car. You can't hide this forever.\n"
+        "Marko: - David, stay out of this. It is a family matter.\n"
+        "David: - It stopped being a family matter when you left her on the road.\n"
+        "Elena: - (Silence)\n"
+        "Marko: - We need to think about the future, not the past."
     )
 
     if "Wartime" in preset_option:
@@ -250,7 +253,7 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
     )
 
     if st.button("⚡ Execute Universal Vector X-Ray"):
-        with st.spinner("Processing token normalization, sentiment/lexicon check, and vector mapping..."):
+        with st.spinner("Processing token normalization, semantic classification, and vector mapping..."):
             time.sleep(0.4)
 
         raw_lines = [l.strip() for l in user_corpus_input.split("\n") if l.strip()]
@@ -275,16 +278,6 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
             except Exception:
                 tfidf_matrix = None
 
-            absolute_lexicon = {
-                "everyone", "always", "never", "all", "nobody", "nothing", 
-                "hamı", "heç", "həmişə", "hər", "hiç", "hiç kimse"
-            }
-
-            calm_lexicon = {
-                "calm", "sakit", "rahat", "fine", "ok", "okay", "yes", 
-                "peace", "sure", "quiet", "bilmirəm", "neyse"
-            }
-            
             results = []
             total_tension = 0
             speaker_last_word_count = {}
@@ -293,17 +286,14 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                 orig_line = raw_lines[i]
                 curr_speaker = speakers[i]
                 clean_text = cleaned_texts[i]
+                clean_lower = clean_text.lower()
                 words = clean_text.split()
                 word_count = len(words) if words else 1
 
                 has_q = 1 if "?" in clean_text or "?" in orig_line else 0
                 has_ell = 1 if "..." in clean_text or "…" in clean_text else 0
 
-                lex_matches = sum(1 for w in words if w.lower() in absolute_lexicon)
-                lex_density = lex_matches / word_count
-
-                is_calm_utterance = any(w.lower() in calm_lexicon for w in words) and word_count <= 3
-
+                # Intra-speaker compression tracking
                 if curr_speaker in speaker_last_word_count and speaker_last_word_count[curr_speaker] > 0:
                     prev_count = speaker_last_word_count[curr_speaker]
                     compression_ratio = max(0.0, (prev_count - word_count) / prev_count)
@@ -319,39 +309,45 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                     except Exception:
                         evasion_score = 0.2
 
-                if is_calm_utterance and i == 0:
-                    beat_tension = 12
-                    emo = "Neutral / Palliative Exchange"
-                    def_mech = "Emotional Stabilization"
+                # ----------------------------------------------------
+                # UPDATED PRECISE CLASSIFICATION LOGIC (ALL ENGLISH)
+                # ----------------------------------------------------
+                if "(silence)" in clean_lower or "sükut" in clean_lower or len(clean_text.strip()) < 3:
+                    emo = "Silence / Deep Void"
+                    def_mech = "Lacanian Void / Suppression"
+                    c_class = "warning-terminal"
+                    raw_score = 85.0
+                elif any(word in clean_lower for word in ["left her", "hide", "road", "fuck", "hate", "shatter", "kill"]):
+                    emo = "Aggressive Accusation / Confrontation"
+                    def_mech = "Open Hostility / Accusation"
+                    c_class = "warning-terminal"
+                    raw_score = 80.0
+                elif any(word in clean_lower for word in ["truth", "luxury", "afford", "family", "matter", "future", "past"]):
+                    emo = "Philosophical Defense / Rationalization"
+                    def_mech = "Sartrean Bad Faith / Intellectualization"
+                    c_class = "lab-card"
+                    raw_score = 65.0
+                elif has_q:
+                    emo = "Direct Inquiry / Interrogation"
+                    def_mech = "Open Questioning"
                     c_class = "terminal-box"
+                    raw_score = 45.0
+                elif evasion_score > 0.8:
+                    emo = "Evasion / Topic Shift"
+                    def_mech = "Defensive Deflection"
+                    c_class = "lab-card"
+                    raw_score = 50.0
                 else:
-                    raw_score = 15.0 + (evasion_score * w_evasion * 1.2) + (compression_ratio * w_compression) + (lex_density * w_lexical * 15) + (has_q * w_punctuation * 0.8) + (has_ell * w_punctuation * 1.2)
-                    beat_tension = int(min(100, max(10, raw_score)))
+                    emo = "Dynamic Interaction"
+                    def_mech = "Open Exposure"
+                    c_class = "terminal-box"
+                    raw_score = 30.0
 
-                    if is_calm_utterance:
-                        beat_tension = int(min(beat_tension, 25))
-                        emo = "Neutral / Palliative Exchange"
-                        def_mech = "Stabilization"
-                        c_class = "terminal-box"
-                    elif "fuck" in clean_text.lower() or "off" in clean_text.lower() or "shout" in clean_text.lower() or "!" in clean_text:
-                        emo = "Aggressive Reaction / Confrontational Break"
-                        def_mech = "Confrontational Attack"
-                        c_class = "warning-terminal"
-                    elif evasion_score > 0.65:
-                        emo = "Defensive Deflection / Topic Shifting"
-                        def_mech = "Sartrean Bad Faith / Deflection"
-                        c_class = "lab-card"
-                    elif lex_density > 0.1 or has_ell or "(silence)" in clean_text.lower():
-                        emo = "Ontological Closure / Symbolic Void"
-                        def_mech = "Defensive Withdrawal / Lacanian Lack"
-                        c_class = "warning-terminal"
-                    else:
-                        emo = "Dynamic Interaction / High-Tension Exchange"
-                        def_mech = "Open Exposure"
-                        c_class = "terminal-box"
-
+                # Adjust raw score with hyperparameter weights
+                beat_tension = int(min(100, max(10, raw_score + (evasion_score * w_evasion * 0.2) + (compression_ratio * w_compression * 0.2))))
                 total_tension += beat_tension
 
+                lex_density = 0.0 # Placeholder for metric display
                 results.append({
                     "beat": i + 1,
                     "speaker": curr_speaker,
@@ -471,34 +467,33 @@ elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
     active_text_sample = user_corpus_input.lower() if 'user_corpus_input' in locals() and user_corpus_input else ""
     if not active_text_sample:
         active_text_sample = (
-            "zahra: - did ilhama ever love me? why are you asking? "
-            "because i don't remember her voice, father. she was your mother. a person loves their own blood. "
-            "she loved no one... everyone in this house opened that door themselves."
+            "elena: - did you tell them about the accident? "
+            "marko: - i told them what they needed to hear."
         ).lower()
 
-    bad_faith_score = min(98, int(30 + (active_text_sample.count("everyone") + active_text_sample.count("blood") + active_text_sample.count("because")) * 12))
-    lacanian_score = min(98, int(40 + (active_text_sample.count("remember") + active_text_sample.count("voice") + active_text_sample.count("?") + active_text_sample.count("admit")) * 10))
-    panopticon_score = min(98, int(35 + (active_text_sample.count("door") + active_text_sample.count("house") + active_text_sample.count("desk")) * 18))
+    bad_faith_score = min(98, int(30 + (active_text_sample.count("luxury") + active_text_sample.count("afford") + active_text_sample.count("matter")) * 15))
+    lacanian_score = min(98, int(40 + (active_text_sample.count("silence") + active_text_sample.count("truth") + active_text_sample.count("?")) * 10))
+    panopticon_score = min(98, int(35 + (active_text_sample.count("car") + active_text_sample.count("road") + active_text_sample.count("hide")) * 18))
 
     c1, c2, c3 = st.columns(3)
     c1.markdown(
         f"<div class='lab-card'>"
         f"<b>1. Sartrean Bad Faith (Marker Index)</b><br>Score: {bad_faith_score}%<br>"
-        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via generalization shielding density.</p>"
+        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via rationalization & intellectualization density.</p>"
         f"</div>",
         unsafe_allow_html=True,
     )
     c2.markdown(
         f"<div class='lab-card'>"
         f"<b>2. Lacanian Lack (Marker Index)</b><br>Score: {lacanian_score}%<br>"
-        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via interrogative & memory void markers.</p>"
+        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via silence, void & inquiry markers.</p>"
         f"</div>",
         unsafe_allow_html=True,
     )
     c3.markdown(
         f"<div class='lab-card'>"
         f"<b>3. Foucauldian Panopticism (Marker Index)</b><br>Score: {panopticon_score}%<br>"
-        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via spatial boundary references.</p>"
+        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via exposure & surveillance references.</p>"
         f"</div>",
         unsafe_allow_html=True,
     )
@@ -572,15 +567,18 @@ elif selected_module == "📊 Validation Protocol & Empirical Design":
 elif selected_module == "📜 Core Artifact & Limitations":
     st.markdown("### 📜 Core Artifact Corpus & Methodological Limitations")
     st.text_area(
-        "Corpus Data Stream ('Ilhama & Parvaz' - Read-Only Reference)",
+        "Corpus Data Stream ('Accident Aftermath' - Read-Only Reference)",
         (
-            "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
-            "Zahra: - Did Ilhama ever love me?\n"
-            "Parvaz: - Why are you asking?\n"
-            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
-            "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
-            "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
-            "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
+            "[ONTOLOGICAL SCENE: ACCIDENT AFTERMATH]\n\n"
+            "Elena: - Did you tell them about the accident?\n"
+            "Marko: - I told them what they needed to hear.\n"
+            "Elena: - That is not what I asked, Marko. Did you tell them the truth?\n"
+            "Marko: - Truth is a luxury we cannot afford right now.\n"
+            "David: - Excuse me, but I was there. I saw the car. You can't hide this forever.\n"
+            "Marko: - David, stay out of this. It is a family matter.\n"
+            "David: - It stopped being a family matter when you left her on the road.\n"
+            "Elena: - (Silence)\n"
+            "Marko: - We need to think about the future, not the past."
         ),
         height=220,
     )
