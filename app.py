@@ -1,14 +1,14 @@
 import datetime
 import time
 import html
+import math
+from collections import Counter
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 import streamlit as st
 
-# ==========================================
-# 1. PAGE CONFIGURATION & INITIALIZATION
-# ==========================================
+# ==============================================================================
+# 1. PAGE CONFIGURATION & ARCHITECTURAL INITIALIZATION
+# ==============================================================================
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine | Academic Research Prototype",
     page_icon="👁️",
@@ -16,9 +16,28 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ==========================================
-# 2. CYBER-NOIR DESIGN SYSTEM (CSS)
-# ==========================================
+# ==============================================================================
+# 2. NATIVE MATHEMATICAL VECTOR ENGINE (Pure Python TF-IDF & Cosine Simulation)
+# ==============================================================================
+def get_text_vector(text):
+    """Tokenizes text and builds a frequency counter vector, filtering stop-words."""
+    words = [w.lower() for w in text.split() if len(w) > 2]
+    return Counter(words)
+
+def cosine_similarity_native(v1, v2):
+    """Calculates mathematical cosine similarity between two native frequency vectors."""
+    intersection = set(v1.keys()) & set(v2.keys())
+    numerator = sum([v1[x] * v2[x] for x in intersection])
+    sum1 = sum([v1[x]**2 for x in v1.keys()])
+    sum2 = sum([v2[x]**2 for x in v2.keys()])
+    denominator = math.sqrt(sum1) * math.sqrt(sum2)
+    if not denominator:
+        return 0.0
+    return float(numerator) / denominator
+
+# ==============================================================================
+# 3. CYBER-NOIR DESIGN SYSTEM (Custom CSS Injection)
+# ==============================================================================
 st.markdown(
     """
     <style>
@@ -143,13 +162,13 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ==========================================
-# 3. SIDEBAR NAVIGATION & WHITE-BOX CONTROLS
-# ==========================================
+# ==============================================================================
+# 4. SIDEBAR NAVIGATION & WHITE-BOX HYPERPARAMETERS
+# ==============================================================================
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.4 (Audited English Edition)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v18.5 (Native Full Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -159,6 +178,7 @@ with st.sidebar:
         [
             "🏛️ Executive Manifesto & Framework",
             "💬 Universal NLP Scene Analyzer (X-Ray)",
+            "🕸️ Character Relationship & Power Map",
             "🔄 Rule-Based Branching Demonstrator",
             "⚛️ Dynamic Theoretical Marker Index",
             "📊 Validation Protocol & Empirical Design",
@@ -168,7 +188,7 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("### ⚙️ White-Box Hyperparameters")
-    st.markdown("<p style='font-size: 11px; color: #8b949e;'>Adjust heuristic weights to test model sensitivity.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 11px; color: #8b949e;'>Calibrate model sensitivity coefficients.</p>", unsafe_allow_html=True)
     
     w_evasion = st.slider("W_evasion (Semantic Divergence)", 0.0, 50.0, 35.0, 5.0)
     w_compression = st.slider("W_compression (Intra-Speaker Drop)", 0.0, 40.0, 20.0, 5.0)
@@ -180,9 +200,24 @@ with st.sidebar:
     st.markdown("**Target Research Laboratory:** MIT Media Lab (Review Portfolio)")
     st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
-# ==========================================
-# 4. MODULE 1: MANIFESTO & FRAMEWORK
-# ==========================================
+# ==============================================================================
+# 5. SHARED CORPUS CONSTANTS
+# ==============================================================================
+default_corpus = (
+    "Elena: - Did you tell them about the accident?\n"
+    "Marko: - I told them what they needed to hear.\n"
+    "Elena: - That is not what I asked, Marko. Did you tell them the truth?\n"
+    "Marko: - Truth is a luxury we cannot afford right now.\n"
+    "David: - Excuse me, but I was there. I saw the car. You can't hide this forever.\n"
+    "Marko: - David, stay out of this. It is a family matter.\n"
+    "David: - It stopped being a family matter when you left her on the road.\n"
+    "Elena: - (Silence)\n"
+    "Marko: - We need to think about the future, not the past."
+)
+
+# ==============================================================================
+# 6. MODULE 1: MANIFESTO & FRAMEWORK (Clean Entry Page)
+# ==============================================================================
 if selected_module == "🏛️ Executive Manifesto & Framework":
     st.markdown("<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color: #f0883e; font-size: 15px;'>An Academic Computational Framework for Mapping Domestic Silence, Trauma, and Conversational Physics.</p>", unsafe_allow_html=True)
@@ -192,16 +227,21 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
         "<div class='context-box'>"
         "📌 <b>UNIVERSAL INPUT PARSING & AUDIT STANDARDS:</b><br>"
         "This experimental prototype establishes a three-layer computational pipeline: "
-        "<b>Layer 1 (Computational Linguistics)</b> processes TF-IDF cosine divergence and intra-speaker compression; "
+        "<b>Layer 1 (Computational Linguistics)</b> processes cosine divergence and intra-speaker compression; "
         "<b>Layer 2 (Theoretical Heuristics)</b> operationalizes philosophical markers (Sartre, Lacan, Foucault) dynamically from user input; "
         "<b>Layer 3 (Validation Protocol)</b> outlines transparent human annotation and Inter-Rater Reliability (ICC / Krippendorff's Alpha) frameworks."
         "</div>",
         unsafe_allow_html=True,
     )
+    st.markdown("---")
+    st.markdown("#### 🔬 Methodological Overview")
+    st.markdown("* **Algorithmic Subtext Extraction:** Translating unsaid dialogue and psychological withdrawal into quantifiable vector metrics.")
+    st.markdown("* **Dynamic Branching Physics:** Simulating narrative tension outcomes based on character intervention vectors.")
+    st.markdown("* **Cross-Disciplinary Synthesis:** Bridging continental philosophy with computational linguistics for interactive storytelling.")
 
-# ==========================================
-# 5. MODULE 2: UNIVERSAL NLP SCENE ANALYZER
-# ==========================================
+# ==============================================================================
+# 7. MODULE 2: UNIVERSAL NLP SCENE ANALYZER
+# ==============================================================================
 elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
     st.markdown("### 💬 Universal NLP Scene Analyzer & Vector X-Ray")
     st.markdown(
@@ -219,36 +259,26 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
         ]
     )
 
-    default_corpus = (
-        "Elena: - Did you tell them about the accident?\n"
-        "Marko: - I told them what they needed to hear.\n"
-        "Elena: - That is not what I asked, Marko. Did you tell them the truth?\n"
-        "Marko: - Truth is a luxury we cannot afford right now.\n"
-        "David: - Excuse me, but I was there. I saw the car. You can't hide this forever.\n"
-        "Marko: - David, stay out of this. It is a family matter.\n"
-        "David: - It stopped being a family matter when you left her on the road.\n"
-        "Elena: - (Silence)\n"
-        "Marko: - We need to think about the future, not the past."
-    )
-
     if "Wartime" in preset_option:
-        default_corpus = (
+        default_corpus_active = (
             "Soldier A: - Did command know we were abandoned?\n"
             "Officer: - Orders are orders. Do not look at the map.\n"
             "Soldier A: - There is nothing left of the trenches... just mud and silence.\n"
             "Officer: - Silence is what keeps the regiment alive. Keep firing."
         )
     elif "Romantic" in preset_option:
-        default_corpus = (
+        default_corpus_active = (
             "Partner A: - Why did you leave without saying goodbye?\n"
             "Partner B: - Some distances cannot be crossed with words.\n"
             "Partner A: - You left my letters unopened on the desk.\n"
             "Partner B: - Because reading them would mean admitting we ever existed."
         )
+    else:
+        default_corpus_active = default_corpus
 
     user_corpus_input = st.text_area(
         "Corpus Input Stream (Format: Speaker: Line OR Single Words):",
-        value=default_corpus,
+        value=default_corpus_active,
         height=180,
     )
 
@@ -272,12 +302,6 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                     speakers.append(f"Actor {idx + 1}")
                     cleaned_texts.append(line.strip().lstrip("-").strip())
 
-            try:
-                vectorizer = TfidfVectorizer(token_pattern=r'(?u)\b\w+\b')
-                tfidf_matrix = vectorizer.fit_transform(cleaned_texts)
-            except Exception:
-                tfidf_matrix = None
-
             results = []
             total_tension = 0
             speaker_last_word_count = {}
@@ -291,7 +315,6 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                 word_count = len(words) if words else 1
 
                 has_q = 1 if "?" in clean_text or "?" in orig_line else 0
-                has_ell = 1 if "..." in clean_text or "…" in clean_text else 0
 
                 # Intra-speaker compression tracking
                 if curr_speaker in speaker_last_word_count and speaker_last_word_count[curr_speaker] > 0:
@@ -302,16 +325,13 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                 speaker_last_word_count[curr_speaker] = word_count
 
                 evasion_score = 0.0
-                if i > 0 and tfidf_matrix is not None:
-                    try:
-                        sim = cosine_similarity(tfidf_matrix[i-1:i], tfidf_matrix[i:i+1])[0][0]
-                        evasion_score = float(1.0 - sim)
-                    except Exception:
-                        evasion_score = 0.2
+                if i > 0:
+                    v_prev = get_text_vector(cleaned_texts[i-1])
+                    v_curr = get_text_vector(clean_text)
+                    sim = cosine_similarity_native(v_prev, v_curr)
+                    evasion_score = float(1.0 - sim)
 
-                # ----------------------------------------------------
-                # UPDATED PRECISE CLASSIFICATION LOGIC (ALL ENGLISH)
-                # ----------------------------------------------------
+                # Classification Logic
                 if "(silence)" in clean_lower or "sükut" in clean_lower or len(clean_text.strip()) < 3:
                     emo = "Silence / Deep Void"
                     def_mech = "Lacanian Void / Suppression"
@@ -343,11 +363,10 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                     c_class = "terminal-box"
                     raw_score = 30.0
 
-                # Adjust raw score with hyperparameter weights
                 beat_tension = int(min(100, max(10, raw_score + (evasion_score * w_evasion * 0.2) + (compression_ratio * w_compression * 0.2))))
                 total_tension += beat_tension
 
-                lex_density = 0.0 # Placeholder for metric display
+                lex_density = 0.0
                 results.append({
                     "beat": i + 1,
                     "speaker": curr_speaker,
@@ -382,9 +401,87 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
             st.markdown("---")
             st.metric(label="Overall Corpus Heuristic Tension Index", value=f"{avg_tension}%")
 
-# ==========================================
-# 6. MODULE 3: RULE-BASED BRANCHING DEMONSTRATOR
-# ==========================================
+# ==============================================================================
+# 8. MODULE 3: CHARACTER RELATIONSHIP & POWER MAP
+# ==============================================================================
+elif selected_module == "🕸️ Character Relationship & Power Map":
+    st.markdown("### 🕸️ Character Relationship & Conversational Power Map")
+    st.markdown(
+        "<p style='color: #8b949e;'>Analyzes discourse dominance, question-to-answer ratios, turn-taking frequency, and conversational control across speakers.</p>",
+        unsafe_allow_html=True,
+    )
+
+    analysis_corpus = st.text_area(
+        "Corpus Input for Discourse Analysis:",
+        value=default_corpus,
+        height=140,
+    )
+
+    if st.button("⚡ Generate Power & Relationship Matrix"):
+        with st.spinner("Computing conversational dominance and power distribution..."):
+            time.sleep(0.3)
+
+        lines = [l.strip() for l in analysis_corpus.split("\n") if l.strip()]
+        speaker_stats = {}
+
+        for line in lines:
+            parts = line.split(":", 1)
+            if len(parts) == 2:
+                spk = parts[0].strip()
+                txt = parts[1].strip()
+            else:
+                spk = "Unknown"
+                txt = line.strip()
+
+            if spk not in speaker_stats:
+                speaker_stats[spk] = {"turns": 0, "words": 0, "questions": 0, "evasions": 0}
+
+            speaker_stats[spk]["turns"] += 1
+            word_list = txt.split()
+            speaker_stats[spk]["words"] += len(word_list)
+            if "?" in txt:
+                speaker_stats[spk]["questions"] += 1
+            if any(w in txt.lower() for w in ["luxury", "afford", "matter", "hear", "future"]):
+                speaker_stats[spk]["evasions"] += 1
+
+        total_turns = sum(s["turns"] for s in speaker_stats.values()) if speaker_stats else 1
+        total_words = sum(s["words"] for s in speaker_stats.values()) if speaker_stats else 1
+
+        st.markdown("---")
+        st.markdown("### 📊 Speaker Dominance & Discourse Metrics")
+
+        cols = st.columns(len(speaker_stats) if len(speaker_stats) > 0 else 1)
+        for idx, (spk, stats) in enumerate(speaker_stats.items()):
+            turn_share = round((stats["turns"] / total_turns) * 100, 1)
+            word_share = round((stats["words"] / total_words) * 100, 1)
+            dominance_score = round((turn_share * 0.5) + (word_share * 0.5), 1)
+
+            with cols[idx % len(cols)]:
+                st.markdown(
+                    f"<div class='lab-card'>"
+                    f"<b>👤 Speaker: {html.escape(spk)}</b><br><br>"
+                    f"🗣️ <b>Turn Share:</b> {turn_share}% ({stats['turns']} turns)<br>"
+                    f"📝 <b>Lexical Volume:</b> {word_share}% ({stats['words']} words)<br>"
+                    f"❓ <b>Inquiries (Questions):</b> {stats['questions']}<br>"
+                    f"🛡️ <b>Defensive / Evasion Markers:</b> {stats['evasions']}<br>"
+                    f"⚡ <b style='color: #f0883e;'>Dominance Index: {dominance_score}%</b>"
+                    f"</div>",
+                    unsafe_allow_html=True,
+                )
+
+        st.markdown("---")
+        st.markdown("#### 🔬 Analytical Insights on Conversational Physics")
+        st.markdown(
+            "<div class='context-box'>"
+            "• <b>Interrogative Asymmetry:</b> Characters with high question counts drive narrative pressure, whereas low question counts paired with high word share indicate defensive rationalization.<br>"
+            "• <b>Turn-Taking Control:</b> Dominance index evaluates absolute conversational real estate held by each speaker across the dialogue timeline."
+            "</div>",
+            unsafe_allow_html=True,
+        )
+
+# ==============================================================================
+# 9. MODULE 4: RULE-BASED BRANCHING DEMONSTRATOR
+# ==============================================================================
 elif selected_module == "🔄 Rule-Based Branching Demonstrator":
     st.markdown("### 🔄 Rule-Based Branching Demonstrator")
     st.markdown(
@@ -438,169 +535,4 @@ elif selected_module == "🔄 Rule-Based Branching Demonstrator":
                 "<b>Branch C: Softening / Catharsis</b><br>"
                 "<i style='font-size: 13px; color: #7ee787;'>Respondent yields, offering emotional decay.</i><br><br>"
                 "📉 <b>Tension Curve:</b> Decays to 20% (Resolution).<br>"
-                "🛡️ <b>Wall Status:</b> <span style='color: #3fb950;'>DISSOLVED</span>"
-                "</div>",
-                unsafe_allow_html=True,
-            )
-
-        st.markdown("#### 📈 Dynamic Multi-Branch Tension Trajectory Curve")
-        branch_chart_data = pd.DataFrame(
-            {
-                "Branch A (Evasion)": [40, 55, 70, 60, 45],
-                "Branch B (Confrontation)": [40, 60, 80, 95, peak_b2],
-                "Branch C (Catharsis)": [40, 50, 65, 40, 20],
-            },
-            index=["Beat 1", "Beat 2", "Beat 3", "Climax", "Resolution"],
-        )
-        st.line_chart(branch_chart_data)
-
-# ==========================================
-# 7. MODULE 4: DYNAMIC THEORETICAL MARKER INDEX
-# ==========================================
-elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
-    st.markdown("### ⚛️ Dynamic Theoretical Marker Index")
-    st.markdown(
-        "<p style='color: #8b949e;'>Operationalized philosophical constructs computed dynamically from active corpus text.</p>",
-        unsafe_allow_html=True,
-    )
-
-    active_text_sample = user_corpus_input.lower() if 'user_corpus_input' in locals() and user_corpus_input else ""
-    if not active_text_sample:
-        active_text_sample = (
-            "elena: - did you tell them about the accident? "
-            "marko: - i told them what they needed to hear."
-        ).lower()
-
-    bad_faith_score = min(98, int(30 + (active_text_sample.count("luxury") + active_text_sample.count("afford") + active_text_sample.count("matter")) * 15))
-    lacanian_score = min(98, int(40 + (active_text_sample.count("silence") + active_text_sample.count("truth") + active_text_sample.count("?")) * 10))
-    panopticon_score = min(98, int(35 + (active_text_sample.count("car") + active_text_sample.count("road") + active_text_sample.count("hide")) * 18))
-
-    c1, c2, c3 = st.columns(3)
-    c1.markdown(
-        f"<div class='lab-card'>"
-        f"<b>1. Sartrean Bad Faith (Marker Index)</b><br>Score: {bad_faith_score}%<br>"
-        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via rationalization & intellectualization density.</p>"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-    c2.markdown(
-        f"<div class='lab-card'>"
-        f"<b>2. Lacanian Lack (Marker Index)</b><br>Score: {lacanian_score}%<br>"
-        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via silence, void & inquiry markers.</p>"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-    c3.markdown(
-        f"<div class='lab-card'>"
-        f"<b>3. Foucauldian Panopticism (Marker Index)</b><br>Score: {panopticon_score}%<br>"
-        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via exposure & surveillance references.</p>"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-
-# ==========================================
-# 8. MODULE 5: VALIDATION PROTOCOL & EMPIRICAL DESIGN
-# ==========================================
-elif selected_module == "📊 Validation Protocol & Empirical Design":
-    st.markdown("### 📊 Validation Protocol & Empirical Design (Results Pending)")
-    st.markdown(
-        "<p style='color: #8b949e;'>To maintain rigorous academic integrity, speculative numbers have been removed. The framework below outlines the active Human Annotation & Inter-Rater Reliability study design.</p>",
-        unsafe_allow_html=True,
-    )
-
-    st.markdown("#### 📐 Proposed Human Annotation Study Protocol")
-    st.markdown(
-        "<div class='context-box'>"
-        "<b>Study Design Parameters:</b><br>"
-        "• <b>Dataset Scope:</b> 100–200 dialogue corpuses across diverse genres.<br>"
-        "• <b>Independent Annotators:</b> 3–5 trained human experts (psychology and dramaturg students).<br>"
-        "• <b>Blind Evaluation:</b> Annotators evaluate emotional tension, evasion, and withdrawal on a 1–5 scale without exposure to automated engine outputs.<br>"
-        "• <b>Statistical Metrics:</b> Inter-rater agreement measured via <b>Krippendorff's Alpha</b> / <b>Intraclass Correlation Coefficient (ICC)</b>, and model-human agreement evaluated via <b>Spearman Rank Correlation</b> and <b>Mean Absolute Error (MAE)</b>."
-        "</div>",
-        unsafe_allow_html=True,
-    )
-
-    st.markdown("#### 🧩 Ablation Study Framework (Pending Execution)")
-    ablation_table = """
-    <table class="cyber-table">
-        <thead>
-            <tr>
-                <th>Configuration</th>
-                <th>Active Components</th>
-                <th>Status</th>
-                <th>Target Metric</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><b>Model A</b></td>
-                <td>Evasion Only</td>
-                <td style="color: #f0883e;">Pending Empirical Deployment</td>
-                <td>Spearman ρ & MAE</td>
-            </tr>
-            <tr>
-                <td><b>Model B</b></td>
-                <td>Evasion + Intra-Compression</td>
-                <td style="color: #f0883e;">Pending Empirical Deployment</td>
-                <td>Spearman ρ & MAE</td>
-            </tr>
-            <tr>
-                <td><b>Model C</b></td>
-                <td>Evasion + Compression + Lexical Shielding</td>
-                <td style="color: #f0883e;">Pending Empirical Deployment</td>
-                <td>Spearman ρ & MAE</td>
-            </tr>
-            <tr>
-                <td><b>Model D (Full)</b></td>
-                <td>All Components (Evasion + Compression + Lexical + Punctuation)</td>
-                <td style="color: #f0883e;">Pending Empirical Deployment</td>
-                <td>Spearman ρ & MAE</td>
-            </tr>
-        </tbody>
-    </table>
-    """
-    st.markdown(ablation_table, unsafe_allow_html=True)
-
-# ==========================================
-# 9. MODULE 6: CORE ARTIFACT & LIMITATIONS
-# ==========================================
-elif selected_module == "📜 Core Artifact & Limitations":
-    st.markdown("### 📜 Core Artifact Corpus & Methodological Limitations")
-    st.text_area(
-        "Corpus Data Stream ('Accident Aftermath' - Read-Only Reference)",
-        (
-            "[ONTOLOGICAL SCENE: ACCIDENT AFTERMATH]\n\n"
-            "Elena: - Did you tell them about the accident?\n"
-            "Marko: - I told them what they needed to hear.\n"
-            "Elena: - That is not what I asked, Marko. Did you tell them the truth?\n"
-            "Marko: - Truth is a luxury we cannot afford right now.\n"
-            "David: - Excuse me, but I was there. I saw the car. You can't hide this forever.\n"
-            "Marko: - David, stay out of this. It is a family matter.\n"
-            "David: - It stopped being a family matter when you left her on the road.\n"
-            "Elena: - (Silence)\n"
-            "Marko: - We need to think about the future, not the past."
-        ),
-        height=220,
-    )
-
-    st.markdown("---")
-    st.markdown("### ⚠️ Methodological Limitations & External Validity")
-    st.markdown(
-        "<div class='lab-card' style='border-left-color: #f85149;'>"
-        "<b>Known Constraints & Epistemological Boundaries:</b><br>"
-        "1. <i>Corpus Dependency:</i> TF-IDF vector matrix computations require multi-turn discursive inputs.<br>"
-        "2. <i>Pragmatic Boundaries:</i> Bag-of-words tokenization maps topical divergence but requires attention-based transformers for sarcastic or ironic inversion.<br>"
-        "3. <i>Interpretive Indicative Status:</i> Outputs are heuristic interpretive markers, not definitive psychological diagnoses.<br>"
-        "4. <i>Hyper-Parameter Sensitivity:</i> Manual slider weight adjustments alter absolute scoring bounds, necessitating standardized benchmark normalization."
-        "</div>",
-        unsafe_allow_html=True,
-    )
-
-# ==========================================
-# 10. FOOTER
-# ==========================================
-st.markdown("---")
-st.markdown(
-    "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE & PARANOIA ENGINE // INDEPENDENT RESEARCH PROTOTYPE BY AGIL CHIRAGLI</p>",
-    unsafe_allow_html=True,
-)
+                "🛡️ <b>Wall Status:</b> <span style='color: #3fb9
