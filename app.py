@@ -149,7 +149,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.1 (Audited & Sensitive)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.2 (Universal Input Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -158,7 +158,7 @@ with st.sidebar:
         "Navigation Matrix",
         [
             "🏛️ Executive Manifesto & Framework",
-            "💬 Experimental NLP Scene Analyzer (X-Ray)",
+            "💬 Universal NLP Scene Analyzer (X-Ray)",
             "🔄 Rule-Based Branching Demonstrator",
             "⚛️ Dynamic Theoretical Marker Index",
             "📊 Validation Protocol & Empirical Design",
@@ -190,29 +190,27 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
 
     st.markdown(
         "<div class='context-box'>"
-        "📌 <b>METHODOLOGICAL ARCHITECTURE & AUDIT STANDARDS:</b><br>"
-        "This experimental prototype establishes a three-layer computational pipeline: "
-        "<b>Layer 1 (Computational Linguistics)</b> processes TF-IDF cosine divergence and intra-speaker compression; "
-        "<b>Layer 2 (Theoretical Heuristics)</b> operationalizes philosophical markers (Sartre, Lacan, Foucault) dynamically from user input; "
-        "<b>Layer 3 (Validation Protocol)</b> outlines transparent human annotation and Inter-Rater Reliability (ICC / Krippendorff's Alpha) frameworks."
+        "📌 <b>UNIVERSAL INPUT PARSING & AUDIT STANDARDS:</b><br>"
+        "This experimental prototype supports both complex dialogue corpuses and single-word/short-phrase inputs. "
+        "It evaluates semantic valence, contextual topic shifts, and lexical markers robustly across any conversational scenario."
         "</div>",
         unsafe_allow_html=True,
     )
 
 # ==========================================
-# 5. MODULE 2: EXPERIMENTAL NLP SCENE ANALYZER
+# 5. MODULE 2: UNIVERSAL NLP SCENE ANALYZER
 # ==========================================
-elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
-    st.markdown("### 💬 Experimental NLP Scene Analyzer & Vector X-Ray")
+elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
+    st.markdown("### 💬 Universal NLP Scene Analyzer & Vector X-Ray")
     st.markdown(
-        "<p style='color: #8b949e;'><b>Audited Engine:</b> Evaluates dialogue corpuses with dynamic topic-shift sensitivity, safe HTML escaping, and isolated speaker turn-tracking.</p>",
+        "<p style='color: #8b949e;'><b>Universal Engine:</b> Handles full dialogues, single words, or short phrases dynamically with context-aware calibration.</p>",
         unsafe_allow_html=True,
     )
 
     preset_option = st.selectbox(
         "Load Preset Corpus or Enter Custom Text:",
         [
-            "Custom Input (Paste your own script or dialogue below)",
+            "Custom Input (Type single words, short phrases, or full dialogues below)",
             "Genre 1: Domestic Trauma ('Ilhama & Parvaz' - Default)",
             "Genre 2: Wartime Trench Dialogue ('The Last Trench')",
             "Genre 3: Romantic Separation ('Unsent Letter to Paris')"
@@ -244,13 +242,13 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
         )
 
     user_corpus_input = st.text_area(
-        "Corpus Input Stream (Format: Speaker: Line):",
+        "Corpus Input Stream (Format: Speaker: Line OR Single Words):",
         value=default_corpus,
         height=180,
     )
 
-    if st.button("⚡ Execute Audited Vector X-Ray"):
-        with st.spinner("Processing token normalization, TF-IDF cosine mapping, and sensitivity audit..."):
+    if st.button("⚡ Execute Universal Vector X-Ray"):
+        with st.spinner("Processing token normalization, sentiment/lexicon check, and vector mapping..."):
             time.sleep(0.4)
 
         raw_lines = [l.strip() for l in user_corpus_input.split("\n") if l.strip()]
@@ -260,14 +258,14 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
         else:
             cleaned_texts = []
             speakers = []
-            for line in raw_lines:
+            for idx, line in enumerate(raw_lines):
                 parts = line.split(":", 1)
                 if len(parts) == 2:
                     speakers.append(parts[0].strip())
                     cleaned_texts.append(parts[1].strip().lstrip("-").strip())
                 else:
-                    speakers.append("Unknown")
-                    cleaned_texts.append(line.strip())
+                    speakers.append(f"Actor {idx + 1}")
+                    cleaned_texts.append(line.strip().lstrip("-").strip())
 
             try:
                 vectorizer = TfidfVectorizer(token_pattern=r'(?u)\b\w+\b')
@@ -279,6 +277,11 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
                 "hamı", "heç", "həmişə", "hər", "everyone", "always", 
                 "never", "all", "nobody", "hiç", "because", "heç vaxt", 
                 "heç kim", "hiçbir", "Hiç", "nothing", "hiç kimse"
+            }
+
+            calm_lexicon = {
+                "calm", "sakit", "rahat", "fine", "ok", "okay", "hə", 
+                "baş üstə", "peace", "sus", "yes", "bilmirəm", "neyse"
             }
             
             results = []
@@ -298,41 +301,51 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
                 lex_matches = sum(1 for w in words if w.lower() in absolute_lexicon)
                 lex_density = lex_matches / word_count
 
-                # Intra-speaker compression tracking
+                is_calm_utterance = any(w.lower() in calm_lexicon for w in words) and word_count <= 3
+
                 if curr_speaker in speaker_last_word_count and speaker_last_word_count[curr_speaker] > 0:
                     prev_count = speaker_last_word_count[curr_speaker]
                     compression_ratio = max(0.0, (prev_count - word_count) / prev_count)
                 else:
-                    compression_ratio = 0.2
+                    compression_ratio = 0.1
                 speaker_last_word_count[curr_speaker] = word_count
 
-                # Updated Evasion (Topic Shift): Active for ANY sequential turn pair (not strictly dependent on ?)
                 evasion_score = 0.0
                 if i > 0 and tfidf_matrix is not None:
                     try:
                         sim = cosine_similarity(tfidf_matrix[i-1:i], tfidf_matrix[i:i+1])[0][0]
                         evasion_score = float(1.0 - sim)
                     except Exception:
-                        evasion_score = 0.3
+                        evasion_score = 0.2
 
-                # Calibrated formula ensuring dynamic tension without dropping to zeros
-                raw_score = 30.0 + (evasion_score * w_evasion * 1.2) + (compression_ratio * w_compression) + (lex_density * w_lexical * 15) + (has_q * w_punctuation * 0.8) + (has_ell * w_punctuation * 1.2)
-                beat_tension = int(min(100, max(15, raw_score)))
-                total_tension += beat_tension
-
-                # Sensitive psychological classification
-                if evasion_score > 0.7 or "fuck" in clean_text.lower() or "get" in clean_text.lower() or "off" in clean_text.lower():
-                    emo = "Aqressiv Reaksiya / Semantik Qırılma"
-                    def_mech = "Konfrontativ Yayınma / Müdafiə"
-                    c_class = "warning-terminal"
-                elif lex_density > 0.1 or has_ell:
-                    emo = "Ontoloji Qapanma / Simvolik Void"
-                    def_mech = "Defensiv Çəkilmə / Bad Faith"
-                    c_class = "lab-card"
-                else:
-                    emo = "Dinamik İnteraksiya / Gərgin Mübadilə"
-                    def_mech = "Açıq Ekspozisiya"
+                if is_calm_utterance and i == 0:
+                    beat_tension = 12
+                    emo = "Neytral / Sakitləndirici İfadə"
+                    def_mech = "Emosional Sabitləşmə"
                     c_class = "terminal-box"
+                else:
+                    raw_score = 15.0 + (evasion_score * w_evasion * 1.2) + (compression_ratio * w_compression) + (lex_density * w_lexical * 15) + (has_q * w_punctuation * 0.8) + (has_ell * w_punctuation * 1.2)
+                    beat_tension = int(min(100, max(10, raw_score)))
+
+                    if is_calm_utterance:
+                        beat_tension = int(min(beat_tension, 25))
+                        emo = "Neytral / Sakitləndirici Mübadilə"
+                        def_mech = "Sabitləşmə"
+                        c_class = "terminal-box"
+                    elif evasion_score > 0.7 or "fuck" in clean_text.lower() or "off" in clean_text.lower():
+                        emo = "Aqressiv Reaksiya / Semantik Qırılma"
+                        def_mech = "Konfrontativ Yayınma / Müdafiə"
+                        c_class = "warning-terminal"
+                    elif lex_density > 0.1 or has_ell:
+                        emo = "Ontoloji Qapanma / Simvolik Void"
+                        def_mech = "Defensiv Çəkilmə / Bad Faith"
+                        c_class = "lab-card"
+                    else:
+                        emo = "Dinamik İnteraksiya / Gərgin Mübadilə"
+                        def_mech = "Açıq Ekspozisiya"
+                        c_class = "terminal-box"
+
+                total_tension += beat_tension
 
                 results.append({
                     "beat": i + 1,
@@ -346,7 +359,7 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
                 })
 
             st.markdown("---")
-            st.markdown(f"### 🔬 Audited Diagnostic Results ({len(results)} Beats Processed)")
+            st.markdown(f"### 🔬 Universal Diagnostic Results ({len(results)} Beats Processed)")
 
             for r in results:
                 safe_line = html.escape(r['line'])
@@ -559,7 +572,7 @@ elif selected_module == "📜 Core Artifact & Limitations":
             "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
             "Zahra: - Did Ilhama ever love me?\n"
             "Parvaz: - Why are you asking?\n"
-            "Zahra: - Because I don't remember her voice, father. I don't even remember her face.\n"
+            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
             "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
             "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
             "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
