@@ -20,7 +20,7 @@ st.set_page_config(
 # 2. NATIVE MATHEMATICAL VECTOR ENGINE (Pure Python TF-IDF & Cosine Simulation)
 # ==============================================================================
 def get_text_vector(text):
-    """Tokenizes text and builds a frequency counter vector, filtering stop-words."""
+    """Tokenizes text and builds a frequency counter vector, filtering short words."""
     words = [w.lower() for w in text.split() if len(w) > 2]
     return Counter(words)
 
@@ -509,30 +509,180 @@ elif selected_module == "🔄 Rule-Based Branching Demonstrator":
 
         with col_b1:
             st.markdown(
-                "<div class='warning-terminal'>"
-                "<b>Branch A: Evasion / Closure</b><br>"
-                "<i style='font-size: 13px; color: #ff7b72;'>Respondent turns away, enforcing silence.</i><br><br>"
-                "📉 <b>Tension Curve:</b> Drops to 45% via forced shutdown.<br>"
-                "🛡️ <b>Wall Status:</b> <span style='color: #f85149;'>REINFORCED</span>"
-                "</div>",
+                "<div class='warning-terminal'><b>Branch A: Evasion / Closure</b><br><i style='font-size: 13px; color: #ff7b72;'>Respondent turns away, enforcing silence.</i><br><br>📉 <b>Tension Curve:</b> Drops to 45% via forced shutdown.<br>🛡️ <b>Wall Status:</b> <span style='color: #f85149;'>REINFORCED</span></div>",
                 unsafe_allow_html=True,
             )
 
         with col_b2:
             st.markdown(
-                "<div class='warning-terminal' style='background-color: #491002; border-color: #bd2c00; border-left-color: #f0883e;'>"
-                "<b>Branch B: Confrontation / Apex</b><br>"
-                "<i style='font-size: 13px; color: #ffa657;'>Respondent challenges the barrier.</i><br><br>"
-                f"📈 <b>Tension Curve:</b> Spikes to {peak_b2}% (Apex).<br>"
-                "🛡️ <b>Wall Status:</b> <span style='color: #f0883e;'>STRAINED</span>"
-                "</div>",
+                "<div class='warning-terminal' style='background-color: #491002; border-color: #bd2c00; border-left-color: #f0883e;'><b>Branch B: Confrontation / Apex</b><br><i style='font-size: 13px; color: #ffa657;'>Respondent challenges the barrier.</i><br><br>📈 <b>Tension Curve:</b> Spikes to " + str(peak_b2) + "% (Apex).<br>🛡️ <b>Wall Status:</b> <span style='color: #f0883e;'>STRAINED</span></div>",
                 unsafe_allow_html=True,
             )
 
         with col_b3:
             st.markdown(
-                "<div class='terminal-box'>"
-                "<b>Branch C: Softening / Catharsis</b><br>"
-                "<i style='font-size: 13px; color: #7ee787;'>Respondent yields, offering emotional decay.</i><br><br>"
-                "📉 <b>Tension Curve:</b> Decays to 20% (Resolution).<br>"
-                "🛡️ <b>Wall Status:</b> <span style='color: #3fb9
+                "<div class='terminal-box'><b>Branch C: Softening / Catharsis</b><br><i style='font-size: 13px; color: #7ee787;'>Respondent yields, offering emotional decay.</i><br><br>📉 <b>Tension Curve:</b> Decays to 20% (Resolution).<br>🛡️ <b>Wall Status:</b> <span style='color: #3fb950;'>DISSOLVED</span></div>",
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("#### 📈 Dynamic Multi-Branch Tension Trajectory Curve")
+        branch_chart_data = pd.DataFrame(
+            {
+                "Branch A (Evasion)": [40, 55, 70, 60, 45],
+                "Branch B (Confrontation)": [40, 60, 80, 95, peak_b2],
+                "Branch C (Catharsis)": [40, 50, 65, 40, 20],
+            },
+            index=["Beat 1", "Beat 2", "Beat 3", "Climax", "Resolution"],
+        )
+        st.line_chart(branch_chart_data)
+
+# ==============================================================================
+# 10. MODULE 5: DYNAMIC THEORETICAL MARKER INDEX
+# ==============================================================================
+elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
+    st.markdown("### ⚛️ Dynamic Theoretical Marker Index")
+    st.markdown(
+        "<p style='color: #8b949e;'>Operationalized philosophical constructs computed dynamically from active corpus text.</p>",
+        unsafe_allow_html=True,
+    )
+
+    active_text_sample = user_corpus_input.lower() if 'user_corpus_input' in locals() and user_corpus_input else ""
+    if not active_text_sample:
+        active_text_sample = (
+            "elena: - did you tell them about the accident? "
+            "marko: - i told them what they needed to hear."
+        ).lower()
+
+    bad_faith_score = min(98, int(30 + (active_text_sample.count("luxury") + active_text_sample.count("afford") + active_text_sample.count("matter")) * 15))
+    lacanian_score = min(98, int(40 + (active_text_sample.count("silence") + active_text_sample.count("truth") + active_text_sample.count("?")) * 10))
+    panopticon_score = min(98, int(35 + (active_text_sample.count("car") + active_text_sample.count("road") + active_text_sample.count("hide")) * 18))
+
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(
+        f"<div class='lab-card'>"
+        f"<b>1. Sartrean Bad Faith (Marker Index)</b><br>Score: {bad_faith_score}%<br>"
+        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via rationalization & intellectualization density.</p>"
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+    c2.markdown(
+        f"<div class='lab-card'>"
+        f"<b>2. Lacanian Lack (Marker Index)</b><br>Score: {lacanian_score}%<br>"
+        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via silence, void & inquiry markers.</p>"
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+    c3.markdown(
+        f"<div class='lab-card'>"
+        f"<b>3. Foucauldian Panopticism (Marker Index)</b><br>Score: {panopticon_score}%<br>"
+        f"<p style='font-size:12px; color:#8b949e; margin-top:5px;'>Operationalized via exposure & surveillance references.</p>"
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+
+# ==============================================================================
+# 11. MODULE 6: VALIDATION PROTOCOL & EMPIRICAL DESIGN
+# ==============================================================================
+elif selected_module == "📊 Validation Protocol & Empirical Design":
+    st.markdown("### 📊 Validation Protocol & Empirical Design (Results Pending)")
+    st.markdown(
+        "<p style='color: #8b949e;'>To maintain rigorous academic integrity, speculative numbers have been removed. The framework below outlines the active Human Annotation & Inter-Rater Reliability study design.</p>",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("#### 📐 Proposed Human Annotation Study Protocol")
+    st.markdown(
+        "<div class='context-box'>"
+        "<b>Study Design Parameters:</b><br>"
+        "• <b>Dataset Scope:</b> 100–200 dialogue corpuses across diverse genres.<br>"
+        "• <b>Independent Annotators:</b> 3–5 trained human experts (psychology and dramaturg students).<br>"
+        "• <b>Blind Evaluation:</b> Annotators evaluate emotional tension, evasion, and withdrawal on a 1–5 scale without exposure to automated engine outputs.<br>"
+        "• <b>Statistical Metrics:</b> Inter-rater agreement measured via <b>Krippendorff's Alpha</b> / <b>Intraclass Correlation Coefficient (ICC)</b>, and model-human agreement evaluated via <b>Spearman Rank Correlation</b> and <b>Mean Absolute Error (MAE)</b>."
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown("#### 🧩 Ablation Study Framework (Pending Execution)")
+    ablation_table = """
+    <table class="cyber-table">
+        <thead>
+            <tr>
+                <th>Configuration</th>
+                <th>Active Components</th>
+                <th>Status</th>
+                <th>Target Metric</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Model A</b></td>
+                <td>Evasion Only</td>
+                <td style="color: #f0883e;">Pending Empirical Deployment</td>
+                <td>Spearman ρ & MAE</td>
+            </tr>
+            <tr>
+                <td><b>Model B</b></td>
+                <td>Evasion + Intra-Compression</td>
+                <td style="color: #f0883e;">Pending Empirical Deployment</td>
+                <td>Spearman ρ & MAE</td>
+            </tr>
+            <tr>
+                <td><b>Model C</b></td>
+                <td>Evasion + Compression + Lexical Shielding</td>
+                <td style="color: #f0883e;">Pending Empirical Deployment</td>
+                <td>Spearman ρ & MAE</td>
+            </tr>
+            <tr>
+                <td><b>Model D (Full)</b></td>
+                <td>All Components (Evasion + Compression + Lexical + Punctuation)</td>
+                <td style="color: #f0883e;">Pending Empirical Deployment</td>
+                <td>Spearman ρ & MAE</td>
+            </tr>
+        </tbody>
+    </table>
+    """
+    st.markdown(ablation_table, unsafe_allow_html=True)
+
+# ==============================================================================
+# 12. MODULE 7: CORE ARTIFACT & LIMITATIONS
+# ==============================================================================
+elif selected_module == "📜 Core Artifact & Limitations":
+    st.markdown("### 📜 Core Artifact Corpus & Methodological Limitations")
+    st.text_area(
+        "Corpus Data Stream ('Accident Aftermath' - Read-Only Reference)",
+        (
+            "[ONTOLOGICAL SCENE: ACCIDENT AFTERMATH]\n\n"
+            "Elena: - Did you tell them about the accident?\n"
+            "Marko: - I told them what they needed to hear.\n"
+            "Elena: - That is not what I asked, Marko. Did you tell them the truth?\n"
+            "Marko: - Truth is a luxury we cannot afford right now.\n"
+            "David: - Excuse me, but I was there. I saw the car. You can't hide this forever.\n"
+            "Marko: - David, stay out of this. It is a family matter.\n"
+            "David: - It stopped being a family matter when you left her on the road.\n"
+            "Elena: - (Silence)\n"
+            "Marko: - We need to think about the future, not the past."
+        ),
+        height=220,
+    )
+
+    st.markdown("---")
+    st.markdown("### ⚠️ Methodological Limitations & External Validity")
+    st.markdown(
+        "<div class='lab-card' style='border-left-color: #f85149;'>"
+        "<b>Known Constraints & Epistemological Boundaries:</b><br>"
+        "1. <i>Corpus Dependency:</i> Vector matrix computations require multi-turn discursive inputs.<br>"
+        "2. <i>Pragmatic Boundaries:</i> Bag-of-words tokenization maps topical divergence but requires attention-based transformers for sarcastic or ironic inversion.<br>"
+        "3. <i>Interpretive Indicative Status:</i> Outputs are heuristic interpretive markers, not definitive psychological diagnoses.<br>"
+        "4. <i>Hyper-Parameter Sensitivity:</i> Manual slider weight adjustments alter absolute scoring bounds, necessitating standardized benchmark normalization."
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+# ==============================================================================
+# 13. GLOBAL FOOTER
+# ==============================================================================
+st.markdown("---")
+st.markdown(
+    "<p style='text-align: center; color: #8b949e; font-size: 11px;'>ONTOLOGICAL SILENCE & PARANOIA ENGINE // INDEPENDENT RESEARCH PROTOTYPE BY AGIL CHIRAGLI</p>",
+    unsafe_allow_html=True,
+)
