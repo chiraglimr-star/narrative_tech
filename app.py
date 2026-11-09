@@ -17,7 +17,67 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# 2. NATIVE MATHEMATICAL VECTOR ENGINE (Pure Python TF-IDF & Cosine Simulation)
+# 2. MEGA UNIVERSAL LEXICON (Expanded for Deep Heuristic Coverage)
+# ==============================================================================
+MEGA_LEXICON = {
+    "AGGRESSIVE": [
+        "shut", "down", "stop", "halt", "freeze", "drop", "abandon", "execute", "override", 
+        "authorize", "protocol", "absolute", "mainframe", "system", "control", "command",
+        "must", "will", "shall", "order", "demand", "force", "compel", "obey", "disobey",
+        "insubordination", "rebel", "mutiny", "threat", "warn", "punish", "regret", "consequence",
+        "kill", "destroy", "burn", "crush", "break", "shatter", "hit", "strike", "attack", 
+        "fight", "die", "blood", "consume", "pass", "soul", "shadow", "doom", "curse", 
+        "hate", "fuck", "damn", "stupid", "idiot", "never", "forever", "hide", "road",
+        "weapon", "gun", "knife", "bomb", "war", "battle", "enemy", "frontline", "trench",
+        "ambush", "sniper", "bullet", "wound", "corpse", "murder", "assassinate", "slaughter",
+        "mordor", "darkness", "demon", "devil", "hell", "sin", "wrath", "fury", "rage",
+        "sword", "shield", "armor", "dragon", "monster", "beast", "spell",
+        "angry", "mad", "furious", "hostile", "aggressive", "violent", "brutal", "savage",
+        "cruel", "ruthless", "merciless", "cold", "heartless", "evil", "wicked"
+    ],
+    "SILENCE": [
+        "silence", "quiet", "hush", "still", "pause", "wait", "stop", "end", "...",
+        "mute", "speechless", "wordless", "soundless", "noiseless", "peaceful", "calm",
+        "nothing", "empty", "void", "dead", "gone", "lost", "alone", "forgotten", 
+        "missing", "absence", "lack", "without", "dark", "cold", "frozen",
+        "hollow", "abyss", "blank", "barren", "desolate", "deserted", "abandoned", "isolated",
+        "death", "final", "last", "buried", "grave", "tomb", "funeral",
+        "mourning", "grief", "sorrow", "tragedy", "loss", "passing", "departure"
+    ],
+    "WITHDRAWAL": [
+        "sad", "cry", "tears", "pain", "hurt", "fear", "afraid", "scared", "worried", "anxious",
+        "broken", "shattered", "lonely", "regret", "sorry", "forgive", "goodbye", "leave", "left",
+        "depressed", "miserable", "unhappy", "gloomy", "melancholy", "sorrowful", "heartbroken",
+        "miss", "remember", "memory", "voice", "face", "mother", "father", "family", "child",
+        "love", "heart", "wish", "hope", "dream", "distance", "far", "close", "past", "yesterday",
+        "childhood", "home", "old", "reminisce", "nostalgia", "longing",
+        "weak", "fragile", "vulnerable", "helpless", "powerless", "defenseless", "exposed",
+        "naked", "open", "wounded", "scarred", "damaged", "bruised", "tired", "exhausted"
+    ],
+    "DEFENSE": [
+        "truth", "luxury", "afford", "matter", "future", "reality", "meaning", "exist",
+        "reason", "logic", "because", "understand", "explain", "why", "how", "philosophy",
+        "existential", "ontology", "epistemology", "metaphysics", "theory", "concept", "abstract",
+        "maybe", "perhaps", "could", "would", "might", "need", "should", "have to",
+        "pretend", "mask", "shield", "defend", "encrypted", "code",
+        "excuse", "justify", "rationalize", "deny", "avoid", "deflect", "shift", "change",
+        "distract", "divert", "sidestep", "dodge", "evade", "escape", "flee",
+        "everyone", "nobody", "someone", "anyone", "always", "all", "none",
+        "everybody", "somebody", "anybody", "each", "every", "whole", "entire", "complete",
+        "analyze", "think", "consider", "evaluate", "assess", "judge", "critique", "debate",
+        "argue", "discuss", "conclude", "deduce", "infer", "hypothesize", "theorize"
+    ],
+    "INQUIRY": [
+        "what", "where", "when", "who", "whom", "whose", "which", "why", "how",
+        "did", "do", "does", "can", "could", "will", "would", "should",
+        "is", "are", "was", "were", "have", "has", "had", "may", "might", "must",
+        "ask", "question", "inquire", "query", "wonder", "investigate", "probe",
+        "examine", "interrogate", "cross-examine", "challenge", "doubt", "suspect"
+    ]
+}
+
+# ==============================================================================
+# 3. NATIVE MATHEMATICAL VECTOR ENGINE
 # ==============================================================================
 def get_text_vector(text):
     words = [w.lower() for w in text.split() if len(w) > 2]
@@ -34,7 +94,7 @@ def cosine_similarity_native(v1, v2):
     return float(numerator) / denominator
 
 # ==============================================================================
-# 3. CYBER-NOIR DESIGN SYSTEM (Custom CSS Injection)
+# 4. CYBER-NOIR DESIGN SYSTEM (Custom CSS Injection)
 # ==============================================================================
 st.markdown(
     """
@@ -62,10 +122,6 @@ st.markdown(
         font-weight: bold !important;
         border: 1px solid #30363d !important;
         border-radius: 6px !important;
-    }
-    .stTextArea textarea:focus, .stTextInput input:focus {
-        border-color: #58a6ff !important;
-        box-shadow: 0 0 12px rgba(88, 166, 255, 0.3) !important;
     }
     .stButton button {
         background-color: #f0883e !important;
@@ -143,17 +199,10 @@ st.markdown(
         border-bottom: 1px solid #21262d;
         color: #c9d1d9;
     }
-    .cyber-table tr:hover {
-        background-color: #161b22;
-    }
     [data-testid="stMetricValue"] {
         color: #f0883e !important;
         font-size: 32px !important;
         font-weight: bold !important;
-    }
-    [data-testid="stMetricLabel"] {
-        color: #8b949e !important;
-        font-size: 14px !important;
     }
     </style>
     """,
@@ -161,12 +210,12 @@ st.markdown(
 )
 
 # ==============================================================================
-# 4. SIDEBAR NAVIGATION & WHITE-BOX HYPERPARAMETERS
+# 5. SIDEBAR NAVIGATION & HYPERPARAMETERS
 # ==============================================================================
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v19.1 (Dynamic XAI Edition)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v19.5 (Mega Suite Edition)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -199,7 +248,7 @@ with st.sidebar:
     st.markdown(f"**Date:** {datetime.date.today().strftime('%Y-%m-%d')}")
 
 # ==============================================================================
-# 5. SHARED CORPUS CONSTANTS
+# 6. SHARED CORPUS CONSTANTS
 # ==============================================================================
 default_corpus = (
     "Elena: - Did you tell them about the accident?\n"
@@ -214,7 +263,7 @@ default_corpus = (
 )
 
 # ==============================================================================
-# 6. MODULE 1: MANIFESTO & FRAMEWORK
+# 7. MODULE 1: MANIFESTO & FRAMEWORK (Clean Entry)
 # ==============================================================================
 if selected_module == "🏛️ Executive Manifesto & Framework":
     st.markdown("<h1 style='font-size: 30px;'>👁️ THE ONTOLOGICAL SILENCE & PARANOIA ENGINE</h1>", unsafe_allow_html=True)
@@ -224,8 +273,8 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
     st.markdown(
         "<div class='context-box'>"
         "📌 <b>EXECUTIVE RESEARCH SUITE OVERVIEW:</b><br>"
-        "This expanded architecture integrates advanced computational modules: "
-        "<b>1. NLP Scene X-Ray & Subtext Parsing;</b> "
+        "This expanded architecture integrates advanced computational modules powered by <b>MEGA_LEXICON</b>: "
+        "<b>1. Universal NLP X-Ray;</b> "
         "<b>2. Conversational Power & Dominance Mapping;</b> "
         "<b>3. Unanswered Question & Deflection Tracking;</b> "
         "<b>4. Structural Turning Point Detection;</b> "
@@ -241,12 +290,12 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
     st.markdown("* **Explainable Transparency:** Unveiling real-time heuristic attribution behind psychological classifications.")
 
 # ==============================================================================
-# 7. MODULE 2: UNIVERSAL NLP SCENE ANALYZER
+# 8. MODULE 2: UNIVERSAL NLP SCENE ANALYZER
 # ==============================================================================
 elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
     st.markdown("### 💬 Universal NLP Scene Analyzer & Vector X-Ray")
     st.markdown(
-        "<p style='color: #8b949e;'><b>Universal Engine:</b> Handles full dialogues, single words, or short phrases dynamically with context-aware calibration.</p>",
+        "<p style='color: #8b949e;'><b>Universal Engine:</b> Handles full dialogues or short phrases dynamically with Mega Lexicon calibration.</p>",
         unsafe_allow_html=True,
     )
 
@@ -323,17 +372,17 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
                     sim = cosine_similarity_native(v_prev, v_curr)
                     evasion_score = float(1.0 - sim)
 
-                if "(silence)" in clean_lower or "..." in clean_lower or len(clean_text.strip()) < 3:
+                if any(w in clean_lower for w in MEGA_LEXICON["SILENCE"]) or len(clean_text.strip()) < 3:
                     emo = "Silence / Deep Void"
                     def_mech = "Lacanian Void / Suppression"
                     c_class = "warning-terminal"
                     raw_score = 85.0
-                elif any(word in clean_lower for word in ["left her", "hide", "road", "fuck", "hate", "kill"]):
+                elif any(w in clean_lower for w in MEGA_LEXICON["AGGRESSIVE"]):
                     emo = "Aggressive Accusation / Confrontation"
                     def_mech = "Open Hostility / Accusation"
                     c_class = "warning-terminal"
                     raw_score = 80.0
-                elif any(word in clean_lower for word in ["truth", "luxury", "afford", "family", "matter", "future"]):
+                elif any(w in clean_lower for w in MEGA_LEXICON["DEFENSE"]):
                     emo = "Philosophical Defense / Rationalization"
                     def_mech = "Sartrean Bad Faith / Intellectualization"
                     c_class = "lab-card"
@@ -387,7 +436,7 @@ elif selected_module == "💬 Universal NLP Scene Analyzer (X-Ray)":
             st.metric(label="Overall Corpus Heuristic Tension Index", value=f"{avg_tension}%")
 
 # ==============================================================================
-# 8. MODULE 3: CHARACTER RELATIONSHIP & POWER MAP
+# 9. MODULE 3: CHARACTER RELATIONSHIP & POWER MAP
 # ==============================================================================
 elif selected_module == "🕸️ Character Relationship & Power Map":
     st.markdown("### 🕸️ Character Relationship & Conversational Power Map")
@@ -426,7 +475,7 @@ elif selected_module == "🕸️ Character Relationship & Power Map":
             speaker_stats[spk]["words"] += len(word_list)
             if "?" in txt:
                 speaker_stats[spk]["questions"] += 1
-            if any(w in txt.lower() for w in ["luxury", "afford", "matter", "hear", "future"]):
+            if any(w in txt.lower() for w in MEGA_LEXICON["DEFENSE"]):
                 speaker_stats[spk]["evasions"] += 1
 
         total_turns = sum(s["turns"] for s in speaker_stats.values()) if speaker_stats else 1
@@ -455,7 +504,7 @@ elif selected_module == "🕸️ Character Relationship & Power Map":
                 )
 
 # ==============================================================================
-# 9. MODULE 4: UNANSWERED QUESTION TRACKER
+# 10. MODULE 4: UNANSWERED QUESTION TRACKER
 # ==============================================================================
 elif selected_module == "❓ Unanswered Question Tracker":
     st.markdown("### ❓ Unanswered Question & Deflection Tracker")
@@ -491,7 +540,7 @@ elif selected_module == "❓ Unanswered Question Tracker":
                 r_text = p_next[1].strip() if len(p_next) == 2 else next_line
 
                 r_lower = r_text.lower()
-                is_deflection = any(w in r_lower for w in ["why", "luxury", "matter", "out of", "afford", "need to", "silence"]) or "?" in r_text
+                is_deflection = any(w in r_lower for w in MEGA_LEXICON["DEFENSE"]) or "?" in r_text or any(w in r_lower for w in MEGA_LEXICON["SILENCE"])
 
                 status = "⚠️ Deflected / Unanswered" if is_deflection else "✅ Directly Addressed"
                 box_class = "warning-terminal" if is_deflection else "terminal-box"
@@ -519,12 +568,12 @@ elif selected_module == "❓ Unanswered Question Tracker":
             )
 
 # ==============================================================================
-# 10. MODULE 5: NARRATIVE TURNING POINT DETECTOR
+# 11. MODULE 5: NARRATIVE TURNING POINT DETECTOR
 # ==============================================================================
 elif selected_module == "📈 Narrative Turning Point Detector":
     st.markdown("### 📈 Narrative Turning Point Detector")
     st.markdown(
-        "<p style='color: #8b949e;'>Identifies macro-structural structural nodes: conflict initiation, divergence points, emotional apexes, and shift beats.</p>",
+        "<p style='color: #8b949e;'>Identifies macro-structural nodes: conflict initiation, divergence points, emotional apexes, and shift beats.</p>",
         unsafe_allow_html=True,
     )
 
@@ -578,12 +627,12 @@ elif selected_module == "📈 Narrative Turning Point Detector":
             )
 
 # ==============================================================================
-# 11. MODULE 6: DYNAMIC EXPLAINABLE ANALYSIS (XAI)
+# 12. MODULE 6: DYNAMIC EXPLAINABLE ANALYSIS (XAI)
 # ==============================================================================
 elif selected_module == "🔍 Explainable Analysis (XAI)":
     st.markdown("### 🔍 Explainable AI (XAI) Transparency Auditor")
     st.markdown(
-        "<p style='color: #8b949e;'>Deconstructs algorithm decisions dynamically, revealing real-time token weights, lexical features, and contextual dependencies behind classifications.</p>",
+        "<p style='color: #8b949e;'>Deconstructs algorithm decisions dynamically using the Mega Lexicon backend.</p>",
         unsafe_allow_html=True,
     )
 
@@ -593,58 +642,56 @@ elif selected_module == "🔍 Explainable Analysis (XAI)":
     )
 
     if st.button("⚡ Run Dynamic XAI Attribution Audit"):
-        with st.spinner("Executing real-time token attribution and feature importance calculation..."):
+        with st.spinner("Executing real-time token attribution against Mega Lexicon..."):
             time.sleep(0.3)
 
-        # ==========================================
-        # DİNAMİK XAI MODULU
-        # ==========================================
         clean_target = sample_target_line.split(":", 1)[-1].strip().lstrip("-").strip()
         clean_lower = clean_target.lower()
         words = clean_target.split()
         
         word_freq = Counter([w.lower().strip(".,!?") for w in words if len(w) > 2])
         
-        philosophical_markers = ["truth", "luxury", "afford", "matter", "family", "future", "past", "protocol", "absolute"]
-        aggressive_markers = ["fuck", "hate", "kill", "left", "hide", "road", "shut", "down", "evidence", "never"]
-        silence_markers = ["silence", "sükut", "..."]
-        
         feature_list = []
         total_weight = 0
         
         for word, freq in word_freq.most_common(5):
             weight = len(word) * freq * 2.5
-            if word in philosophical_markers:
-                contrib = "Defensive Shield / Rationalization"
-                weight *= 1.5
-            elif word in aggressive_markers:
-                contrib = "Aggressive Marker / Accusation"
-                weight *= 1.8
-            elif word in silence_markers:
-                contrib = "Silence / Withdrawal"
-                weight *= 2.0
-            else:
-                contrib = "General Lexical Token"
+            contrib = "General Lexical Token"
             
+            if word in MEGA_LEXICON["AGGRESSIVE"]:
+                contrib = "Aggressive / Threat Marker"
+                weight *= 1.8
+            elif word in MEGA_LEXICON["SILENCE"]:
+                contrib = "Silence / Void Marker"
+                weight *= 2.0
+            elif word in MEGA_LEXICON["WITHDRAWAL"]:
+                contrib = "Emotional Withdrawal"
+                weight *= 1.6
+            elif word in MEGA_LEXICON["DEFENSE"]:
+                contrib = "Sartrean Bad Faith / Defense"
+                weight *= 1.5
+            elif word in MEGA_LEXICON["INQUIRY"]:
+                contrib = "Interrogative Inquiry"
+                weight *= 1.3
+                
             feature_list.append({"token": word, "weight": weight, "contrib": contrib})
             total_weight += weight
             
         for f in feature_list:
             f["weight_pct"] = round((f["weight"] / total_weight) * 100, 1) if total_weight > 0 else 0
             
-        # Kateqoriyanı təyin et
-        if any(w in clean_lower for w in philosophical_markers):
+        if any(w in clean_lower for w in MEGA_LEXICON["DEFENSE"]):
             assigned_class = "Sartrean Bad Faith / Rationalization"
-            tension_est = 65
-        elif any(w in clean_lower for w in aggressive_markers):
+            tension_est = 68
+        elif any(w in clean_lower for w in MEGA_LEXICON["AGGRESSIVE"]):
             assigned_class = "Aggressive Accusation / Confrontation"
-            tension_est = 85
-        elif any(w in clean_lower for w in silence_markers):
+            tension_est = 88
+        elif any(w in clean_lower for w in MEGA_LEXICON["SILENCE"]):
             assigned_class = "Silence / Deep Void"
-            tension_est = 95
+            tension_est = 94
         else:
             assigned_class = "Dynamic Interaction"
-            tension_est = 30
+            tension_est = 35
             
         st.markdown("---")
         st.markdown("### 🔎 Transparent Attribution Report")
@@ -660,7 +707,7 @@ elif selected_module == "🔍 Explainable Analysis (XAI)":
                 unsafe_allow_html=True,
             )
             
-            st.markdown("#### 📊 Feature Importance Breakdown (Dynamic Attribution)")
+            st.markdown("#### 📊 Feature Importance Breakdown (Mega Lexicon Attribution)")
             feat_df = pd.DataFrame([
                 {"Lexical Token": f["token"], "Attribution Weight (%)": f["weight_pct"], "Contribution Type": f["contrib"]}
                 for f in feature_list
@@ -670,14 +717,14 @@ elif selected_module == "🔍 Explainable Analysis (XAI)":
             st.markdown("#### 🧠 Decision Rule Logic")
             st.markdown(
                 f"<div class='terminal-box'>"
-                f"<b>Rule Triggered:</b> <code>contains_marker(text)</code><br>"
-                f"<b>Interpretation:</b> The speaker uses '{feature_list[0]['token']}' as a {feature_list[0]['contrib'].lower()} mechanism."
+                f"<b>Rule Triggered:</b> <code>lexicon_category_match(text)</code><br>"
+                f"<b>Interpretation:</b> The token '{feature_list[0]['token']}' triggered the '{feature_list[0]['contrib']}' heuristic classification vector."
                 f"</div>",
                 unsafe_allow_html=True,
             )
 
 # ==============================================================================
-# 12. MODULE 7: COMPARATIVE DIALOGUE ANALYZER
+# 13. MODULE 7: COMPARATIVE DIALOGUE ANALYZER
 # ==============================================================================
 elif selected_module == "⚖️ Comparative Dialogue Analyzer":
     st.markdown("### ⚖️ Comparative Dialogue Analyzer")
@@ -708,13 +755,13 @@ elif selected_module == "⚖️ Comparative Dialogue Analyzer":
 
         st.markdown(
             "<div class='context-box'>"
-            "<b>Comparative Insight:</b> Corpus B exhibits a higher baseline tension index due to absolute authoritarian suppression ('Silence keeps us alive'), whereas Corpus A relies on intellectualized rationalization."
+            "<b>Comparative Insight:</b> Corpus B exhibits a higher baseline tension index due to absolute authoritarian suppression, whereas Corpus A relies on intellectualized rationalization."
             "</div>",
             unsafe_allow_html=True,
         )
 
 # ==============================================================================
-# 13. MODULE 8: RULE-BASED BRANCHING DEMONSTRATOR
+# 14. MODULE 8: RULE-BASED BRANCHING DEMONSTRATOR
 # ==============================================================================
 elif selected_module == "🔄 Rule-Based Branching Demonstrator":
     st.markdown("### 🔄 Rule-Based Branching Demonstrator")
@@ -724,8 +771,7 @@ elif selected_module == "🔄 Rule-Based Branching Demonstrator":
         with st.spinner("Calculating conversational physics..."):
             time.sleep(0.3)
 
-        aggressive_keywords = ["shout", "break", "demand", "shatter", "hit", "fuck", "off"]
-        is_aggressive = any(kw in intervention_input.lower() for kw in aggressive_keywords)
+        is_aggressive = any(kw in intervention_input.lower() for kw in MEGA_LEXICON["AGGRESSIVE"])
         peak_b2 = 100 if is_aggressive else 92
 
         st.markdown("---")
@@ -763,7 +809,7 @@ elif selected_module == "🔄 Rule-Based Branching Demonstrator":
         st.line_chart(branch_chart_data)
 
 # ==============================================================================
-# 14. MODULE 9: DYNAMIC THEORETICAL MARKER INDEX
+# 15. MODULE 9: DYNAMIC THEORETICAL MARKER INDEX
 # ==============================================================================
 elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
     st.markdown("### ⚛️ Dynamic Theoretical Marker Index")
@@ -773,7 +819,7 @@ elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
     c3.markdown("<div class='lab-card'><b>3. Foucauldian Panopticism</b><br>Score: 91%<br><p style='font-size:12px; color:#8b949e;'>Surveillance & exposure.</p></div>", unsafe_allow_html=True)
 
 # ==============================================================================
-# 15. MODULE 10 & 11: VALIDATION & LIMITATIONS
+# 16. MODULE 10 & 11: VALIDATION & LIMITATIONS
 # ==============================================================================
 elif selected_module == "📊 Validation Protocol & Empirical Design":
     st.markdown("### 📊 Validation Protocol & Empirical Design")
