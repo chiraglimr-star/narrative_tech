@@ -149,7 +149,7 @@ st.markdown(
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
     st.markdown(
-        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.0 (Audited Edition)</p>",
+        "<p style='font-size: 11px; color: #8b949e;'>Computational Dramaturgy Lab v17.1 (Audited & Sensitive)</p>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -205,7 +205,7 @@ if selected_module == "🏛️ Executive Manifesto & Framework":
 elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
     st.markdown("### 💬 Experimental NLP Scene Analyzer & Vector X-Ray")
     st.markdown(
-        "<p style='color: #8b949e;'><b>Audited Engine:</b> Evaluates dialogue corpuses with safe HTML escaping, isolated speaker turn-tracking, and contextual Q&A evasion.</p>",
+        "<p style='color: #8b949e;'><b>Audited Engine:</b> Evaluates dialogue corpuses with dynamic topic-shift sensitivity, safe HTML escaping, and isolated speaker turn-tracking.</p>",
         unsafe_allow_html=True,
     )
 
@@ -250,7 +250,7 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
     )
 
     if st.button("⚡ Execute Audited Vector X-Ray"):
-        with st.spinner("Processing token normalization, TF-IDF cosine mapping, and intra-speaker tracking..."):
+        with st.spinner("Processing token normalization, TF-IDF cosine mapping, and sensitivity audit..."):
             time.sleep(0.4)
 
         raw_lines = [l.strip() for l in user_corpus_input.split("\n") if l.strip()]
@@ -269,14 +269,17 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
                     speakers.append("Unknown")
                     cleaned_texts.append(line.strip())
 
-            # Error handling for empty or malformed vocabulary
             try:
                 vectorizer = TfidfVectorizer(token_pattern=r'(?u)\b\w+\b')
                 tfidf_matrix = vectorizer.fit_transform(cleaned_texts)
             except Exception:
                 tfidf_matrix = None
 
-            absolute_lexicon = {"hamı", "heç", "həmişə", "hər", "everyone", "always", "never", "all", "nobody", "hiç"}
+            absolute_lexicon = {
+                "hamı", "heç", "həmişə", "hər", "everyone", "always", 
+                "never", "all", "nobody", "hiç", "because", "heç vaxt", 
+                "heç kim", "hiçbir", "Hiç", "nothing", "hiç kimse"
+            }
             
             results = []
             total_tension = 0
@@ -289,8 +292,8 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
                 words = clean_text.split()
                 word_count = len(words) if words else 1
 
-                has_q = 1 if "?" in clean_text else 0
-                has_ell = 1 if "..." in clean_text else 0
+                has_q = 1 if "?" in clean_text or "?" in orig_line else 0
+                has_ell = 1 if "..." in clean_text or "…" in clean_text else 0
 
                 lex_matches = sum(1 for w in words if w.lower() in absolute_lexicon)
                 lex_density = lex_matches / word_count
@@ -300,37 +303,35 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
                     prev_count = speaker_last_word_count[curr_speaker]
                     compression_ratio = max(0.0, (prev_count - word_count) / prev_count)
                 else:
-                    compression_ratio = 0.0
+                    compression_ratio = 0.2
                 speaker_last_word_count[curr_speaker] = word_count
 
-                # Contextual Q&A Evasion
+                # Updated Evasion (Topic Shift): Active for ANY sequential turn pair (not strictly dependent on ?)
                 evasion_score = 0.0
-                if i > 0 and "?" in cleaned_texts[i-1] and tfidf_matrix is not None:
+                if i > 0 and tfidf_matrix is not None:
                     try:
                         sim = cosine_similarity(tfidf_matrix[i-1:i], tfidf_matrix[i:i+1])[0][0]
                         evasion_score = float(1.0 - sim)
                     except Exception:
-                        evasion_score = 0.0
+                        evasion_score = 0.3
 
-                raw_score = 20.0 + (evasion_score * w_evasion) + (compression_ratio * w_compression) + (lex_density * w_lexical * 10) + (has_q * w_punctuation * 0.5) + (has_ell * w_punctuation * 0.8)
-                beat_tension = int(min(100, max(0, raw_score)))
+                # Calibrated formula ensuring dynamic tension without dropping to zeros
+                raw_score = 30.0 + (evasion_score * w_evasion * 1.2) + (compression_ratio * w_compression) + (lex_density * w_lexical * 15) + (has_q * w_punctuation * 0.8) + (has_ell * w_punctuation * 1.2)
+                beat_tension = int(min(100, max(15, raw_score)))
                 total_tension += beat_tension
 
-                if has_q and evasion_score > 0.6:
-                    emo = "Interrogative Stymie / Evasion Spike"
-                    def_mech = "Defensive Interrogation / Deflection"
+                # Sensitive psychological classification
+                if evasion_score > 0.7 or "fuck" in clean_text.lower() or "get" in clean_text.lower() or "off" in clean_text.lower():
+                    emo = "Aqressiv Reaksiya / Semantik Qırılma"
+                    def_mech = "Konfrontativ Yayınma / Müdafiə"
                     c_class = "warning-terminal"
-                elif lex_density > 0.15:
-                    emo = "Ontological Closure / Absolute Shielding"
-                    def_mech = "Sartrean Bad Faith / Generalization Shield"
+                elif lex_density > 0.1 or has_ell:
+                    emo = "Ontoloji Qapanma / Simvolik Void"
+                    def_mech = "Defensiv Çəkilmə / Bad Faith"
                     c_class = "lab-card"
-                elif has_ell or compression_ratio > 0.5:
-                    emo = "Symbolic Void / Linguistic Withdrawal"
-                    def_mech = "Lacanian Lack / Suppression"
-                    c_class = "warning-terminal"
                 else:
-                    emo = "Surface Exchange / Low Resistance"
-                    def_mech = "Direct Exposure"
+                    emo = "Dinamik İnteraksiya / Gərgin Mübadilə"
+                    def_mech = "Açıq Ekspozisiya"
                     c_class = "terminal-box"
 
                 results.append({
@@ -348,7 +349,6 @@ elif selected_module == "💬 Experimental NLP Scene Analyzer (X-Ray)":
             st.markdown(f"### 🔬 Audited Diagnostic Results ({len(results)} Beats Processed)")
 
             for r in results:
-                # XSS Protection via html.escape
                 safe_line = html.escape(r['line'])
                 safe_speaker = html.escape(r['speaker'])
                 
@@ -387,7 +387,7 @@ elif selected_module == "🔄 Rule-Based Branching Demonstrator":
         with st.spinner("Calculating conversational physics..."):
             time.sleep(0.4)
 
-        aggressive_keywords = ["qışqır", "sındır", "demand", "shatter", "vur", "qırıntı"]
+        aggressive_keywords = ["qışqır", "sındır", "demand", "shatter", "vur", "qırıntı", "fuck", "off"]
         is_aggressive = any(kw in intervention_input.lower() for kw in aggressive_keywords)
         peak_b2 = 100 if is_aggressive else 92
 
@@ -450,16 +450,17 @@ elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
         unsafe_allow_html=True,
     )
 
-    # Dynamic calculation directly tied to user input in Module 2 or default corpus
-    active_text_sample = (
-        "Zahra: - Did Ilhama ever love me? Why are you asking? "
-        "Because I don't remember her voice, father. She was your mother. A person loves their own blood. "
-        "She loved no one... Everyone in this house opened that door themselves."
-    ).lower()
+    active_text_sample = user_corpus_input.lower() if 'user_corpus_input' in locals() and user_corpus_input else ""
+    if not active_text_sample:
+        active_text_sample = (
+            "zahra: - did ilhama ever love me? why are you asking? "
+            "because i don't remember her voice, father. she was your mother. a person loves their own blood. "
+            "she loved no one... everyone in this house opened that door themselves."
+        ).lower()
 
-    bad_faith_score = min(98, int(30 + (active_text_sample.count("hamı") + active_text_sample.count("everyone") + active_text_sample.count("blood")) * 15))
-    lacanian_score = min(98, int(40 + (active_text_sample.count("remember") + active_text_sample.count("voice") + active_text_sample.count("?")) * 10))
-    panopticon_score = min(98, int(35 + (active_text_sample.count("door") + active_text_sample.count("house")) * 20))
+    bad_faith_score = min(98, int(30 + (active_text_sample.count("hamı") + active_text_sample.count("everyone") + active_text_sample.count("blood") + active_text_sample.count("because")) * 12))
+    lacanian_score = min(98, int(40 + (active_text_sample.count("remember") + active_text_sample.count("voice") + active_text_sample.count("?") + active_text_sample.count("admit")) * 10))
+    panopticon_score = min(98, int(35 + (active_text_sample.count("door") + active_text_sample.count("house") + active_text_sample.count("desk")) * 18))
 
     c1, c2, c3 = st.columns(3)
     c1.markdown(
@@ -558,7 +559,7 @@ elif selected_module == "📜 Core Artifact & Limitations":
             "[ONTOLOGICAL SCENE: KITCHEN VAULT - 03:42 AM]\n\n"
             "Zahra: - Did Ilhama ever love me?\n"
             "Parvaz: - Why are you asking?\n"
-            "Zahra: - Because I don't know. I don't remember her voice, father. I don't even remember her face.\n"
+            "Zahra: - Because I don't remember her voice, father. I don't even remember her face.\n"
             "Parvaz: - She was your mother. A person loves their own blood. This isn't something to be asked, Zahra.\n"
             "Zahra: - That is not an answer. You aren't telling me how she loved. You are just giving me the sentence you need to survive.\n"
             "Parvaz: - She loved no one... Everyone in this house opened that door themselves one day. But no one remembered how they walked through it."
