@@ -1,1652 +1,1120 @@
+from pathlib import Path
+import zipfile, textwrap
 
-import re
-import math
+app_code = r'''import re
 import html
-import datetime
+import math
+import json
+import hashlib
+import datetime as dt
 from collections import Counter, defaultdict
 
+import numpy as np
 import pandas as pd
 import streamlit as st
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics import cohen_kappa_score, confusion_matrix, precision_recall_fscore_support
 
 # =============================================================================
-# 1. CONFIGURATION
+# ONTOLOGICAL SILENCE & PARANOIA ENGINE — RESEARCH PROTOTYPE V2
+# A transparent, rule-assisted discourse-analysis tool.
+# IMPORTANT: outputs are indicators for human review, not psychological facts.
 # =============================================================================
 
 st.set_page_config(
     page_title="Ontological Silence & Paranoia Engine",
     page_icon="👁️",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
 
-# =============================================================================
-# 2. DYNAMIC LEXICON
-# =============================================================================
+APP_VERSION = "2.0.0"
+CATEGORIES = [
+    "Silence / Void",
+    "Aggression",
+    "Emotional Withdrawal",
+    "Defensive Rationalization",
+    "Direct Inquiry",
+    "Surveillance / Control",
+    "Lack / Desire",
+    "Bad Faith Indicators",
+    "Dynamic Interaction",
+]
 
-LEXICON = {
-    "AGGRESSIVE": {
-        "attack", "kill", "destroy", "threat", "force", "obey",
-        "punish", "fight", "hate", "angry", "furious", "violent",
-        "brutal", "cruel", "murder", "weapon", "enemy", "war",
-        "shut", "order", "demand", "strike", "break", "revenge",
-        "idiot", "stupid", "damn", "bomb", "gun", "knife"
-    },
-
-    "SILENCE": {
-        "silence", "quiet", "hush", "mute", "speechless",
-        "wordless", "nothing", "empty", "void", "absence",
-        "forgotten", "missing", "alone", "hollow", "abyss",
-        "blank", "desolate", "abandoned", "death", "grave",
-        "tomb", "funeral", "mourning", "still", "soundless"
-    },
-
-    "WITHDRAWAL": {
-        "sad", "cry", "tears", "pain", "hurt", "fear",
-        "afraid", "scared", "anxious", "broken", "lonely",
-        "regret", "sorry", "goodbye", "leave", "depressed",
-        "miserable", "unhappy", "sorrow", "grief", "miss",
-        "memory", "longing", "nostalgia", "weak", "fragile",
-        "helpless", "vulnerable", "tired", "exhausted",
-        "heartbroken", "wounded"
-    },
-
-    "DEFENSE": {
-        "truth", "reality", "reason", "logic", "because",
-        "understand", "explain", "philosophy", "theory",
-        "maybe", "perhaps", "could", "would", "might",
-        "should", "pretend", "mask", "defend", "excuse",
-        "justify", "rationalize", "deny", "avoid", "deflect",
-        "distract", "divert", "escape", "everyone", "nobody",
-        "always", "never", "analyze", "consider", "evaluate"
-    },
-
-    "INQUIRY": {
-        "what", "where", "when", "who", "whom", "whose",
-        "which", "why", "how", "ask", "question", "inquire",
-        "wonder", "investigate", "examine", "interrogate",
-        "challenge", "doubt", "suspect"
-    },
-
-    "SURVEILLANCE": {
-        "watch", "watched", "watching", "observe", "observed",
-        "monitor", "monitoring", "control", "surveillance",
-        "record", "recording", "follow", "followed", "report",
-        "authority", "power", "discipline", "prison", "camera",
-        "guard", "inspect", "inspection", "obey", "institution"
-    },
-
-    "LACK": {
-        "empty", "nothing", "absence", "missing", "desire",
-        "want", "need", "lost", "void", "alone", "lack",
-        "silence", "incomplete", "unfulfilled", "absence"
-    },
-
-    "BAD_FAITH": {
-        "pretend", "deny", "excuse", "justify", "rationalize",
-        "avoid", "responsibility", "truth", "choice", "freedom",
-        "cannot", "impossible", "forced", "duty", "must",
-        "because", "perhaps", "maybe"
-    }
-}
-
-STOP_WORDS = {
-    "the", "and", "for", "but", "with", "from", "this",
-    "that", "was", "were", "are", "has", "have", "had",
-    "there", "here", "they", "them", "she", "him", "her",
-    "its", "you", "your", "his", "our", "their", "then",
-    "than", "into", "about", "just", "very", "been",
-    "being", "who", "what", "when", "where", "which",
-    "will", "would", "could", "should", "does", "did"
-}
-
-CLASS_COLORS = {
+CATEGORY_COLORS = {
     "Silence / Void": "#f85149",
     "Aggression": "#ff7b72",
     "Emotional Withdrawal": "#bc8cff",
     "Defensive Rationalization": "#f0883e",
     "Direct Inquiry": "#58a6ff",
-    "Dynamic Interaction": "#3fb950"
+    "Surveillance / Control": "#d2a8ff",
+    "Lack / Desire": "#79c0ff",
+    "Bad Faith Indicators": "#ffa657",
+    "Dynamic Interaction": "#3fb950",
 }
 
-# =============================================================================
-# 3. DESIGN SYSTEM
-# =============================================================================
+# Phrase-level patterns are deliberately conservative. They are indicators,
+# not a complete ontology or a validated psychological lexicon.
+LEXICON = {
+    "AGGRESSIVE": {
+        "attack", "kill", "destroy", "threat", "force", "obey", "punish",
+        "fight", "hate", "angry", "furious", "violent", "brutal", "cruel",
+        "murder", "weapon", "enemy", "war", "shut", "order", "demand",
+        "strike", "break", "revenge", "idiot", "stupid", "damn", "bomb",
+        "gun", "knife", "hurt", "harm", "revenge",
+    },
+    "SILENCE": {
+        "silence", "quiet", "hush", "mute", "speechless", "wordless",
+        "nothing", "empty", "void", "absence", "forgotten", "missing",
+        "hollow", "abyss", "blank", "desolate", "abandoned", "soundless",
+    },
+    "WITHDRAWAL": {
+        "sad", "cry", "tears", "pain", "hurt", "fear", "afraid", "scared",
+        "anxious", "broken", "lonely", "regret", "sorry", "goodbye",
+        "leave", "depressed", "miserable", "unhappy", "sorrow", "grief",
+        "miss", "longing", "nostalgia", "weak", "fragile", "helpless",
+        "vulnerable", "tired", "exhausted", "heartbroken", "wounded",
+    },
+    "DEFENSE": {
+        "truth", "reality", "reason", "logic", "because", "understand",
+        "explain", "justify", "rationalize", "deny", "avoid", "deflect",
+        "distract", "divert", "escape", "pretend", "excuse", "defend",
+        "responsibility", "forced", "cannot", "impossible",
+    },
+    "INQUIRY": {
+        "what", "where", "when", "who", "whom", "whose", "which", "why",
+        "how", "ask", "question", "inquire", "wonder", "investigate",
+        "examine", "interrogate", "challenge", "doubt", "suspect",
+    },
+    "SURVEILLANCE": {
+        "watch", "watched", "watching", "observe", "observed", "monitor",
+        "monitoring", "control", "surveillance", "record", "recording",
+        "follow", "followed", "authority", "power", "discipline", "prison",
+        "camera", "guard", "inspect", "inspection", "institution", "track",
+    },
+    "LACK": {
+        "empty", "nothing", "absence", "missing", "desire", "want", "need",
+        "lost", "void", "alone", "lack", "incomplete", "unfulfilled",
+    },
+    "BAD_FAITH": {
+        "pretend", "deny", "excuse", "justify", "rationalize", "avoid",
+        "responsibility", "truth", "choice", "freedom", "cannot",
+        "impossible", "forced", "duty", "must",
+    },
+}
+
+PHRASES = {
+    "SILENCE": [
+        "say nothing", "not a word", "fell silent", "kept quiet",
+        "refused to speak", "there was a pause", "long silence",
+    ],
+    "WITHDRAWAL": [
+        "leave me alone", "stay away", "i cannot go on", "i feel alone",
+        "i do not want to talk", "i don't want to talk",
+    ],
+    "DEFENSE": [
+        "that is not my fault", "that's not my fault", "you misunderstood",
+        "i had no choice", "it was not my decision", "it wasn't my decision",
+        "i was only trying", "you have to understand",
+    ],
+    "SURVEILLANCE": [
+        "i am watching you", "i'm watching you", "you are being watched",
+        "someone is watching", "under observation",
+    ],
+    "BAD_FAITH": [
+        "i had no choice", "i couldn't do otherwise", "i could not do otherwise",
+        "that is just how things are", "that's just how things are",
+    ],
+}
+
+NEGATORS = {
+    "not", "no", "never", "neither", "nor", "hardly", "barely", "without",
+    "isn't", "aren't", "wasn't", "weren't", "don't", "doesn't", "didn't",
+    "can't", "cannot", "couldn't", "won't", "wouldn't", "shouldn't",
+}
+NEGATION_WINDOW = 3
+QUESTION_WORDS = {"what", "where", "when", "who", "whom", "whose", "which", "why", "how"}
+STOP_WORDS = {
+    "the", "and", "for", "but", "with", "from", "this", "that", "was",
+    "were", "are", "has", "have", "had", "there", "here", "they", "them",
+    "she", "him", "her", "its", "you", "your", "his", "our", "their",
+    "then", "than", "into", "about", "just", "very", "been", "being",
+    "will", "would", "could", "should", "does", "did", "a", "an", "to",
+    "of", "in", "on", "it", "i", "we", "he", "as", "at", "by", "or",
+}
 
 st.markdown("""
 <style>
-.stApp {
-    background-color: #07090e;
-    color: #f1f5f9;
-    font-family: 'Courier New', monospace;
-}
-[data-testid="stSidebar"] {
-    background-color: #0d1117;
-    border-right: 1px solid #30363d;
-}
-[data-testid="stSidebar"] * {
-    color: #c9d1d9;
-}
-h1, h2, h3, h4, label {
-    color: #ffffff !important;
-    font-family: 'Courier New', monospace !important;
-}
-.stTextArea textarea, .stTextInput input {
-    background-color: #0d1117 !important;
-    color: #58a6ff !important;
-    border: 1px solid #30363d !important;
-}
-.stButton button {
-    background-color: #f0883e !important;
-    color: #07090e !important;
-    font-weight: bold !important;
-    border-radius: 5px;
-}
-.stButton button:hover {
-    background-color: #ffa657 !important;
-}
-.lab-card {
-    background: #0d1117;
-    border: 1px solid #30363d;
-    border-left: 4px solid #f0883e;
-    padding: 17px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-}
-.context-box {
-    background: #0f1c2e;
-    border: 1px solid #1f3864;
-    padding: 16px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-}
-.terminal-box {
-    background: #032f20;
-    border: 1px solid #116329;
-    padding: 16px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-}
-.warning-terminal {
-    background: #490202;
-    border: 1px solid #86181d;
-    padding: 16px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-}
-[data-testid="stMetricValue"] {
-    color: #f0883e !important;
-}
+.stApp { background:#07090e; color:#f1f5f9; font-family:'Courier New',monospace; }
+[data-testid="stSidebar"] { background:#0d1117; border-right:1px solid #30363d; }
+[data-testid="stSidebar"] * { color:#c9d1d9; }
+h1,h2,h3,h4,label { color:#fff !important; font-family:'Courier New',monospace !important; }
+.stTextArea textarea,.stTextInput input { background:#0d1117 !important; color:#58a6ff !important; border:1px solid #30363d !important; }
+.stButton button { background:#f0883e !important; color:#07090e !important; font-weight:bold !important; border-radius:5px; }
+.lab-card { background:#0d1117; border:1px solid #30363d; border-left:4px solid #f0883e; padding:16px; border-radius:6px; margin-bottom:12px; }
+.context-box { background:#0f1c2e; border:1px solid #1f3864; padding:16px; border-radius:6px; margin-bottom:15px; }
+[data-testid="stMetricValue"] { color:#f0883e !important; }
+.small-note { color:#9da7b3; font-size:0.85rem; }
 </style>
 """, unsafe_allow_html=True)
 
 
 # =============================================================================
-# 4. TEXT PROCESSING ENGINE
+# CORE TEXT FUNCTIONS
 # =============================================================================
 
 def tokenize(text):
-    return re.findall(r"[a-zA-Z']+", text.lower())
+    """Unicode-aware word tokenizer; keeps apostrophes inside contractions."""
+    return re.findall(r"[^\W_]+(?:['’][^\W_]+)?", str(text).lower(), flags=re.UNICODE)
 
 
-def get_text_vector(text):
-    return Counter(
-        word for word in tokenize(text)
-        if len(word) > 2 and word not in STOP_WORDS
-    )
+def normalize_text(text):
+    return re.sub(r"\s+", " ", str(text)).strip()
 
 
-def cosine_similarity_native(v1, v2):
-    intersection = set(v1) & set(v2)
-
-    numerator = sum(v1[w] * v2[w] for w in intersection)
-
-    denominator = (
-        math.sqrt(sum(v ** 2 for v in v1.values())) *
-        math.sqrt(sum(v ** 2 for v in v2.values()))
-    )
-
-    return numerator / denominator if denominator else 0.0
-
-
-def matched_words(text, category):
-    words = tokenize(text)
-    return sorted(set(words) & LEXICON[category])
-
-
-def parse_corpus(text):
-    parsed = []
-
-    for index, raw_line in enumerate(text.splitlines()):
-        line = raw_line.strip()
-
-        if not line:
-            continue
-
-        if ":" in line:
-            speaker, dialogue = line.split(":", 1)
-            speaker = speaker.strip() or f"Actor {index + 1}"
-            dialogue = dialogue.strip().lstrip("-").strip()
-        else:
-            speaker = f"Actor {index + 1}"
-            dialogue = line.lstrip("-").strip()
-
-        parsed.append({
-            "beat": len(parsed) + 1,
-            "speaker": speaker,
-            "text": dialogue,
-            "original": line
-        })
-
-    return parsed
-
-
-def classify_text(text):
-    lower = text.lower()
-
-    silence = matched_words(text, "SILENCE")
-    aggressive = matched_words(text, "AGGRESSIVE")
-    withdrawal = matched_words(text, "WITHDRAWAL")
-    defense = matched_words(text, "DEFENSE")
-
-    if re.search(r"\(silence\)|\[silence\]|\(pause\)|\[pause\]", lower):
-        category = "Silence / Void"
-    elif silence:
-        category = "Silence / Void"
-    elif aggressive:
-        category = "Aggression"
-    elif withdrawal:
-        category = "Emotional Withdrawal"
-    elif defense:
-        category = "Defensive Rationalization"
-    elif "?" in text:
-        category = "Direct Inquiry"
-    else:
-        category = "Dynamic Interaction"
-
-    return {
-        "category": category,
-        "silence": silence,
-        "aggressive": aggressive,
-        "withdrawal": withdrawal,
-        "defense": defense,
-        "color": CLASS_COLORS[category]
-    }
-
-
-def analyze_corpus(corpus, w_evasion=35, w_compression=20):
-    beats = parse_corpus(corpus)
-
-    if not beats:
-        return []
-
-    previous_words = {}
-    results = []
-
-    for i, beat in enumerate(beats):
-        text = beat["text"]
-        speaker = beat["speaker"]
-
-        words = tokenize(text)
-        word_count = len(words)
-
-        previous_count = previous_words.get(speaker)
-
-        compression = (
-            max(0, (previous_count - word_count) / previous_count)
-            if previous_count else 0
-        )
-
-        previous_words[speaker] = word_count
-
-        if i > 0:
-            similarity = cosine_similarity_native(
-                get_text_vector(beats[i - 1]["text"]),
-                get_text_vector(text)
-            )
-            evasion = 1 - similarity
-        else:
-            similarity = 0
-            evasion = 0
-
-        classification = classify_text(text)
-
-        base_scores = {
-            "Silence / Void": 85,
-            "Aggression": 80,
-            "Emotional Withdrawal": 75,
-            "Defensive Rationalization": 65,
-            "Direct Inquiry": 45,
-            "Dynamic Interaction": 30
-        }
-
-        tension = base_scores[classification["category"]]
-
-        tension += evasion * w_evasion * 0.2
-        tension += compression * w_compression * 0.2
-
-        if "?" in text:
-            tension += 3
-
-        tension = round(max(0, min(100, tension)), 1)
-
-        results.append({
-            **beat,
-            **classification,
-            "words": word_count,
-            "questions": text.count("?"),
-            "similarity": round(similarity, 3),
-            "evasion": round(evasion, 3),
-            "compression": round(compression, 3),
-            "tension": tension
-        })
-
-    return results
-
-
-def corpus_metrics(results):
-    if not results:
-        return {}
-
-    total_words = sum(r["words"] for r in results)
-    total_turns = len(results)
-
-    tensions = [r["tension"] for r in results]
-
-    return {
-        "turns": total_turns,
-        "words": total_words,
-        "average_words": round(total_words / total_turns, 2),
-        "average_tension": round(sum(tensions) / len(tensions), 2),
-        "maximum_tension": max(tensions),
-        "minimum_tension": min(tensions),
-        "questions": sum(r["questions"] for r in results),
-        "speakers": len(set(r["speaker"] for r in results)),
-        "unique_words": len(set(
-            word for r in results for word in tokenize(r["text"])
-        ))
-    }
+def lexical_vector(text):
+    tokens = tokenize(text)
+    return Counter(t for t in tokens if len(t) > 2 and t not in STOP_WORDS)
 
 
 def safe_html(value):
     return html.escape(str(value))
 
 
-def show_analysis_cards(results):
+def parse_corpus(text):
+    """Parse 'Speaker: dialogue'. Unlabelled lines get stable Actor labels."""
+    beats = []
+    for line_no, raw in enumerate(str(text).splitlines(), start=1):
+        line = raw.strip()
+        if not line:
+            continue
+        match = re.match(r"^([^:]{1,60}):\s*(.*)$", line)
+        if match:
+            speaker = match.group(1).strip()
+            dialogue = match.group(2).strip().lstrip("-— ").strip()
+        else:
+            speaker = f"Actor {line_no}"
+            dialogue = line.lstrip("-— ").strip()
+        if dialogue:
+            beats.append({
+                "beat": len(beats) + 1,
+                "source_line": line_no,
+                "speaker": speaker,
+                "text": dialogue,
+                "original": line,
+            })
+    return beats
+
+
+def _negated(tokens, index, window=NEGATION_WINDOW):
+    start = max(0, index - window)
+    preceding = tokens[start:index]
+    # A conjunction/punctuation boundary is handled before tokenization only
+    # approximately; this conservative window avoids claiming full syntax.
+    return any(token in NEGATORS for token in preceding)
+
+
+def classify_text(text, context_text=""):
+    """
+    Transparent multi-label lexical baseline.
+    Negated lexical hits are retained as evidence but excluded from positive
+    marker counts. This is not full syntactic scope resolution.
+    """
+    raw = str(text)
+    tokens = tokenize(raw)
+    token_set = set(tokens)
+    positive = defaultdict(list)
+    negated = defaultdict(list)
+    phrase_hits = defaultdict(list)
+
+    for category, lexicon in LEXICON.items():
+        for i, token in enumerate(tokens):
+            if token in lexicon:
+                if _negated(tokens, i):
+                    negated[category].append(token)
+                else:
+                    positive[category].append(token)
+
+    lowered = raw.lower()
+    for category, phrases in PHRASES.items():
+        for phrase in phrases:
+            if phrase in lowered:
+                phrase_hits[category].append(phrase)
+
+    # Explicit stage directions are distinct from a lexical mention of silence.
+    stage_silence = bool(re.search(
+        r"[\[(]\s*(silence|pause|long pause|beat)\s*[\])]", lowered
+    ))
+    if stage_silence:
+        phrase_hits["SILENCE"].append("stage direction: silence/pause")
+
+    # Question form is a structural feature; it does not imply a psychological state.
+    is_question = "?" in raw or (tokens and tokens[0] in QUESTION_WORDS)
+    if is_question:
+        positive["INQUIRY"].append("question structure")
+
+    # Map internal markers to public labels.
+    mapping = {
+        "SILENCE": "Silence / Void",
+        "AGGRESSIVE": "Aggression",
+        "WITHDRAWAL": "Emotional Withdrawal",
+        "DEFENSE": "Defensive Rationalization",
+        "INQUIRY": "Direct Inquiry",
+        "SURVEILLANCE": "Surveillance / Control",
+        "LACK": "Lack / Desire",
+        "BAD_FAITH": "Bad Faith Indicators",
+    }
+
+    evidence = {}
+    active_labels = []
+    for key, label in mapping.items():
+        pos = sorted(set(positive.get(key, []) + phrase_hits.get(key, [])))
+        neg = sorted(set(negated.get(key, [])))
+        if pos:
+            active_labels.append(label)
+        evidence[label] = {"positive": pos, "negated": neg}
+
+    if not active_labels:
+        active_labels = ["Dynamic Interaction"]
+
+    # Primary label is only a display convenience; all labels remain visible.
+    priority = [
+        "Silence / Void", "Aggression", "Emotional Withdrawal",
+        "Defensive Rationalization", "Surveillance / Control",
+        "Bad Faith Indicators", "Lack / Desire", "Direct Inquiry",
+        "Dynamic Interaction",
+    ]
+    primary = next((x for x in priority if x in active_labels), "Dynamic Interaction")
+
+    return {
+        "category": primary,
+        "labels": active_labels,
+        "evidence": evidence,
+        "is_question": bool(is_question),
+        "stage_silence": stage_silence,
+        "token_count": len(tokens),
+        "method": "Transparent lexical + phrase rules",
+        "limitations": [
+            "Negation scope is approximate, not a full syntactic parse.",
+            "Metaphor, irony, sarcasm and speaker intention require human/contextual review.",
+            "Lexical indicators do not establish psychological states or intent.",
+        ],
+    }
+
+
+def _tfidf_pair_similarity(text_a, text_b):
+    """Word+character TF-IDF similarity; lexical-semantic proxy, not meaning."""
+    a, b = normalize_text(text_a), normalize_text(text_b)
+    if not a or not b:
+        return None
+    if a == b:
+        return 1.0
+    try:
+        vec = TfidfVectorizer(
+            lowercase=True,
+            ngram_range=(1, 2),
+            analyzer="word",
+            sublinear_tf=True,
+            token_pattern=r"(?u)\b\w+\b",
+        )
+        matrix = vec.fit_transform([a, b])
+        if matrix.shape[1] == 0:
+            return 0.0
+        return float(cosine_similarity(matrix[0], matrix[1])[0, 0])
+    except ValueError:
+        return 0.0
+
+
+def analyze_corpus(corpus):
+    beats = parse_corpus(corpus)
+    if not beats:
+        return []
+
+    previous_by_speaker = {}
+    results = []
+    for i, beat in enumerate(beats):
+        text = beat["text"]
+        speaker = beat["speaker"]
+        tokens = tokenize(text)
+        word_count = len(tokens)
+        previous = previous_by_speaker.get(speaker)
+        if previous is None or previous == 0:
+            compression = None
+        else:
+            compression = (previous - word_count) / previous
+        previous_by_speaker[speaker] = word_count
+
+        if i > 0:
+            prev_beat = beats[i - 1]
+            similarity = _tfidf_pair_similarity(prev_beat["text"], text)
+            transition = {
+                "previous_speaker": prev_beat["speaker"],
+                "speaker_changed": prev_beat["speaker"] != speaker,
+                "similarity": similarity,
+                "lexical_divergence": (1 - similarity) if similarity is not None else None,
+                "interpretation": (
+                    "Low lexical overlap; may reflect topic shift, paraphrase, or non-response. "
+                    "Not proof of evasion."
+                ),
+            }
+        else:
+            transition = {
+                "previous_speaker": None,
+                "speaker_changed": False,
+                "similarity": None,
+                "lexical_divergence": None,
+                "interpretation": "No preceding turn.",
+            }
+
+        classification = classify_text(text)
+        results.append({
+            **beat,
+            **classification,
+            "words": word_count,
+            "questions": text.count("?"),
+            "same_speaker_previous_words": previous,
+            "compression": round(compression, 3) if compression is not None else None,
+            **transition,
+        })
+    return results
+
+
+def corpus_metrics(results):
+    if not results:
+        return {}
+    counts = [r["words"] for r in results]
+    all_tokens = [t for r in results for t in tokenize(r["text"])]
+    return {
+        "turns": len(results),
+        "words": sum(counts),
+        "average_words": round(float(np.mean(counts)), 2),
+        "median_words": round(float(np.median(counts)), 2),
+        "speakers": len(set(r["speaker"] for r in results)),
+        "questions": sum(r["questions"] for r in results),
+        "unique_words": len(set(all_tokens)),
+        "lexical_diversity": round(len(set(all_tokens)) / len(all_tokens), 3) if all_tokens else 0,
+        "category_counts": dict(Counter(label for r in results for label in r["labels"])),
+    }
+
+
+def speaker_statistics(results):
+    stats = defaultdict(lambda: {"turns": 0, "words": 0, "questions": 0, "labels": Counter()})
     for r in results:
+        s = stats[r["speaker"]]
+        s["turns"] += 1
+        s["words"] += r["words"]
+        s["questions"] += r["questions"]
+        s["labels"].update(r["labels"])
+    total_turns = max(1, len(results))
+    total_words = max(1, sum(r["words"] for r in results))
+    rows = []
+    for speaker, s in stats.items():
+        rows.append({
+            "Speaker": speaker,
+            "Turns": s["turns"],
+            "Words": s["words"],
+            "Turn Share (%)": round(100 * s["turns"] / total_turns, 1),
+            "Word Share (%)": round(100 * s["words"] / total_words, 1),
+            "Questions": s["questions"],
+            "Most Frequent Marker": s["labels"].most_common(1)[0][0] if s["labels"] else "None",
+        })
+    return pd.DataFrame(rows).sort_values("Turn Share (%)", ascending=False)
+
+
+def question_response_audit(beats, max_lookahead=3):
+    """Candidate response window; flags are review prompts, not intent judgments."""
+    audit = []
+    for i, beat in enumerate(beats):
+        if "?" not in beat["text"]:
+            continue
+        candidate = None
+        for j in range(i + 1, min(len(beats), i + 1 + max_lookahead)):
+            if beats[j]["speaker"] != beat["speaker"]:
+                candidate = beats[j]
+                break
+        if candidate is None:
+            status = "No candidate response in look-ahead window"
+            similarity = None
+            response_labels = []
+        else:
+            similarity = _tfidf_pair_similarity(beat["text"], candidate["text"])
+            response_labels = classify_text(candidate["text"])["labels"]
+            # The score is not an evasion probability; it is an overlap diagnostic.
+            if similarity is None:
+                status = "Manual review required"
+            elif similarity < 0.05:
+                status = "Low lexical overlap — manual review"
+            else:
+                status = "Lexical overlap detected — manual review"
+        audit.append({
+            "Question Beat": beat["beat"],
+            "Question Speaker": beat["speaker"],
+            "Question": beat["text"],
+            "Candidate Response Speaker": candidate["speaker"] if candidate else "None",
+            "Candidate Response": candidate["text"] if candidate else "None",
+            "TF-IDF Lexical Similarity": round(similarity, 3) if similarity is not None else None,
+            "Candidate Response Labels": ", ".join(response_labels),
+            "Review Status": status,
+        })
+    return audit
+
+
+def turning_point_candidates(results):
+    """Robust descriptive outlier flags based on observable lexical features."""
+    if len(results) < 3:
+        return []
+    word_counts = np.array([r["words"] for r in results], dtype=float)
+    median = float(np.median(word_counts))
+    mad = float(np.median(np.abs(word_counts - median)))
+    rows = []
+    for i, r in enumerate(results):
+        prev = results[i - 1]["words"] if i > 0 else None
+        change = (r["words"] - prev) if prev is not None else None
+        robust_z = (0.6745 * (r["words"] - median) / mad) if mad > 0 else 0.0
+        marker_count = sum(len(v["positive"]) for v in r["evidence"].values())
+        flags = []
+        if abs(robust_z) >= 2.5:
+            flags.append("Unusually long/short turn")
+        if r["stage_silence"]:
+            flags.append("Explicit silence/pause stage direction")
+        if r["is_question"]:
+            flags.append("Question-form turn")
+        if marker_count >= 3:
+            flags.append("Multiple lexical marker groups")
+        if flags:
+            rows.append({
+                "Beat": r["beat"],
+                "Speaker": r["speaker"],
+                "Text": r["text"],
+                "Word Count": r["words"],
+                "Change From Previous Turn": change,
+                "Robust Length Deviation": round(float(robust_z), 2),
+                "Observable Flags": "; ".join(flags),
+                "Interpretation": "Candidate for human narrative analysis; not a validated turning-point prediction.",
+            })
+    return rows
+
+
+def theoretical_markers(text):
+    tokens = tokenize(text)
+    token_count = len(tokens)
+    mapping = {
+        "Sartrean Bad Faith (lexical proxy)": "BAD_FAITH",
+        "Lacanian Lack / Desire (lexical proxy)": "LACK",
+        "Foucauldian Surveillance (lexical proxy)": "SURVEILLANCE",
+    }
+    rows = []
+    for name, key in mapping.items():
+        hits = [t for t in tokens if t in LEXICON[key]]
+        rows.append({
+            "Framework (operational proxy)": name,
+            "Matched token occurrences": len(hits),
+            "Distinct matched terms": ", ".join(sorted(set(hits))) or "None",
+            "Density per 100 tokens": round(100 * len(hits) / token_count, 2) if token_count else 0,
+            "Interpretation": "Lexical density only; does not measure the philosophical construct.",
+        })
+    return rows
+
+
+def _nominal_alpha_two_annotators(a, b):
+    pairs = [(x, y) for x, y in zip(a, b) if pd.notna(x) and pd.notna(y)]
+    if not pairs:
+        return None
+    observed_disagreement = sum(x != y for x, y in pairs) / len(pairs)
+    pooled = [z for pair in pairs for z in pair]
+    counts = Counter(pooled)
+    n = len(pooled)
+    expected_disagreement = 1 - sum((v / n) ** 2 for v in counts.values())
+    if expected_disagreement == 0:
+        return None
+    return 1 - observed_disagreement / expected_disagreement
+
+
+def validation_summary(df):
+    complete = df.dropna(subset=["Annotator A", "Annotator B"]).copy()
+    if complete.empty:
+        return None
+    a = complete["Annotator A"].tolist()
+    b = complete["Annotator B"].tolist()
+    return {
+        "n": len(complete),
+        "agreement": float(np.mean(np.array(a) == np.array(b))),
+        "cohen_kappa": float(cohen_kappa_score(a, b)) if len(set(a) | set(b)) > 1 else None,
+        "krippendorff_alpha_nominal": _nominal_alpha_two_annotators(a, b),
+    }
+
+
+def engine_vs_annotator_metrics(engine_labels, human_labels):
+    pairs = [(e, h) for e, h in zip(engine_labels, human_labels) if pd.notna(h)]
+    if not pairs:
+        return None
+    y_pred = [x[0] for x in pairs]
+    y_true = [x[1] for x in pairs]
+    p, r, f1, _ = precision_recall_fscore_support(
+        y_true, y_pred, labels=CATEGORIES, average="macro", zero_division=0
+    )
+    accuracy = float(np.mean(np.array(y_true) == np.array(y_pred)))
+    return {"n": len(pairs), "accuracy": accuracy, "macro_precision": p, "macro_recall": r, "macro_f1": f1}
+
+
+def show_results_cards(results):
+    for r in results:
+        labels = ", ".join(r["labels"])
+        ev = []
+        for label, data in r["evidence"].items():
+            if data["positive"]:
+                ev.append(f"{label}: {', '.join(data['positive'])}")
+            if data["negated"]:
+                ev.append(f"{label} (negated context): {', '.join(data['negated'])}")
         st.markdown(
-            f"""
-            <div class="lab-card" style="border-left-color:{r['color']}">
-                <b>Beat {r['beat']} | {safe_html(r['speaker'])}</b><br><br>
-                <i style="color:#58a6ff">
-                    "{safe_html(r['text'])}"
-                </i><br><br>
-                <b>Classification:</b> {r['category']}<br>
-                <b>Tension:</b> {r['tension']}%<br>
-                <b>Evasion:</b> {r['evasion']}<br>
-                <b>Compression:</b> {r['compression']}<br>
-                <b>Word Count:</b> {r['words']}
-            </div>
-            """,
-            unsafe_allow_html=True
+            f"""<div class="lab-card">
+            <b>Beat {r['beat']} | {safe_html(r['speaker'])}</b><br><br>
+            <i style="color:#58a6ff">“{safe_html(r['text'])}”</i><br><br>
+            <b>Primary display label:</b> {safe_html(r['category'])}<br>
+            <b>All detected labels:</b> {safe_html(labels)}<br>
+            <b>Word count:</b> {r['words']}<br>
+            <b>Within-speaker length change:</b> {r['compression'] if r['compression'] is not None else 'Not available'}<br>
+            <b>Adjacent-turn lexical similarity:</b> {round(r['similarity'], 3) if r['similarity'] is not None else 'Not available'}<br>
+            <b>Evidence:</b> {safe_html(' | '.join(ev) if ev else 'No positive lexical evidence')}
+            </div>""",
+            unsafe_allow_html=True,
         )
 
 
 def get_corpus_input(label, key, height=220):
     return st.text_area(
-        label,
-        key=key,
-        height=height,
-        placeholder=(
-            "Enter your dialogue here...\n"
-            "Character A: What happened?\n"
-            "Character B: I don't know."
-        )
+        label, key=key, height=height,
+        placeholder="Character A: What happened?\nCharacter B: I don't know.",
     )
 
 
 # =============================================================================
-# 5. SIDEBAR AND HYPERPARAMETERS
+# SIDEBAR
 # =============================================================================
+
+MODULES = [
+    "🏛️ Research Framework",
+    "💬 Universal NLP Scene Analyzer",
+    "🕸️ Character Relationship & Participation Map",
+    "❓ Unanswered Question Tracker",
+    "📈 Narrative Turning Point Candidates",
+    "🔍 Explainable Analysis (XAI)",
+    "⚖️ Comparative Dialogue Analyzer",
+    "🔄 Rule-Based Branching Demonstrator",
+    "⚛️ Theoretical Marker Index",
+    "📊 Validation Protocol",
+    "📜 Core Artifact & Limitations",
+]
 
 with st.sidebar:
     st.markdown("### 👁️ Terminal Control")
-    st.caption("Computational Dramaturgy Lab | Dynamic Research Engine")
-
-    selected_module = st.radio(
-        "Navigation Matrix",
-        [
-            "🏛️ Research Framework",
-            "💬 Universal NLP Scene Analyzer",
-            "🕸️ Character Relationship & Power Map",
-            "❓ Unanswered Question Tracker",
-            "📈 Narrative Turning Point Detector",
-            "🔍 Explainable Analysis (XAI)",
-            "⚖️ Comparative Dialogue Analyzer",
-            "🔄 Rule-Based Branching Demonstrator",
-            "⚛️ Dynamic Theoretical Marker Index",
-            "📊 Validation Protocol",
-            "📜 Core Artifact & Limitations"
-        ]
-    )
-
+    st.caption("Computational Dramaturgy Lab | Research Prototype V2")
+    selected_module = st.radio("Navigation Matrix", MODULES)
     st.divider()
-
-    st.markdown("### ⚙️ Hyperparameters")
-
-    w_evasion = st.slider(
-        "Semantic Divergence Weight",
-        0.0, 50.0, 35.0, 5.0
-    )
-
-    w_compression = st.slider(
-        "Intra-Speaker Compression Weight",
-        0.0, 40.0, 20.0, 5.0
-    )
-
-    st.divider()
-
     st.markdown("**Framework Architect:** Agil Chiragli")
-    st.markdown("**Research Prototype:** Independent")
-    st.caption(datetime.date.today().isoformat())
+    st.markdown(f"**Version:** {APP_VERSION}")
+    st.caption(dt.date.today().isoformat())
 
+st.title("👁️ Ontological Silence & Paranoia Engine")
+st.caption("Transparent computational indicators for dialogue and narrative analysis")
+st.warning(
+    "Research-use notice: this version is a transparent lexical/discourse baseline. "
+    "It does not understand every text, infer private mental states, or provide validated "
+    "psychological measurements. Interpret outputs as candidates for human review."
+)
 
 # =============================================================================
-# 6. MODULE 1: FRAMEWORK
+# MODULE 1 — FRAMEWORK
 # =============================================================================
 
-if selected_module == "🏛️ Research Framework":
-
-    st.title("👁️ Ontological Silence & Paranoia Engine")
-
-    st.markdown(
-        "### A Dynamic Computational Framework for Narrative "
-        "Silence, Psychological Withdrawal and Conversational Power"
-    )
-
+if selected_module == MODULES[0]:
+    st.header("Research Framework")
     st.markdown("""
     <div class="context-box">
-    <b>RESEARCH ARCHITECTURE</b><br><br>
-    This platform applies transparent, rule-based computational
-    methods to dramatic dialogue and narrative text.
-
-    All analytical outputs are generated from user-provided text.
-    The engine identifies lexical patterns, discourse structures,
-    conversational asymmetries and potential narrative turning points.
+    <b>RESEARCH QUESTION</b><br><br>
+    Can transparent computational features help researchers identify observable
+    textual patterns associated with silence, withdrawal, evasion candidates,
+    surveillance language and shifts in dramatic interaction?
     </div>
     """, unsafe_allow_html=True)
-
-    st.subheader("Research Objectives")
-
-    objectives = [
-        ("Quantifying Subtext",
-         "Identifying lexical indicators of silence, withdrawal and evasion."),
-        ("Conversational Power",
-         "Measuring speaker participation and linguistic dominance."),
-        ("Narrative Dynamics",
-         "Detecting changes in tension and potential structural turning points."),
-        ("Explainable Analysis",
-         "Showing the lexical evidence behind each heuristic classification."),
-        ("Theoretical Mapping",
-         "Operationalizing selected concepts from Sartre, Lacan and Foucault.")
+    st.subheader("Operational principles")
+    principles = [
+        ("Observable evidence", "Every label must be linked to visible text or a measurable feature."),
+        ("Multi-label output", "A turn may contain several co-occurring discourse markers."),
+        ("Uncertainty", "The engine flags ambiguity rather than inventing certainty."),
+        ("Human validation", "Independent annotators and held-out examples are required."),
+        ("Construct validity", "Lexical proxies are not equivalent to philosophical or psychological constructs."),
+        ("Reproducibility", "Version, settings, input corpus hash and exported outputs should be retained."),
     ]
-
-    for title, description in objectives:
-        st.markdown(
-            f"<div class='lab-card'><b>{title}</b><br>{description}</div>",
-            unsafe_allow_html=True
-        )
-
-    st.warning(
-        "The engine produces heuristic indicators, not validated "
-        "psychological diagnoses or proof of a character's intentions."
-    )
-
+    for title, body in principles:
+        st.markdown(f"<div class='lab-card'><b>{title}</b><br>{body}</div>", unsafe_allow_html=True)
+    st.subheader("What this version can and cannot claim")
+    st.write("Can: count turns, words, speakers, lexical markers, question forms, participation shares, and candidate structural anomalies.")
+    st.write("Cannot: reliably infer intention, diagnose paranoia, prove evasion, measure real power, or predict how a character will behave.")
 
 # =============================================================================
-# 7. MODULE 2: UNIVERSAL NLP X-RAY
+# MODULE 2 — UNIVERSAL SCENE ANALYZER
 # =============================================================================
 
-elif selected_module == "💬 Universal NLP Scene Analyzer":
-
-    st.title("💬 Universal NLP Scene Analyzer")
-
-    corpus = get_corpus_input(
-        "Enter dialogue, scene or narrative text:",
-        "xray_corpus"
-    )
-
-    if st.button("⚡ Execute Universal X-Ray", key="xray"):
-        results = analyze_corpus(corpus, w_evasion, w_compression)
-
+elif selected_module == MODULES[1]:
+    st.header("Universal NLP Scene Analyzer")
+    corpus = get_corpus_input("Enter dialogue, scene or narrative text:", "xray_corpus")
+    if st.button("⚡ Execute Scene Analysis", key="xray"):
+        results = analyze_corpus(corpus)
         if not results:
-            st.warning("Enter text before executing the analysis.")
+            st.warning("Enter text before running analysis.")
         else:
             st.session_state["last_results"] = results
             st.session_state["last_corpus"] = corpus
-
             metrics = corpus_metrics(results)
-
-            st.divider()
-            st.subheader("Dynamic Diagnostic Results")
-
             c1, c2, c3, c4 = st.columns(4)
-
-            c1.metric("Beats", metrics["turns"])
+            c1.metric("Turns", metrics["turns"])
             c2.metric("Words", metrics["words"])
-            c3.metric("Mean Tension", f'{metrics["average_tension"]}%')
-            c4.metric("Speakers", metrics["speakers"])
-
-            st.subheader("Beat-by-Beat Analysis")
-            show_analysis_cards(results)
-
-            st.subheader("Tension Distribution")
-
-            tension_df = pd.DataFrame({
-                "Beat": [f"Beat {r['beat']}" for r in results],
-                "Tension": [r["tension"] for r in results]
-            })
-
-            st.line_chart(tension_df.set_index("Beat"))
-
-            st.subheader("Emotional Classification Distribution")
-
-            distribution = Counter(r["category"] for r in results)
-
-            st.bar_chart(
-                pd.DataFrame.from_dict(
-                    distribution,
-                    orient="index",
-                    columns=["Frequency"]
-                )
-            )
-
-            st.subheader("Corpus Statistics")
-            st.dataframe(
-                pd.DataFrame([metrics]),
-                use_container_width=True
-            )
-
+            c3.metric("Speakers", metrics["speakers"])
+            c4.metric("Questions", metrics["questions"])
+            st.subheader("Beat-by-beat evidence")
+            show_results_cards(results)
+            st.subheader("Detected marker frequency")
+            marker_counts = Counter(label for r in results for label in r["labels"])
+            st.bar_chart(pd.DataFrame.from_dict(marker_counts, orient="index", columns=["Occurrences"]))
+            st.subheader("Corpus statistics")
+            st.dataframe(pd.DataFrame([{k: v for k, v in metrics.items() if k != "category_counts"}]), use_container_width=True)
+            st.caption("Multi-label counts can exceed the number of turns because a turn can receive multiple labels.")
 
 # =============================================================================
-# 8. MODULE 3: CHARACTER RELATIONSHIP & POWER MAP
+# MODULE 3 — PARTICIPATION MAP
 # =============================================================================
 
-elif selected_module == "🕸️ Character Relationship & Power Map":
-
-    st.title("🕸️ Character Relationship & Power Map")
-
-    corpus = get_corpus_input(
-        "Enter character dialogue:",
-        "power_corpus"
-    )
-
-    if st.button("⚡ Generate Dynamic Power Map", key="power"):
-
-        results = analyze_corpus(corpus, w_evasion, w_compression)
-
+elif selected_module == MODULES[2]:
+    st.header("Character Relationship & Participation Map")
+    corpus = get_corpus_input("Enter character dialogue:", "power_corpus")
+    if st.button("⚡ Generate Participation Map", key="power"):
+        results = analyze_corpus(corpus)
         if not results:
             st.warning("No dialogue detected.")
         else:
-            stats = defaultdict(lambda: {
-                "turns": 0,
-                "words": 0,
-                "questions": 0,
-                "tension": [],
-                "defense": 0,
-                "aggression": 0
-            })
-
-            for r in results:
-                s = stats[r["speaker"]]
-
-                s["turns"] += 1
-                s["words"] += r["words"]
-                s["questions"] += r["questions"]
-                s["tension"].append(r["tension"])
-
-                s["defense"] += len(r["defense"])
-                s["aggression"] += len(r["aggressive"])
-
-            total_turns = len(results)
-            total_words = sum(r["words"] for r in results)
-
-            rows = []
-
-            for speaker, s in stats.items():
-
-                turn_share = s["turns"] / total_turns * 100
-                word_share = (
-                    s["words"] / total_words * 100
-                    if total_words else 0
-                )
-
-                dominance = (turn_share + word_share) / 2
-
-                rows.append({
-                    "Speaker": speaker,
-                    "Turns": s["turns"],
-                    "Words": s["words"],
-                    "Turn Share (%)": round(turn_share, 1),
-                    "Word Share (%)": round(word_share, 1),
-                    "Dominance Index (%)": round(dominance, 1),
-                    "Questions": s["questions"],
-                    "Defensive Markers": s["defense"],
-                    "Aggressive Markers": s["aggression"],
-                    "Average Tension": round(
-                        sum(s["tension"]) / len(s["tension"]), 1
-                    )
-                })
-
-            df = pd.DataFrame(rows).sort_values(
-                "Dominance Index (%)",
-                ascending=False
-            )
-
-            st.subheader("Speaker Dominance Matrix")
+            df = speaker_statistics(results)
+            st.subheader("Speaker participation matrix")
             st.dataframe(df, use_container_width=True)
-
-            st.subheader("Conversational Participation")
-            st.bar_chart(
-                df.set_index("Speaker")[
-                    ["Turn Share (%)", "Word Share (%)"]
-                ]
+            st.bar_chart(df.set_index("Speaker")[["Turn Share (%)", "Word Share (%)"]])
+            st.info(
+                "Turn share and word share describe participation volume only. "
+                "They are not a measure of social dominance, authority, coercion or power."
             )
-
-            st.subheader("Dominance Distribution")
-            st.bar_chart(
-                df.set_index("Speaker")[["Dominance Index (%)"]]
-            )
-
-            dominant = df.iloc[0]
-
-            st.markdown(
-                f"""
-                <div class="context-box">
-                <b>Highest Linguistic Participation:</b>
-                {safe_html(dominant["Speaker"])}<br>
-                <b>Dominance Index:</b>
-                {dominant["Dominance Index (%)"]}%<br>
-                <b>Interpretation:</b>
-                This character has the highest combined share of
-                conversational turns and lexical volume.
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-            st.caption(
-                "Dominance measures linguistic participation, "
-                "not necessarily social or psychological authority."
-            )
-
 
 # =============================================================================
-# 9. MODULE 4: UNANSWERED QUESTION TRACKER
+# MODULE 4 — QUESTION RESPONSE TRACKER
 # =============================================================================
 
-elif selected_module == "❓ Unanswered Question Tracker":
-
-    st.title("❓ Unanswered Question & Deflection Tracker")
-
-    corpus = get_corpus_input(
-        "Enter dialogue for question-response analysis:",
-        "question_corpus"
-    )
-
+elif selected_module == MODULES[3]:
+    st.header("Unanswered Question & Response Candidate Tracker")
+    corpus = get_corpus_input("Enter dialogue:", "question_corpus")
+    lookahead = st.slider("Maximum subsequent turns to inspect", 1, 6, 3)
     if st.button("⚡ Audit Questions", key="questions"):
-
         beats = parse_corpus(corpus)
-
         if not beats:
             st.warning("Enter dialogue first.")
         else:
-            audit = []
-
-            for i, beat in enumerate(beats):
-
-                if "?" not in beat["text"]:
-                    continue
-
-                response = None
-
-                for next_beat in beats[i + 1:]:
-                    if next_beat["speaker"] != beat["speaker"]:
-                        response = next_beat
-                        break
-
-                if response is None:
-                    status = "No subsequent response found"
-                    score = 100
-                    evidence = []
-                else:
-                    response_class = classify_text(response["text"])
-
-                    evidence = (
-                        response_class["defense"] +
-                        response_class["silence"] +
-                        response_class["withdrawal"]
-                    )
-
-                    direct_words = {
-                        "yes", "no", "because", "when", "where",
-                        "after", "before", "during", "did", "was"
-                    }
-
-                    response_tokens = set(tokenize(response["text"]))
-
-                    if response_class["category"] == "Silence / Void":
-                        score = 95
-                        status = "Possible silence / non-response"
-                    elif response_class["defense"]:
-                        score = 75
-                        status = "Possible defensive deflection"
-                    elif response_class["withdrawal"]:
-                        score = 65
-                        status = "Possible emotional withdrawal"
-                    elif response_tokens & direct_words:
-                        score = 20
-                        status = "Potentially direct response"
-                    else:
-                        score = 45
-                        status = "Response requires contextual review"
-
-                audit.append({
-                    "Question Speaker": beat["speaker"],
-                    "Question": beat["text"],
-                    "Response Speaker": (
-                        response["speaker"] if response else "None"
-                    ),
-                    "Response": (
-                        response["text"] if response else "No response"
-                    ),
-                    "Deflection Indicator (%)": score,
-                    "Status": status,
-                    "Lexical Evidence": ", ".join(evidence)
-                })
-
+            audit = question_response_audit(beats, lookahead)
             if not audit:
-                st.info("No question marks were detected in the corpus.")
+                st.info("No question marks were detected.")
             else:
                 df = pd.DataFrame(audit)
-
-                st.subheader("Question-Response Audit")
                 st.dataframe(df, use_container_width=True)
-
-                st.subheader("Potential Deflection Indicators")
-
-                st.bar_chart(
-                    df.set_index("Question Speaker")[
-                        ["Deflection Indicator (%)"]
-                    ]
-                )
-
-                unresolved = sum(
-                    x["Deflection Indicator (%)"] >= 65 for x in audit
-                )
-
-                st.metric(
-                    "Questions Requiring Contextual Review",
-                    unresolved
-                )
-
                 st.caption(
-                    "Deflection indicators are heuristic flags. "
-                    "They do not establish that a response is intentionally evasive."
+                    "The next eligible speaker turn is a candidate response, not a guaranteed answer. "
+                    "Lexical similarity cannot determine whether a question was pragmatically answered."
                 )
 
-
 # =============================================================================
-# 10. MODULE 5: TURNING POINT DETECTOR
+# MODULE 5 — TURNING POINT CANDIDATES
 # =============================================================================
 
-elif selected_module == "📈 Narrative Turning Point Detector":
-
-    st.title("📈 Narrative Turning Point Detector")
-
-    corpus = get_corpus_input(
-        "Enter a narrative or dramatic scene:",
-        "turning_corpus"
-    )
-
-    if st.button("⚡ Detect Turning Points", key="turning"):
-
-        results = analyze_corpus(corpus, w_evasion, w_compression)
-
-        if len(results) < 2:
-            st.warning("At least two dialogue beats are required.")
+elif selected_module == MODULES[4]:
+    st.header("Narrative Turning Point Candidates")
+    corpus = get_corpus_input("Enter a narrative or dramatic scene:", "turning_corpus")
+    if st.button("⚡ Detect Observable Changes", key="turning"):
+        results = analyze_corpus(corpus)
+        if len(results) < 3:
+            st.warning("At least three turns are recommended for robust descriptive comparisons.")
         else:
-            tensions = [r["tension"] for r in results]
-
-            mean_tension = sum(tensions) / len(tensions)
-
-            points = []
-
-            for i, r in enumerate(results):
-
-                previous = tensions[i - 1] if i > 0 else tensions[i]
-                following = (
-                    tensions[i + 1]
-                    if i < len(tensions) - 1
-                    else tensions[i]
-                )
-
-                change = r["tension"] - previous
-
-                if r["tension"] >= mean_tension + 15:
-                    label = "High-Tension Beat"
-                    significance = "Elevated tension relative to the corpus."
-                elif change >= 15:
-                    label = "Escalation Point"
-                    significance = "A notable increase in heuristic tension."
-                elif change <= -15:
-                    label = "De-escalation Point"
-                    significance = "A notable decrease in heuristic tension."
-                elif (
-                    r["tension"] >= previous and
-                    r["tension"] >= following
-                ):
-                    label = "Potential Local Apex"
-                    significance = "A local maximum in the tension sequence."
-                else:
-                    label = "Structural Continuation"
-                    significance = "No major local tension shift detected."
-
-                if i > 0:
-                    previous_speaker = results[i - 1]["speaker"]
-                    speaker_change = previous_speaker != r["speaker"]
-                else:
-                    speaker_change = False
-
-                points.append({
-                    "Beat": r["beat"],
-                    "Speaker": r["speaker"],
-                    "Text": r["text"],
-                    "Tension": r["tension"],
-                    "Change": round(change, 1),
-                    "Structural Label": label,
-                    "Speaker Shift": speaker_change,
-                    "Interpretation": significance
-                })
-
-            st.subheader("Narrative Tension Trajectory")
-
-            chart_df = pd.DataFrame({
-                "Tension": tensions
-            }, index=[f"Beat {i+1}" for i in range(len(tensions))])
-
-            st.line_chart(chart_df)
-
-            st.subheader("Detected Structural Points")
-
-            point_df = pd.DataFrame(points)
-            st.dataframe(point_df, use_container_width=True)
-
-            for p in points:
-                if p["Structural Label"] != "Structural Continuation":
-                    st.markdown(
-                        f"""
-                        <div class="lab-card">
-                        <b>{p["Structural Label"]} | Beat {p["Beat"]}</b><br>
-                        <i>{safe_html(p["Text"])}</i><br><br>
-                        <b>Tension:</b> {p["Tension"]}%<br>
-                        <b>Change:</b> {p["Change"]}%<br>
-                        <b>Interpretation:</b> {p["Interpretation"]}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
-
-
-# =============================================================================
-# 11. MODULE 6: EXPLAINABLE ANALYSIS
-# =============================================================================
-
-elif selected_module == "🔍 Explainable Analysis (XAI)":
-
-    st.title("🔍 Explainable Analysis Auditor")
-
-    target = st.text_area(
-        "Enter a dialogue line or narrative passage:",
-        key="xai_input",
-        height=150
-    )
-
-    if st.button("⚡ Execute XAI Audit", key="xai"):
-
-        if not target.strip():
-            st.warning("Enter text before running the audit.")
-        else:
-            words = [
-                w for w in tokenize(target)
-                if len(w) > 3 and w not in STOP_WORDS
-            ]
-
-            frequencies = Counter(words)
-
-            attribution = []
-
-            weights = {
-                "AGGRESSIVE": 1.8,
-                "SILENCE": 2.0,
-                "WITHDRAWAL": 1.6,
-                "DEFENSE": 1.5,
-                "INQUIRY": 1.3,
-                "SURVEILLANCE": 1.7,
-                "LACK": 1.8,
-                "BAD_FAITH": 1.5
-            }
-
-            for word, frequency in frequencies.most_common(30):
-
-                categories = [
-                    category
-                    for category in LEXICON
-                    if word in LEXICON[category]
-                ]
-
-                base_weight = len(word) * frequency * 2.5
-
-                if categories:
-                    multiplier = max(weights[c] for c in categories)
-                else:
-                    multiplier = 1.0
-
-                weight = base_weight * multiplier
-
-                attribution.append({
-                    "Token": word,
-                    "Frequency": frequency,
-                    "Detected Categories": (
-                        ", ".join(categories) if categories
-                        else "General lexical token"
-                    ),
-                    "Attribution Weight": round(weight, 2)
-                })
-
-            total = sum(x["Attribution Weight"] for x in attribution)
-
-            for item in attribution:
-                item["Contribution (%)"] = round(
-                    item["Attribution Weight"] / total * 100, 2
-                ) if total else 0
-
-            classification = classify_text(target)
-
-            st.subheader("Classification Result")
-
-            st.metric(
-                "Detected Classification",
-                classification["category"]
-            )
-
-            st.markdown(
-                f"""
-                <div class="context-box">
-                <b>Input:</b> {safe_html(target)}<br>
-                <b>Classification:</b> {classification["category"]}<br>
-                <b>Evidence:</b>
-                {", ".join(
-                    classification["silence"] +
-                    classification["aggressive"] +
-                    classification["withdrawal"] +
-                    classification["defense"]
-                ) or "No category-specific lexical evidence detected"}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-            st.subheader("Feature Attribution")
-
-            if attribution:
-                attribution_df = pd.DataFrame(attribution)
-                st.dataframe(attribution_df, use_container_width=True)
-
-                st.bar_chart(
-                    attribution_df.set_index("Token")[
-                        ["Contribution (%)"]
-                    ]
-                )
+            lengths = pd.DataFrame({
+                "Word Count": [r["words"] for r in results],
+            }, index=[f"Beat {r['beat']}" for r in results])
+            st.line_chart(lengths)
+            candidates = turning_point_candidates(results)
+            if candidates:
+                st.dataframe(pd.DataFrame(candidates), use_container_width=True)
             else:
-                st.info("No analyzable tokens detected.")
-
-            st.subheader("Decision Rule Trace")
-
-            detected = {
-                "Silence": classification["silence"],
-                "Aggression": classification["aggressive"],
-                "Withdrawal": classification["withdrawal"],
-                "Defense": classification["defense"]
-            }
-
-            for category, evidence in detected.items():
-                st.write(
-                    f"**{category}:**",
-                    ", ".join(evidence) if evidence else "No match"
-                )
-
+                st.info("No candidate flags were generated by the current descriptive rules.")
             st.caption(
-                "Attribution weights describe this rule-based system's "
-                "lexical weighting, not causal feature importance."
+                "These flags identify observable deviations (turn length, explicit pauses, "
+                "question form, marker co-occurrence). They are not validated narrative-turning-point predictions."
             )
 
+# =============================================================================
+# MODULE 6 — XAI AUDITOR
+# =============================================================================
+
+elif selected_module == MODULES[5]:
+    st.header("Explainable Analysis Auditor")
+    target = st.text_area("Enter a dialogue line or passage:", key="xai_input", height=160)
+    if st.button("⚡ Execute Evidence Audit", key="xai"):
+        if not target.strip():
+            st.warning("Enter text first.")
+        else:
+            result = classify_text(target)
+            st.subheader("Classification")
+            st.write("Primary display label:", result["category"])
+            st.write("All detected labels:", ", ".join(result["labels"]))
+            st.subheader("Evidence trace")
+            rows = []
+            for label, evidence in result["evidence"].items():
+                rows.append({
+                    "Category": label,
+                    "Positive evidence": ", ".join(evidence["positive"]) or "None",
+                    "Negated-context matches": ", ".join(evidence["negated"]) or "None",
+                })
+            st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            st.subheader("Decision method")
+            st.write(result["method"])
+            st.subheader("Known uncertainty")
+            for limitation in result["limitations"]:
+                st.write(f"- {limitation}")
+            st.caption(
+                "This is a rule trace, not model feature attribution, causal explanation, "
+                "or a calibrated confidence estimate."
+            )
 
 # =============================================================================
-# 12. MODULE 7: COMPARATIVE ANALYZER
+# MODULE 7 — COMPARATIVE ANALYZER
 # =============================================================================
 
-elif selected_module == "⚖️ Comparative Dialogue Analyzer":
-
-    st.title("⚖️ Comparative Dialogue Analyzer")
-
+elif selected_module == MODULES[6]:
+    st.header("Comparative Dialogue Analyzer")
     col_a, col_b = st.columns(2)
-
     with col_a:
-        corpus_a = st.text_area(
-            "Corpus A",
-            key="compare_a",
-            height=200
-        )
-
+        corpus_a = st.text_area("Corpus A", key="compare_a", height=220)
     with col_b:
-        corpus_b = st.text_area(
-            "Corpus B",
-            key="compare_b",
-            height=200
-        )
-
-    if st.button("⚡ Execute Comparative Analysis", key="compare"):
-
-        a = analyze_corpus(corpus_a, w_evasion, w_compression)
-        b = analyze_corpus(corpus_b, w_evasion, w_compression)
-
+        corpus_b = st.text_area("Corpus B", key="compare_b", height=220)
+    if st.button("⚡ Execute Comparison", key="compare"):
+        a, b = analyze_corpus(corpus_a), analyze_corpus(corpus_b)
         if not a or not b:
             st.warning("Both corpora must contain text.")
         else:
-            ma = corpus_metrics(a)
-            mb = corpus_metrics(b)
-
-            rows = []
-
-            for metric in [
-                "turns",
-                "words",
-                "average_words",
-                "average_tension",
-                "maximum_tension",
-                "questions",
-                "speakers",
-                "unique_words"
-            ]:
-                rows.append({
-                    "Metric": metric.replace("_", " ").title(),
-                    "Corpus A": ma[metric],
-                    "Corpus B": mb[metric],
-                    "Difference (B - A)": round(
-                        mb[metric] - ma[metric], 2
-                    )
-                })
-
-            comparison = pd.DataFrame(rows)
-
-            st.subheader("Statistical Comparison")
-            st.dataframe(comparison, use_container_width=True)
-
-            c1, c2 = st.columns(2)
-
-            with c1:
-                st.metric(
-                    "Corpus A Mean Tension",
-                    f'{ma["average_tension"]}%'
-                )
-
-            with c2:
-                st.metric(
-                    "Corpus B Mean Tension",
-                    f'{mb["average_tension"]}%'
-                )
-
-            st.subheader("Category Distribution")
-
-            all_categories = set(
-                [r["category"] for r in a + b]
-            )
-
-            category_data = pd.DataFrame({
-                "Corpus A": [
-                    sum(r["category"] == c for r in a)
-                    for c in all_categories
-                ],
-                "Corpus B": [
-                    sum(r["category"] == c for r in b)
-                    for c in all_categories
-                ]
-            }, index=list(all_categories))
-
-            st.bar_chart(category_data)
-
-            st.subheader("Comparative Interpretation")
-
-            tension_difference = (
-                ma["average_tension"] - mb["average_tension"]
-            )
-
-            if tension_difference > 0:
-                conclusion = "Corpus A has the higher average heuristic tension."
-            elif tension_difference < 0:
-                conclusion = "Corpus B has the higher average heuristic tension."
-            else:
-                conclusion = "Both corpora have equal average heuristic tension."
-
-            st.markdown(
-                f"""
-                <div class="context-box">
-                <b>Computed Observation:</b><br>
-                {conclusion}<br>
-                <b>Absolute Difference:</b>
-                {abs(tension_difference):.2f} percentage points.<br>
-                <b>Higher lexical diversity:</b>
-                {
-                    "Corpus A" if ma["unique_words"] > mb["unique_words"]
-                    else "Corpus B" if mb["unique_words"] > ma["unique_words"]
-                    else "Equal"
-                }
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
+            ma, mb = corpus_metrics(a), corpus_metrics(b)
+            metrics = ["turns", "words", "average_words", "median_words", "speakers", "questions", "unique_words", "lexical_diversity"]
+            rows = [{
+                "Metric": m.replace("_", " ").title(),
+                "Corpus A": ma[m],
+                "Corpus B": mb[m],
+                "Difference (B - A)": round(float(mb[m]) - float(ma[m]), 3),
+            } for m in metrics]
+            st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            ca, cb = Counter(label for r in a for label in r["labels"]), Counter(label for r in b for label in r["labels"])
+            cat_df = pd.DataFrame({
+                "Corpus A": [ca[x] for x in CATEGORIES],
+                "Corpus B": [cb[x] for x in CATEGORIES],
+            }, index=CATEGORIES)
+            st.subheader("Multi-label marker frequency")
+            st.bar_chart(cat_df)
+            st.caption("Raw counts are affected by corpus length. For fair comparison, also inspect rates per 100 turns or per 100 words.")
 
 # =============================================================================
-# 13. MODULE 8: DYNAMIC BRANCHING DEMONSTRATOR
+# MODULE 8 — HYPOTHETICAL BRANCHING
 # =============================================================================
 
-elif selected_module == "🔄 Rule-Based Branching Demonstrator":
-
-    st.title("🔄 Rule-Based Branching Demonstrator")
-
-    corpus = get_corpus_input(
-        "Enter the original dialogue:",
-        "branch_corpus"
+elif selected_module == MODULES[7]:
+    st.header("Rule-Based Branching Demonstrator")
+    corpus = get_corpus_input("Enter original dialogue:", "branch_corpus")
+    intervention = st.text_area("Enter a possible new character line:", key="branch_intervention")
+    branch_type = st.selectbox(
+        "Choose a hypothetical narrative direction",
+        ["Boundary / disengagement", "Confrontation", "Disclosure / reconciliation"],
     )
-
-    intervention = st.text_area(
-        "Enter a new character intervention:",
-        key="branch_intervention",
-        placeholder="Enter a new line of dialogue..."
-    )
-
-    if st.button("⚡ Simulate Dynamic Branches", key="branch"):
-
-        original = analyze_corpus(corpus, w_evasion, w_compression)
-
+    if st.button("⚡ Generate Hypothetical Branch", key="branch"):
+        original = analyze_corpus(corpus)
         if not original or not intervention.strip():
-            st.warning("Provide both an original dialogue and an intervention.")
+            st.warning("Provide both original dialogue and an intervention.")
         else:
-            base = original[-1]["tension"]
-
-            intervention_class = classify_text(intervention)
-
-            intervention_analysis = analyze_corpus(
-                corpus + "\nNew Character: " + intervention,
-                w_evasion,
-                w_compression
-            )
-
-            new_tension = intervention_analysis[-1]["tension"]
-
-            aggressive = bool(intervention_class["aggressive"])
-            defensive = bool(intervention_class["defense"])
-            withdrawal = bool(intervention_class["withdrawal"])
-            silence = bool(intervention_class["silence"])
-
-            branch_a = max(0, min(100, base - 15))
-            branch_b = max(0, min(100, new_tension + 15))
-            branch_c = max(0, min(100, base - 25))
-
-            branches = [
-                {
-                    "name": "A: Evasion / Closure",
-                    "tension": branch_a,
-                    "description": (
-                        "The response avoids further engagement, "
-                        "potentially reducing conversational exposure."
-                    ),
-                    "status": "Reinforced boundary"
-                },
-                {
-                    "name": "B: Confrontation / Escalation",
-                    "tension": branch_b,
-                    "description": (
-                        "The intervention increases conflict and "
-                        "creates a potential confrontation."
-                    ),
-                    "status": "Increased tension"
-                },
-                {
-                    "name": "C: Softening / Resolution",
-                    "tension": branch_c,
-                    "description": (
-                        "The interaction moves towards reduced "
-                        "tension and possible emotional disclosure."
-                    ),
-                    "status": "Reduced tension"
-                }
-            ]
-
-            st.subheader("Input Diagnostic")
-
-            st.write("Intervention classification:", intervention_class["category"])
-            st.write("Original final tension:", base)
-            st.write("Intervention tension:", new_tension)
-
-            st.subheader("Alternative Trajectories")
-
-            cols = st.columns(3)
-
-            for i, branch in enumerate(branches):
-                with cols[i]:
-                    st.markdown(
-                        f"""
-                        <div class="lab-card">
-                        <b>{branch["name"]}</b><br><br>
-                        {branch["description"]}<br><br>
-                        <b>Projected tension:</b>
-                        {branch["tension"]}%<br>
-                        <b>Structural status:</b>
-                        {branch["status"]}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
-
-            trajectory = pd.DataFrame({
-                "Branch A": [
-                    base,
-                    branch_a,
-                    max(0, branch_a - 5)
-                ],
-                "Branch B": [
-                    base,
-                    new_tension,
-                    branch_b
-                ],
-                "Branch C": [
-                    base,
-                    branch_c + 10,
-                    branch_c
-                ]
-            }, index=[
-                "Original",
-                "Intervention",
-                "Projected Resolution"
-            ])
-
-            st.subheader("Projected Tension Trajectories")
-            st.line_chart(trajectory)
-
-            st.warning(
-                "These are rule-based hypothetical trajectories, "
-                "not predictions of actual human behavior or authorial intent."
-            )
-
-
-# =============================================================================
-# 14. MODULE 9: THEORETICAL MARKER INDEX
-# =============================================================================
-
-elif selected_module == "⚛️ Dynamic Theoretical Marker Index":
-
-    st.title("⚛️ Dynamic Theoretical Marker Index")
-
-    corpus = get_corpus_input(
-        "Enter text for theoretical marker analysis:",
-        "theory_corpus"
-    )
-
-    if st.button("⚡ Calculate Theoretical Markers", key="theory"):
-
-        words = tokenize(corpus)
-
-        if not words:
-            st.warning("Enter text before analysis.")
-        else:
-            definitions = {
-                "Sartrean Bad Faith": (
-                    "BAD_FAITH",
-                    "Lexical indicators of denial, justification "
-                    "and responsibility avoidance."
-                ),
-                "Lacanian Lack / Void": (
-                    "LACK",
-                    "Lexical indicators of absence, desire and incompleteness."
-                ),
-                "Foucauldian Surveillance": (
-                    "SURVEILLANCE",
-                    "Lexical indicators of observation, authority and control."
-                )
+            intervention_result = classify_text(intervention)
+            st.subheader("Intervention evidence")
+            st.write("Detected labels:", ", ".join(intervention_result["labels"]))
+            st.write("Primary display label:", intervention_result["category"])
+            descriptions = {
+                "Boundary / disengagement": "A possible continuation in which a character limits further engagement.",
+                "Confrontation": "A possible continuation in which disagreement becomes more explicit.",
+                "Disclosure / reconciliation": "A possible continuation in which a character shares information or attempts repair.",
             }
-
-            results = []
-
-            for theory, (category, explanation) in definitions.items():
-
-                matches = matched_words(corpus, category)
-
-                frequency = sum(
-                    words.count(word) for word in matches
-                )
-
-                score = (
-                    frequency / len(words) * 100
-                    if words else 0
-                )
-
-                results.append({
-                    "Theoretical Framework": theory,
-                    "Matched Terms": ", ".join(matches) or "None",
-                    "Marker Frequency": frequency,
-                    "Marker Density (%)": round(score, 2),
-                    "Explanation": explanation
-                })
-
-            df = pd.DataFrame(results)
-
-            st.subheader("Dynamic Theoretical Index")
-            st.dataframe(df, use_container_width=True)
-
-            st.subheader("Theoretical Marker Density")
-
-            st.bar_chart(
-                df.set_index("Theoretical Framework")[
-                    ["Marker Density (%)"]
-                ]
-            )
-
-            strongest = max(
-                results,
-                key=lambda x: x["Marker Density (%)"]
-            )
-
             st.markdown(
-                f"""
-                <div class="context-box">
-                <b>Highest lexical marker density:</b>
-                {strongest["Theoretical Framework"]}<br>
-                <b>Density:</b>
-                {strongest["Marker Density (%)"]}%<br>
-                <b>Evidence:</b>
-                {strongest["Matched Terms"]}
-                </div>
-                """,
-                unsafe_allow_html=True
+                f"<div class='context-box'><b>Hypothetical branch:</b> {safe_html(branch_type)}<br><br>{safe_html(descriptions[branch_type])}<br><br><b>Suggested next analytical question:</b> What new evidence in the next turns would support or contradict this trajectory?</div>",
+                unsafe_allow_html=True,
+            )
+            st.warning(
+                "This module generates a narrative prompt, not a numerical forecast. "
+                "The selected branch is a researcher-defined scenario, not a prediction."
             )
 
+# =============================================================================
+# MODULE 9 — THEORETICAL MARKERS
+# =============================================================================
+
+elif selected_module == MODULES[8]:
+    st.header("Theoretical Marker Index")
+    corpus = get_corpus_input("Enter text for theoretical marker analysis:", "theory_corpus")
+    if st.button("⚡ Calculate Lexical Proxies", key="theory"):
+        if not tokenize(corpus):
+            st.warning("Enter text first.")
+        else:
+            df = pd.DataFrame(theoretical_markers(corpus))
+            st.dataframe(df, use_container_width=True)
+            st.bar_chart(df.set_index("Framework (operational proxy)")["Density per 100 tokens"])
             st.caption(
-                "These are operationalized lexical proxies for theoretical "
-                "concepts, not direct measurements of philosophical constructs."
+                "Sartre, Lacan and Foucault's concepts cannot be reduced to word lists. "
+                "These are transparent lexical proxies requiring theoretical interpretation."
             )
 
-
 # =============================================================================
-# 15. MODULE 10: VALIDATION PROTOCOL
+# MODULE 10 — VALIDATION
 # =============================================================================
 
-elif selected_module == "📊 Validation Protocol":
-
-    st.title("📊 Validation Protocol & Empirical Design")
-
-    corpus = get_corpus_input(
-        "Enter corpus for validation:",
-        "validation_corpus"
+elif selected_module == MODULES[9]:
+    st.header("Validation Protocol & Human Annotation")
+    st.markdown(
+        "Annotate each turn independently. Do not use the engine's label as the answer key. "
+        "For a stronger study, blind annotators to engine outputs and provide written annotation guidelines."
     )
-
-    if st.button("⚡ Generate Validation Dataset", key="validation"):
-
-        results = analyze_corpus(corpus, w_evasion, w_compression)
-
+    corpus = get_corpus_input("Enter a pilot corpus:", "validation_corpus")
+    if st.button("⚡ Prepare Annotation Sheet", key="validation"):
+        results = analyze_corpus(corpus)
         if not results:
             st.warning("Enter a corpus first.")
         else:
-            validation_df = pd.DataFrame([
-                {
-                    "Beat": r["beat"],
-                    "Speaker": r["speaker"],
-                    "Text": r["text"],
-                    "Engine Classification": r["category"],
-                    "Tension": r["tension"]
-                }
-                for r in results
-            ])
+            st.session_state["validation_items"] = results
+            st.session_state["validation_annotations"] = {
+                r["beat"]: {"Annotator A": None, "Annotator B": None} for r in results
+            }
 
-            st.session_state["validation_data"] = validation_df
-
-            st.subheader("Generated Annotation Dataset")
-            st.dataframe(validation_df, use_container_width=True)
-
-            labels = list(CLASS_COLORS.keys())
-
-            st.subheader("Human Annotation")
-
+    items = st.session_state.get("validation_items", [])
+    if items:
+        st.subheader("Independent annotation")
+        with st.form("annotation_form"):
             annotation_rows = []
-
-            for i, r in enumerate(results):
-
-                st.markdown(
-                    f"**Beat {r['beat']} — {safe_html(r['text'])}**"
-                )
-
+            for r in items:
+                st.markdown(f"**Beat {r['beat']} — {safe_html(r['text'])}**")
                 c1, c2 = st.columns(2)
-
                 with c1:
                     ann_a = st.selectbox(
                         f"Annotator A — Beat {r['beat']}",
-                        labels,
-                        index=None,
-                        key=f"ann_a_{i}"
+                        ["— Not annotated —"] + CATEGORIES,
+                        key=f"v2_a_{r['beat']}",
                     )
-
                 with c2:
                     ann_b = st.selectbox(
                         f"Annotator B — Beat {r['beat']}",
-                        labels,
-                        index=None,
-                        key=f"ann_b_{i}"
+                        ["— Not annotated —"] + CATEGORIES,
+                        key=f"v2_b_{r['beat']}",
                     )
-
                 annotation_rows.append({
-                    "Beat": r["beat"],
-                    "Annotator A": ann_a,
-                    "Annotator B": ann_b,
-                    "Engine": r["category"]
+                    "Beat": r["beat"], "Text": r["text"], "Engine": r["category"],
+                    "Annotator A": None if ann_a.startswith("—") else ann_a,
+                    "Annotator B": None if ann_b.startswith("—") else ann_b,
                 })
+            submitted = st.form_submit_button("Save annotations and calculate reliability")
+        if submitted:
+            df = pd.DataFrame(annotation_rows)
+            st.session_state["validation_df"] = df
+            st.success("Annotations saved for this session.")
 
-            complete = [
-                x for x in annotation_rows
-                if x["Annotator A"] is not None
-                and x["Annotator B"] is not None
-            ]
-
-            if complete:
-
-                observed_disagreement = sum(
-                    x["Annotator A"] != x["Annotator B"]
-                    for x in complete
-                ) / len(complete)
-
-                pooled = [
-                    x["Annotator A"] for x in complete
-                ] + [
-                    x["Annotator B"] for x in complete
-                ]
-
-                frequencies = Counter(pooled)
-                n = len(pooled)
-
-                expected_disagreement = (
-                    1 - sum(
-                        (count / n) ** 2
-                        for count in frequencies.values()
-                    )
-                ) if n else 0
-
-                alpha = (
-                    1 - observed_disagreement / expected_disagreement
-                    if expected_disagreement > 0 else None
-                )
-
-                st.divider()
-                st.subheader("Inter-Annotator Reliability")
-
-                st.metric(
-                    "Observed Agreement",
-                    f"{(1-observed_disagreement)*100:.1f}%"
-                )
-
-                if alpha is not None:
-                    st.metric(
-                        "Krippendorff's Alpha (Nominal)",
-                        round(alpha, 3)
-                    )
-                else:
-                    st.info(
-                        "Alpha cannot be estimated when expected "
-                        "disagreement is zero."
-                    )
-
-                st.caption(
-                    "This is a two-annotator nominal disagreement estimate "
-                    "using the standard pooled-category formulation. "
-                    "It should be interpreted cautiously with small samples."
-                )
-
-            else:
-                st.info(
-                    "Complete both annotators' labels for at least one beat "
-                    "to calculate agreement."
-                )
-
+    df = st.session_state.get("validation_df")
+    if df is not None and not df.empty:
+        summary = validation_summary(df)
+        if summary:
+            st.subheader("Inter-annotator reliability")
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Complete double-coded turns", summary["n"])
+            c2.metric("Observed agreement", f"{summary['agreement'] * 100:.1f}%")
+            c3.metric("Cohen's kappa", f"{summary['cohen_kappa']:.3f}" if summary["cohen_kappa"] is not None else "Undefined")
+            alpha = summary["krippendorff_alpha_nominal"]
+            st.metric("Krippendorff's alpha (nominal)", f"{alpha:.3f}" if alpha is not None else "Undefined")
+            st.caption("Alpha is computed for two complete nominal annotations per included unit. Small or highly imbalanced samples can make reliability estimates unstable.")
+        st.subheader("Engine agreement with each annotator")
+        for annotator in ["Annotator A", "Annotator B"]:
+            m = engine_vs_annotator_metrics(df["Engine"].tolist(), df[annotator].tolist())
+            if m:
+                st.write(f"**{annotator}** — n={m['n']}, accuracy={m['accuracy']:.3f}, macro-F1={m['macro_f1']:.3f}, macro-precision={m['macro_precision']:.3f}, macro-recall={m['macro_recall']:.3f}")
+        st.dataframe(df, use_container_width=True)
+        st.download_button(
+            "⬇️ Download annotations CSV",
+            df.to_csv(index=False).encode("utf-8-sig"),
+            "human_annotations.csv",
+            "text/csv",
+        )
+    else:
+        st.info("Prepare an annotation sheet and submit at least one complete annotation pair to calculate reliability.")
 
 # =============================================================================
-# 16. MODULE 11: CORE ARTIFACT & LIMITATIONS
+# MODULE 11 — REPORT & LIMITATIONS
 # =============================================================================
 
-elif selected_module == "📜 Core Artifact & Limitations":
-
-    st.title("📜 Core Artifact & Methodological Limitations")
-
-    corpus = get_corpus_input(
-        "Enter text to generate a methodological report:",
-        "artifact_corpus"
-    )
-
-    if st.button("⚡ Generate Corpus Report", key="artifact"):
-
-        results = analyze_corpus(corpus, w_evasion, w_compression)
-
+elif selected_module == MODULES[10]:
+    st.header("Core Artifact & Methodological Report")
+    corpus = get_corpus_input("Enter corpus for report generation:", "artifact_corpus")
+    if st.button("⚡ Generate Research Report", key="artifact"):
+        results = analyze_corpus(corpus)
         if not results:
             st.warning("No corpus available.")
         else:
             metrics = corpus_metrics(results)
-
-            categories = Counter(
-                r["category"] for r in results
-            )
-
+            corpus_hash = hashlib.sha256(corpus.encode("utf-8")).hexdigest()
             report = {
-                "Generation Date": datetime.datetime.now().isoformat(
-                    timespec="seconds"
-                ),
-                "Total Beats": metrics["turns"],
-                "Total Words": metrics["words"],
-                "Unique Words": metrics["unique_words"],
-                "Number of Speakers": metrics["speakers"],
-                "Mean Tension": metrics["average_tension"],
-                "Maximum Tension": metrics["maximum_tension"],
-                "Minimum Tension": metrics["minimum_tension"],
-                "Detected Questions": metrics["questions"],
-                "Dominant Classification": (
-                    categories.most_common(1)[0][0]
-                )
+                "App version": APP_VERSION,
+                "Generated at": dt.datetime.now().isoformat(timespec="seconds"),
+                "Corpus SHA-256": corpus_hash,
+                "Turns": metrics["turns"],
+                "Words": metrics["words"],
+                "Speakers": metrics["speakers"],
+                "Mean words per turn": metrics["average_words"],
+                "Median words per turn": metrics["median_words"],
+                "Questions": metrics["questions"],
+                "Unique words": metrics["unique_words"],
+                "Lexical diversity": metrics["lexical_diversity"],
+                "Method": "Rule-assisted lexical and descriptive discourse analysis",
             }
-
-            st.subheader("Corpus Integrity Report")
-            st.dataframe(
-                pd.DataFrame(
-                    report.items(),
-                    columns=["Parameter", "Computed Result"]
-                ),
-                use_container_width=True
-            )
-
-            st.subheader("Classification Frequencies")
-
-            st.bar_chart(
-                pd.DataFrame.from_dict(
-                    categories,
-                    orient="index",
-                    columns=["Frequency"]
-                )
-            )
-
-            st.subheader("Methodological Limitations")
-
+            st.dataframe(pd.DataFrame(report.items(), columns=["Parameter", "Value"]), use_container_width=True)
+            st.subheader("Limitations")
             limitations = [
-                "Lexical matching cannot reliably establish psychological intention.",
-                "Polysemy and context can produce false positive classifications.",
-                "Irony, metaphor, sarcasm and cultural nuances may be missed.",
-                "The current engine uses rule-based heuristics rather than a trained NLP model.",
-                "Tension values are relative computational indicators, not validated psychological measurements.",
-                "Theoretical markers are simplified operational proxies.",
-                "Speaker dominance does not necessarily equal actual social power.",
-                "Reliable academic validation requires independent human annotators and a representative corpus."
+                "No general-purpose contextual language model is used in this version.",
+                "Lexicon and phrase patterns have not been empirically validated against a representative benchmark.",
+                "Negation scope is approximate; complex syntax, irony, sarcasm and metaphor can be misclassified.",
+                "TF-IDF similarity measures lexical overlap, not semantic equivalence or evasion.",
+                "Question-response links are candidate links within a configurable turn window.",
+                "Participation share is not interpersonal power or dominance.",
+                "Theoretical marker densities are lexical proxies, not measurements of philosophical constructs.",
+                "Turning-point flags are descriptive anomalies, not validated narrative predictions.",
+                "Reliability metrics require independent annotators, clear guidelines and enough representative items.",
+                "A strong validity claim requires held-out data, error analysis, baseline comparisons and replication.",
             ]
-
-            for limitation in limitations:
-                st.markdown(f"- {limitation}")
-
-            st.subheader("Export Research Report")
-
-            report_df = pd.DataFrame(
-                report.items(),
-                columns=["Parameter", "Result"]
-            )
-
-            csv = report_df.to_csv(index=False).encode("utf-8")
-
+            for item in limitations:
+                st.write(f"- {item}")
             st.download_button(
-                "⬇️ Download Corpus Report (CSV)",
-                data=csv,
-                file_name="ontological_silence_report.csv",
-                mime="text/csv"
+                "⬇️ Download report CSV",
+                pd.DataFrame(report.items(), columns=["Parameter", "Value"]).to_csv(index=False).encode("utf-8-sig"),
+                "ontological_silence_research_report.csv",
+                "text/csv",
             )
-
-            beat_csv = pd.DataFrame(results).to_csv(
-                index=False
-            ).encode("utf-8")
-
             st.download_button(
-                "⬇️ Download Beat-Level Analysis (CSV)",
-                data=beat_csv,
-                file_name="beat_level_analysis.csv",
-                mime="text/csv"
+                "⬇️ Download beat-level analysis CSV",
+                pd.DataFrame(results).to_csv(index=False).encode("utf-8-sig"),
+                "beat_level_analysis.csv",
+                "text/csv",
             )
-
-
-# =============================================================================
-# 17. GLOBAL FOOTER
-# =============================================================================
+            st.download_button(
+                "⬇️ Download machine-readable JSON",
+                json.dumps({"report": report, "results": results}, ensure_ascii=False, indent=2).encode("utf-8"),
+                "ontological_silence_analysis.json",
+                "application/json",
+            )
 
 st.divider()
-
 st.markdown(
-    """
-    <p style="text-align:center; color:#8b949e; font-size:11px;">
-    ONTOLOGICAL SILENCE & PARANOIA ENGINE |
-    DYNAMIC COMPUTATIONAL DRAMATURGY RESEARCH PROTOTYPE |
-    AGIL CHIRAGLI
-    </p>
-    """,
-    unsafe_allow_html=True
+    f"<p style='text-align:center;color:#8b949e;font-size:11px;'>"
+    f"ONTOLOGICAL SILENCE & PARANOIA ENGINE | RESEARCH PROTOTYPE V{APP_VERSION} | AGIL CHIRAGLI"
+    f"</p>",
+    unsafe_allow_html=True,
 )
+'''
+
+requirements = """streamlit>=1.35
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+plotly>=5.18
+"""
+
+readme = """# Ontological Silence & Paranoia Engine — V2
+
+## Run locally
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+## What changed in V2
+
+- Multi-label lexical/phrase indicators instead of one exclusive label.
+- Approximate negation handling; negated matches are shown separately.
+- TF-IDF lexical similarity is explicitly not called evasion or semantic understanding.
+- Speaker participation is reported as turn share and word share, not dominance.
+- Question-response tracker reports candidate responses and requires human review.
+- Turning-point module reports observable anomalies rather than fabricated tension percentages.
+- XAI reports rule evidence, not misleading feature-attribution scores.
+- Validation includes observed agreement, Cohen's kappa, nominal Krippendorff's alpha, and engine-vs-annotator macro metrics.
+- Exports CSV and JSON with corpus hash and app version.
+
+## Scientific limitations
+
+This is still a transparent rule-assisted baseline, not a general contextual language-understanding system.
+It cannot reliably interpret all metaphors, irony, sarcasm, pragmatics, cultural references, or authorial intent.
+No confidence probabilities are reported because the system is not trained and calibrated.
+A research-grade validity claim requires a representative labelled dataset, written annotation guidelines,
+independent annotators, held-out evaluation, error analysis, and comparison with appropriate baselines.
+
+## Suggested next research stage
+
+1. Build a pilot corpus with clear inclusion/exclusion criteria.
+2. Write annotation guidelines and have at least two annotators label turns independently.
+3. Keep a held-out test set that is not used to tune rules.
+4. Report per-class precision, recall, F1, confusion matrices, agreement and uncertainty.
+5. Compare this rule baseline with a supervised contextual classifier and human performance.
+"""
+
+# Basic smoke tests for the core functions
+tests = r'''import unittest
+from app import tokenize, parse_corpus, classify_text, analyze_corpus, corpus_metrics
+
+class CoreSmokeTests(unittest.TestCase):
+    def test_parse_speakers(self):
+        beats = parse_corpus("Mia: Are you there?\nJohn: Yes.")
+        self.assertEqual(len(beats), 2)
+        self.assertEqual(beats[0]["speaker"], "Mia")
+
+    def test_multi_label(self):
+        result = classify_text("I am watching you and I will destroy the evidence.")
+        self.assertIn("Surveillance / Control", result["labels"])
+        self.assertIn("Aggression", result["labels"])
+
+    def test_negation_is_separated(self):
+        result = classify_text("I am not afraid.")
+        self.assertIn("afraid", result["evidence"]["Emotional Withdrawal"]["negated"])
+
+    def test_empty_corpus(self):
+        self.assertEqual(analyze_corpus(" \n "), [])
+
+    def test_metrics(self):
+        results = analyze_corpus("Mia: Hello there.\nJohn: Hello.")
+        metrics = corpus_metrics(results)
+        self.assertEqual(metrics["turns"], 2)
+
+if __name__ == "__main__":
+    unittest.main()
+'''
+
+base = Path("/mnt/data/ontological_silence_v2")
+base.mkdir(parents=True, exist_ok=True)
+(base / "app.py").write_text(app_code, encoding="utf-8")
+(base / "requirements.txt").write_text(requirements, encoding="utf-8")
+(base / "README.md").write_text(readme, encoding="utf-8")
+(base / "test_core.py").write_text(tests, encoding="utf-8")
+
+zip_path = Path("/mnt/data/ontological_silence_v2.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    for p in base.iterdir():
+        z.write(p, arcname=f"ontological_silence_v2/{p.name}")
+
+print("Created:", zip_path)
+print("Files:", [p.name for p in base.iterdir()])
