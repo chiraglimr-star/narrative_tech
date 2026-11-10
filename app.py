@@ -1,4 +1,3 @@
-
 import re
 import math
 import html
@@ -101,7 +100,8 @@ LEXICON = {
         "should", "pretend", "mask", "defend", "excuse",
         "justify", "rationalize", "deny", "avoid", "deflect",
         "distract", "divert", "escape", "everyone", "nobody",
-        "always", "never", "analyze", "consider", "evaluate"
+        "always", "never", "analyze", "consider", "evaluate",
+        "fair", "unfair", "just", "reasonable"
     },
 
     "INQUIRY": {
@@ -117,7 +117,8 @@ LEXICON = {
         "record", "recording", "follow", "followed", "report",
         "authority", "power", "discipline", "prison", "camera",
         "guard", "inspect", "inspection", "obey", "institution",
-        "tracked", "tracking", "supervise"
+        "tracked", "tracking", "supervise",
+        "police", "calling", "call", "arrest", "court"
     },
 
     "LACK": {
@@ -301,7 +302,7 @@ def has_explicit_silence(text):
     )
 
 
-def is_negated(tokens, index, window=3):
+def is_negated(tokens, index, window=2):
     """
     Approximate local negation scope.
 
@@ -322,9 +323,17 @@ def matched_evidence(text, category):
 
     for i, token in enumerate(tokens):
         if token in LEXICON[category]:
+            negated = is_negated(tokens, i)
+            
+            # "No choice" is a classic Sartrean bad-faith expression.
+            # Do not treat the noun as negated.
+            if category == "BAD_FAITH" and token in {"choice", "freedom", "responsibility"}:
+                if negated and any(t in {"no", "without"} for t in tokens[max(0, i-2):i]):
+                    negated = False
+
             matches.append({
                 "term": token,
-                "negated": is_negated(tokens, i)
+                "negated": negated
             })
 
     return matches
@@ -382,14 +391,14 @@ def classify_text(text):
         active_categories.append("INQUIRY")
 
     if active_categories:
-        primary = next(
-            (
-                category for category in PRIMARY_PRIORITY
-                if category in active_categories
-            ),
-            active_categories[0]
-        )
+        # Primary = category with the most positive matches,
+        # with PRIMARY_PRIORITY as tie-breaker.
+        def _priority_key(cat):
+            count = len(evidence[cat]["positive"])
+            prio = PRIMARY_PRIORITY.index(cat) if cat in PRIMARY_PRIORITY else 99
+            return (-count, prio)
 
+        primary = sorted(active_categories, key=_priority_key)[0]
         category_name = CATEGORIES[primary]
     else:
         primary = "DYNAMIC"
@@ -442,8 +451,6 @@ def parse_corpus(text):
         if not line:
             continue
 
-        # Speaker labels are recognized only when the prefix
-        # is reasonably short and does not look like ordinary prose.
         match = re.match(
             r"^([A-Za-z][A-Za-z0-9 _.'-]{0,39}):\s*(.*)$",
             line
@@ -1126,8 +1133,6 @@ elif selected_module == "❓ Unanswered Question Tracker":
 
                 response = None
 
-                # Immediate next turn is treated as a candidate,
-                # not automatically as a verified answer.
                 if i + 1 < len(beats):
                     candidate = beats[i + 1]
 
@@ -1156,12 +1161,12 @@ elif selected_module == "❓ Unanswered Question Tracker":
 
                     if has_explicit_silence(response["text"]):
                         status = "Explicit silence marker"
-                    elif similarity >= 0.25:
-                        status = "Lexically related response candidate"
                     elif response_class["defense"]:
                         status = "Possible defensive-language marker"
                     elif response_class["withdrawal"]:
                         status = "Possible withdrawal-language marker"
+                    elif similarity >= 0.25:
+                        status = "Lexically related response candidate"
                     else:
                         status = "Response relevance requires review"
 
@@ -1685,8 +1690,9 @@ elif selected_module == "🔄 Rule-Based Branching Demonstrator":
 
             new_index = intervention_analysis[-1]["tension_index"]
 
-            # These are deliberately illustrative scenario values.
-            # They are not empirical forecasts.
+            if new_index == 0.0:
+                new_index = 15.0
+
             branch_a = max(0, min(100, base * 0.85))
             branch_b = max(0, min(100, new_index * 1.15))
             branch_c = max(0, min(100, base * 0.75))
