@@ -1,8 +1,20 @@
-from pathlib import Path
-import zipfile, textwrap, py_compile
+"""
+Ontological Silence & Paranoia Engine — V3
+Context-aware research prototype.
+"""
 
-root = Path("/mnt/data/ontological_silence_v4")
-root.mkdir(parents=True, exist_ok=True)
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import datetime as dt
+from collections import Counter, defaultdict
+from typing import Any
+
+import numpy as np
+import pandas as pd
+import streamlit as st
 
 app_code = r'''"""
 Ontological Silence & Paranoia Engine — V4
